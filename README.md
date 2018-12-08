@@ -61,8 +61,108 @@ and we were running either a Windows or Mac system then we would have seen blue 
 react without any special input by default. This is in contrast to the original tkinter widgets which have to be individually
 programmed.
 
+## 02 Simple Style Changes
 
+We can change the colours, width, font and relief of named elements. Instead of using property options on each widget, we will
+use the Style module together with relevant component and element names. The first task is to determine our access path. 
 
+The dependancies of the main queries to find out the element properties are as follows:-
+Widget name
+````
+--> class name (widget.winfo_class)
+--> component name (Style.layout)
+--> element name (Style.element_options) 
+--> element value (Style.lookup)
+````
+Each dependancy relies on the information gained from the previous enquiry. Once the queries are set up with an interactive
+session running with Style you may be able to short circuit one or more steps.
 
+If we take the button widget as a first example run the following queries interactively in Python. 
+Find the class name:-
+```
+import ttk
+>>> s = ttk.Style()
+>>> s.theme_use('classic')
+>>> b = ttk.Button(None, text='Yo')
+>>> bClass = b.winfo_class()
+>>> bClass
+'TButton'
+```
+The class name is 'TButton'. Now let's find the component name:-
+````
+>>> layout = s.layout('TButton')
+>>> layout
+[('Button.highlight', {'children': [('Button.border', {'border':
+'1', 'children': [('Button.padding', {'children': [('Button.label',
+{'sticky': 'nswe'})], 'sticky': 'nswe'})], 'sticky': 'nswe'})],
+'sticky': 'nswe'})]
+````
+We have found 4 component names - highlight, border, padding and label. Be careful to use the correct component name with right
+theme. Now onto the element names:-
+````
+d = s.element_options('Button.highlight')
+>>> d
+('-highlightcolor', '-highlightthickness')
+>>>s.lookup('Button.highlight', 'highlightthickness')
+1
+>>> s.lookup('Button.highlight', 'highlightcolor')
+'#d9d9d9'
+````
+Button is a fairly straightforward widget, but some such as Progressbar, Scale and Scrollbar have an orientation, whereas 
+LabelFrame, Notebook and Treeview have a main and auxiliary class name. Lastly PanedWindow have both orientation and auxiliary
+parts. Let's see the differences, with a widget with an orientation property such as Scale:-
+````
+>>>b = ttk.Scale(None)
+>>>b.winfo_class()
+'TScale'    # class name
+>>> layout = s.layout('Vertical.TScale')
+>>>layout
+[('Vertical.Scale.trough',
+  {'children': [('Vertical.Scale.slider', {'side': 'top', 'sticky': ''})],
+   'sticky': 'nswe'})]
+>>>layout = s.layout('Horizontal.TScale')
+>>>layout
+[('Horizontal.Scale.trough',
+  {'children': [('Horizontal.Scale.slider', {'side': 'left', 'sticky': ''})],
+   'sticky': 'nswe'})]  # notice the orientation
+>>>d = s.element_options('Horizontal.Scale.trough') 
+>>>d
+('borderwidth', 'troughcolor', 'troughrelief')  # element names
+>>>s.lookup('Horizontal.Scale.slider', 'troughcolor')
+'#c3c3c3'
+````
+That wasn't too bad, let's try a widget with an auxiliary such as LabelFrame:-
+````
+>>>b=ttk.LabelFrame(None)
+>>>b.winfo_class()
+'TLabelframe' # you noticed it's a small f didn't you
+>>>s.layout('TLabelframe')
+ [('Labelframe.border', {'sticky': 'nswe'})]  # where is the label part then!!!?
+>>>s.layout('TLabelframe.Label')    # OK I cheated, I knew the answer
+[('Label.fill',
+  {'children': [('Label.text', {'sticky': 'nswe'})], 'sticky': 'nswe'})]
+````
+It took a bit of web searching to find the answer in http://wiki.tcl.tk/37973 Changing Widget Colors. Read the author's opening
+sentences. The information is strictly for TCL so the widgets are not all part of ttk, otherwise great information. In order to
+access all the elements of Notebook use TNotebook and TNotebook.Tab, for Treeview use Treeview and Heading. Be careful with the
+names used in the Treeview and Heading layouts:-
+````
+>>>s.layout('Treeview')
+[('Treeview.field',
+  {'border': '1',
+   'children': [('Treeview.padding',
+     {'children': [('Treeview.treearea', {'sticky': 'nswe'})],
+      'sticky': 'nswe'})],
+   'sticky': 'nswe'})]
+>>>s.layout('Heading')
+[('Treeheading.cell', {'sticky': 'nswe'}),
+ ('Treeheading.border',
+  {'children': [('Treeheading.padding',
+     {'children': [('Treeheading.image', {'side': 'right', 'sticky': ''}),
+       ('Treeheading.text', {'sticky': 'we'})],
+      'sticky': 'nswe'})],
+   'sticky': 'nswe'})]
+````
+This now only leaves PanedWindow, the main class is TPanedwindow, the auxiliary class is either Horiontal.Sash or Vertical.Sash.
+Rather than find out the class names every time we can use the table 02ClassNames instead.
 
-  
