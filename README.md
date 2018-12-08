@@ -53,7 +53,7 @@ Let us compare the two button widgets, using the script 01two_buttons.py found u
 script you will see 3 buttons. The top one is standard tkinter, the lower two are ttk. All three are grey but the tkinter button
 is paler. Move the cursor over all three buttons. The two ttk buttons lighten but the tkinter button does not react. Click on
 all three buttons, all three appear to be depressed, but the two ttk buttons show which of the two buttons was depressed last.
-We have just seen how the button state interacts with style.
+We have just seen how the button's state interacts with style.
 
 
 
