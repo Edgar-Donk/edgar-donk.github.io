@@ -41,11 +41,15 @@ Clam, Classic or Default.
   
 Widgets have one or more layers that can be referenced directly using the Style module, assisted by the style property option.
 If we take a look at the button widget we have a rectangular shape divided into 4 elements, starting from the outside - border,
-focus, spacing and label. Look at ![button:elements](/images/01button_elements.png) this is an example of how a button may be
-constructed. We shall see that when a widget is modified or called by various themes nothing is totally hard and fast. While 
-looking at elements look at the vertical scrollbar ![scrollbar:elements](/images/01scrollbar_elements.png), we have up and
-down arrow as well as a thumb element all contained in a trough. We have a method within the Style module whereby we can find
-out the element names and their relative positions, so there is no real reason to worry or fret.
+focus, spacing and label. Look at
+![button:elements](/images/01button_elements.png) 
+this is an example of how a button may be constructed. We shall see that when a widget is modified or called by various themes
+nothing is totally hard and fast. While looking at elements look at the vertical scrollbar 
+![scrollbar:elements](/images/01scrollbar_elements.png)
+, we have up and down arrow as well as a thumb element all contained in a trough. We have a method within the Style module
+whereby we can find out the element names and their relative positions, so there is no real reason to worry or fret.
+
+Let us compare the two button widgets, using the script 01two_buttons.py.
 
 
 
