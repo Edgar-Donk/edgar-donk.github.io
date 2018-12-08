@@ -144,8 +144,9 @@ That wasn't too bad, let's try a widget with an auxiliary such as LabelFrame:-
 ````
 It took a bit of web searching to find the answer in http://wiki.tcl.tk/37973 Changing Widget Colors. Read the author's opening
 sentences. The information is strictly for TCL so the widgets are not all part of ttk, otherwise great information. In order to
-access all the elements of Notebook use TNotebook and TNotebook.Tab, for Treeview use Treeview and Heading. Be careful with the
-names used in the Treeview and Heading layouts:-
+access all the elements of Notebook use TNotebook and TNotebook.Tab, for Treeview use Treeview and Heading. (We can optionally
+use 'Treeview.Heading', it produces the same results as for 'Heading'). Be careful with the names used in the Treeview and
+Heading layouts:-
 ````
 >>>s.layout('Treeview')
 [('Treeview.field',
@@ -164,5 +165,24 @@ names used in the Treeview and Heading layouts:-
    'sticky': 'nswe'})]
 ````
 This now only leaves PanedWindow, the main class is TPanedwindow, the auxiliary class is either Horiontal.Sash or Vertical.Sash.
-Rather than find out the class names every time we can use the table 02ClassNames instead.
+
+Rather than find out the class names every time we can use the table 02ClassNames.md instead. Check this table, the main class
+name is formed from the widget name where only the first letter is capitalised prefixed by a capital T, except for Treeview that
+retains its widget name. Remember that those widgets that have orientation need to be prefixed by either 'Horizontal.' or
+'Vertical.'.
+
+Now to change the widget text (foreground colour and/or font) and/or its background colour. Colours can be expressed as names or
+a six figure hexadecimal hash. Colour names in tkinter are based on those used by TCL/TK colors — symbolic color names
+recognized by Tk https://tcl.tk/man/tcl8.6/TkCmd/colors.htm, note they are using RGB values that must be converted to hash
+values. In order to make the style change use the format *newStyleName.oldStyleName*, where oldStyleName corresponds to our
+class name, within the Style.configure() option. Normally we choose a descriptive name for the newStyleName, so for the button 
+widget we may write :-
+````
+s.configure('green.TButton', foreground='green')
+b = ttk.Button(self, text='Friday', style='green.TButton')
+````
+The style property button agrees with the style name for the relevant Style configuration. The configuratin name can be built
+on a previously named style, so we can create red.green.TButton with a red background.
+
+We are now in a position to change the colour of any widget.
 
