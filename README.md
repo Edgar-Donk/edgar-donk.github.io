@@ -32,7 +32,7 @@ import the ttk module in an active Python session then there will be no warning 
 To help distinguish which examples refer to any particular paragraph, the file names will be prefixed by the paragraph number.
 
 All the widgets previously found in tkinter remain, ttk has 12 widgets and 1 Style module. 2 of the widgets in ttk, Combobox and 
-Treeview, have been introduced. The widgets Canvas, Listbox, Message, OptionMenu, Spinbox and Text only exist in tkinter. All
+Treeview are new. The widgets Canvas, Listbox, Message, OptionMenu, Spinbox and Text only exist in tkinter. All
 other widgets are duplicated, with the proviso that their property options do not correspond, so if we take the Button widget in
 tkinter, there are 24 more property options than in ttk which has a single <style> option. If we create a similar style in our
 ttk widgets we could save it as a theme. Tkinter has already created 4 standard themes common to all operating systems. Windows
