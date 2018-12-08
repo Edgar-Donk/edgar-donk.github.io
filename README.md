@@ -49,7 +49,11 @@ nothing is totally hard and fast. While looking at elements look at the vertical
 , we have up and down arrow as well as a thumb element all contained in a trough. We have a method within the Style module
 whereby we can find out the element names and their relative positions, so there is no real reason to worry or fret.
 
-Let us compare the two button widgets, using the script 01two_buttons.py.
+Let us compare the two button widgets, using the script 01two_buttons.py found under the examples directory. When you run this
+script you will see 3 buttons. The top one is standard tkinter, the lower two are ttk. All three are grey but the tkinter button
+is paler. Move the cursor over all three buttons. The two ttk buttons lighten but the tkinter button does not react. Click on
+all three buttons, all three appear to be depressed, but the two ttk buttons show which of the two buttons was depressed last.
+We have just seen how the button state interacts with style.
 
 
 
