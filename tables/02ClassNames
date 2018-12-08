@@ -4,20 +4,20 @@
 | Checkbutton	| TCheckbutton| |
 | Combobox	  | TCombobox	| |
 | Entry	      | TEntry	| |
-Frame	 | TFrame	
-Label	| TLabel	
-LabelFrame	| TLabelframe	| TLabelframe.Label
-Menubutton	| TMenubutton	
-Notebook	| TNotebook	| TNotebook.Tab
-PanedWindow	| TPanedwindow	| Horizontal.Sash
-PanedWindow	| TPanedwindow	| Vertical.Sash
-Progressbar	| Horizontal.TProgressbar
-Progressbar	| Vertical.TProgressbar	
-Radiobutton	| TRadiobutton	
-Scale	| Horizontal.TScale
-Scale	| Vertical.TScale	
-Scrollbar	| Horizontal.TScrollbar
-Scrollbar	| Vertical.TScrollbar	
-Separator	| TSeparator	
-Sizegrip	| TSizegrip	
-Treeview	| Treeview	| Heading
+| Frame	 | TFrame		| |
+| Label	| TLabel		| |
+| LabelFrame	| TLabelframe	| TLabelframe.Label
+| Menubutton	| TMenubutton		| |
+| Notebook	| TNotebook	| TNotebook.Tab
+| PanedWindow	| TPanedwindow	| Horizontal.Sash
+| PanedWindow	| TPanedwindow	| Vertical.Sash
+| Progressbar	| Horizontal.TProgressbar	| |
+| Progressbar	| Vertical.TProgressbar		| |
+| Radiobutton	| TRadiobutton		| |
+| Scale	| Horizontal.TScale	| |
+| Scale	| Vertical.TScale		| |
+| Scrollbar	| Horizontal.TScrollbar	| |
+| Scrollbar	| Vertical.TScrollbar		| |
+| Separator	| TSeparator	| |	
+| Sizegrip	| TSizegrip		| |
+| Treeview	| Treeview	| Heading  |
