@@ -208,7 +208,14 @@ to find all likely element candidates for the classic theme. We need to use plac
 scrollbar remains squashed and you can't see your results. If we make the scrollbar green with a blue border the result should
 look like 02scrollbar.py. When querying the element_options you should see that both the arrows and thumb have a background as
 well as borderwidth so the appearance is matched. I have created a second scrollbar where the borderwidth is not changed, look
-at the arrows.
+at the arrows. In reality there was not a great deal of difference to the button example, just that we had to remember to add
+the orientation to the configuration name.
+
+The last type of widget are those with auxiliary parts. Taking LabelFrame as an example, we would normally wish to modify the
+label part rather than the Frame. We can fill the frame with a tkinter coloured frame to show off the widget. The second
+labelframe by contrast has a coloured frame. It is important to emphasise that configure calls either TLabelframe or
+TLabelframe.Label, depending whether we wish to alter the label or the frame, but in both cases the style property only refers
+to TLabelframe with no suffix.
 
 
 We are now in a position to change the colour of any widget.
