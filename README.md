@@ -200,7 +200,12 @@ another element just list the extra elemnt.
 s.configure('mix.TButton', foreground='green',background='red')
 b = ttk.Button(self, text='Friday', style='mix.TButton')
 ````
-We can modify 01two_buttons.py to incorporate the colour changes, we should see something like 02two_coloured_buttons.py. 
+We can modify 01two_buttons.py to incorporate the colour changes, we should see something like 02two_coloured_buttons.py. Did
+you notice that the background colour on the second ttk button changed as the mouse moved over it and when the button was
+pressed. The widget inherits all expressly styled properties not overwritten by our style changes, in our case shades of grey.
+That was easy wasn't it, feel like a challenge? Let's try modifying a horizontal scrollbar, use the layout and element_options
+to find all likely element candidates. To show the scrollbar use place and set or else the scrollbar remains squashed and you 
+can't see all the havoc you've created. The result should look like 
 
 We are now in a position to change the colour of any widget.
 
