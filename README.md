@@ -31,7 +31,7 @@ import the ttk module in an active Python session then there will be no warning 
 
 To help distinguish which examples refer to any particular paragraph, the file names will be prefixed by the paragraph number.
 
-All the widgets previously found in tkinter remain, ttk has 12 widgets and 1 Style module. 2 of the widgets in ttk, Combobox and 
+All the widgets previously found in tkinter remain, ttk has 17 widgets and 1 Style module. 2 of the widgets in ttk, Combobox and 
 Treeview are new. The widgets Canvas, Listbox, Message, OptionMenu, Spinbox and Text only exist in tkinter. All
 other widgets are duplicated, with the proviso that their property options do not correspond, so if we take the Button widget in
 tkinter, there are 24 more property options than in ttk which has a single <style> option. If we create a similar style in our
@@ -42,10 +42,15 @@ Clam, Classic or Default.
 Widgets have one or more layers that can be referenced directly using the Style module, assisted by the style property option.
 If we take a look at the button widget we have a rectangular shape divided into 4 elements, starting from the outside - border,
 focus, spacing and label. Look at
+```
 ![button:elements](/images/01button_elements.png) 
+```
+
 this is an example of how a button may be constructed. We shall see that when a widget is modified or called by various themes
-nothing is totally hard and fast. While looking at elements look at the vertical scrollbar 
+nothing is totally hard and fast. While we are thinking of elements look at the vertical scrollbar 
+
 ![scrollbar:elements](/images/01scrollbar_elements.png)
+
 , we have up and down arrow as well as a thumb element all contained in a trough. We have a method within the Style module
 whereby we can find out the element names and their relative positions, so there is no real reason to worry or fret.
 
@@ -53,7 +58,7 @@ Let us compare the two button widgets, using the script 01two_buttons.py found u
 script you will see 3 buttons. The top one is standard tkinter, the lower two are ttk. All three are grey but the tkinter button
 is paler. Move the cursor over all three buttons. The two ttk buttons lighten but the tkinter button does not react. Click on
 all three buttons, all three appear to be depressed, but the two ttk buttons show which of the two buttons was depressed last.
-We have just seen how the button's state interacts with style. If we had left out the line
+We have just seen how the ttk button's state interacts with style. If we had left out the line
 
 s.theme_use('default')
 
@@ -63,27 +68,28 @@ programmed.
 
 ## 02 Simple Style Changes
 
-We can change the colours, width, font and relief of named elements. Instead of using property options on each widget, we will
-use the Style module together with relevant component and element names. The first task is to determine our access path. 
+Usin named elements we can change the colours, width, font and relief of our widget. Instead of using property options on each
+widget, we use the Style module together with relevant component and element names. The first task is to determine the relevant
+elements of our widget.
 
-The dependancies of the main queries to find out the element properties are as follows:-
-Widget name
+The dependancies of the queries to find out the elements and their properties are as follows:-
+1 Widget name
 ````
---> class name (widget.winfo_class)
---> component name (Style.layout)
---> element name (Style.element_options) 
---> element value (Style.lookup)
+--> 2 class name (widget.winfo_class)
+--> 3 component name (Style.layout)
+--> 4 element name (Style.element_options) 
+--> 5 element value (Style.lookup)
 ````
 Each dependancy relies on the information gained from the previous enquiry. Once the queries are set up with an interactive
 session running with Style you may be able to short circuit one or more steps.
 
-If we take the button widget as a first example run the following queries interactively in Python. 
+If we use the button widget as a first example run the following queries interactively in Python. 
 Find the class name:-
 ```
 import ttk
 >>> s = ttk.Style()
 >>> s.theme_use('classic')
->>> b = ttk.Button(None, text='Yo')
+>>> b = ttk.Button(None, text='Yo') # step 1 widget name
 >>> bClass = b.winfo_class()
 >>> bClass
 'TButton'
@@ -97,41 +103,41 @@ The class name is 'TButton'. Now let's find the component name:-
 {'sticky': 'nswe'})], 'sticky': 'nswe'})], 'sticky': 'nswe'})],
 'sticky': 'nswe'})]
 ````
-We have found 4 component names - highlight, border, padding and label. Be careful to use the correct component name with right
-theme. Now onto the element names:-
+We have found 4 component names - highlight, border, padding and label (they were all preceded with 'Button.'). Be careful to
+use the correct component name with right theme. That just completed the second step. Now onto the element names:-
 ````
 d = s.element_options('Button.highlight')
 >>> d
-('-highlightcolor', '-highlightthickness')
+('-highlightcolor', '-highlightthickness') # step 3
 >>>s.lookup('Button.highlight', 'highlightthickness')
 1
 >>> s.lookup('Button.highlight', 'highlightcolor')
-'#d9d9d9'
+'#d9d9d9' # step 4
 ````
 Button is a fairly straightforward widget, but some such as Progressbar, Scale and Scrollbar have an orientation, whereas 
-LabelFrame, Notebook and Treeview have a main and auxiliary class name. Lastly PanedWindow have both orientation and auxiliary
-parts. Let's see the differences, with a widget with an orientation property such as Scale:-
+LabelFrame, Notebook and Treeview have a main and auxiliary class name. Lastly PanedWindow has both orientation and an auxiliary
+part. Let's see the differences, with a widget with an orientation property such as Scale:-
 ````
 >>>b = ttk.Scale(None)
 >>>b.winfo_class()
 'TScale'    # class name
->>> layout = s.layout('Vertical.TScale')
+>>> layout = s.layout('Vertical.TScale') # It won't work if you use just TScale
 >>>layout
 [('Vertical.Scale.trough',
   {'children': [('Vertical.Scale.slider', {'side': 'top', 'sticky': ''})],
    'sticky': 'nswe'})]
->>>layout = s.layout('Horizontal.TScale')
+>>>layout = s.layout('Horizontal.TScale') # now try the Horizontal orientation
 >>>layout
 [('Horizontal.Scale.trough',
   {'children': [('Horizontal.Scale.slider', {'side': 'left', 'sticky': ''})],
    'sticky': 'nswe'})]  # notice the orientation
->>>d = s.element_options('Horizontal.Scale.trough') 
+>>>d = s.element_options('Horizontal.Scale.trough') # using the component name
 >>>d
 ('borderwidth', 'troughcolor', 'troughrelief')  # element names
 >>>s.lookup('Horizontal.Scale.slider', 'troughcolor')
 '#c3c3c3'
 ````
-That wasn't too bad, let's try a widget with an auxiliary such as LabelFrame:-
+That wasn't too bad, let's try a widget with an auxiliary class such as LabelFrame:-
 ````
 >>>b=ttk.LabelFrame(None)
 >>>b.winfo_class()
@@ -143,10 +149,10 @@ That wasn't too bad, let's try a widget with an auxiliary such as LabelFrame:-
   {'children': [('Label.text', {'sticky': 'nswe'})], 'sticky': 'nswe'})]
 ````
 It took a bit of web searching to find the answer in http://wiki.tcl.tk/37973 Changing Widget Colors. Read the author's opening
-sentences. The information is strictly for TCL so the widgets are not all part of ttk, otherwise great information. In order to
-access all the elements of Notebook use TNotebook and TNotebook.Tab, for Treeview use Treeview and Heading. (We can optionally
-use 'Treeview.Heading', it produces the same results as for 'Heading'). Be careful with the names used in the Treeview and
-Heading layouts:-
+sentences. The information is strictly for TCL so the widgets are not totally applicable to ttk, otherwise great information. In 
+order to access all the elements of Notebook use TNotebook and TNotebook.Tab, for Treeview use Treeview and Heading. (We can
+optionally use 'Treeview.Heading', it produces the same results as for 'Heading'). Be careful with the names used in the
+Treeview and Heading layouts:-
 ````
 >>>s.layout('Treeview')
 [('Treeview.field',
@@ -171,18 +177,30 @@ name is formed from the widget name where only the first letter is capitalised p
 retains its widget name. Remember that those widgets that have orientation need to be prefixed by either 'Horizontal.' or
 'Vertical.'.
 
-Now to change the widget text (foreground colour and/or font) and/or its background colour. Colours can be expressed as names or
-a six figure hexadecimal hash. Colour names in tkinter are based on those used by TCL/TK colors — symbolic color names
-recognized by Tk https://tcl.tk/man/tcl8.6/TkCmd/colors.htm, note they are using RGB values that must be converted to hash
-values. In order to make the style change use the format *newStyleName.oldStyleName*, where oldStyleName corresponds to our
-class name, within the Style.configure() option. Normally we choose a descriptive name for the newStyleName, so for the button 
-widget we may write :-
+After all that we can find the class and element names for all widgets with our chosen theme. We will use Style.configure().
+As a first example let's change the button widget, we want to change the text properties, foreground, background and font.
+Foreground and background are both colours which can be expressed as names or a six figure hexadecimal hash. Colour names in
+tkinter are based on those used by TCL/TK colors — symbolic color names recognized by Tk 
+https://tcl.tk/man/tcl8.6/TkCmd/colors.htm, note they are using RGB values that must first be converted to hash values to be
+used in tkinter. Haven't we got the element names for button already? No, well we'll have to use the right component name in
+our query (and it wasn't highlight). Use your interactive session, and if you were on the right track you should get an answer
+together with 11 other elements. Now you are no longer limited to just foreground, background and font. 
+
+When using configure we reference the change to make the style change using the format *newStyleName.oldStyleName*, where
+oldStyleName corresponds to our class name, in our case TButton. Normally we choose a descriptive name for the newStyleName, so
+for the button widget we can write :-
 ````
 s.configure('green.TButton', foreground='green')
 b = ttk.Button(self, text='Friday', style='green.TButton')
 ````
-The style property button agrees with the style name for the relevant Style configuration. The configuratin name can be built
-on a previously named style, so we can create red.green.TButton with a red background.
+The style property of Button agrees with the style name for the relevant Style configuration. The configuration name can be
+built on a previously named style, so we could create red.green.TButton using a red background, say. If we need to configure
+another element just list the extra elemnt.
+````
+s.configure('mix.TButton', foreground='green',background='red')
+b = ttk.Button(self, text='Friday', style='mix.TButton')
+````
+We can modify 01two_buttons.py to incorporate the colour changes, we should see something like 02two_coloured_buttons.py. 
 
 We are now in a position to change the colour of any widget.
 
