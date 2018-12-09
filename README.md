@@ -204,8 +204,12 @@ We can modify 01two_buttons.py to incorporate the colour changes, we should see 
 you notice that the background colour on the second ttk button changed as the mouse moved over it and when the button was
 pressed. The widget inherits all expressly styled properties not overwritten by our style changes, in our case shades of grey.
 That was easy wasn't it, feel like a challenge? Let's try modifying a horizontal scrollbar, use the layout and element_options
-to find all likely element candidates. To show the scrollbar use place and set or else the scrollbar remains squashed and you 
-can't see all the havoc you've created. The result should look like 
+to find all likely element candidates for the classic theme. We need to use place and set (instead of pack or grid) or else the
+scrollbar remains squashed and you can't see your results. If we make the scrollbar green with a blue border the result should
+look like 02scrollbar.py. When querying the element_options you should see that both the arrows and thumb have a background as
+well as borderwidth so the appearance is matched. I have created a second scrollbar where the borderwidth is not changed, look
+at the arrows.
+
 
 We are now in a position to change the colour of any widget.
 
