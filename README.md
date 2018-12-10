@@ -54,11 +54,11 @@ nothing is totally hard and fast. While we are thinking of elements look at the 
 , we have up and down arrow as well as a thumb element all contained in a trough. We have a method within the Style module
 whereby we can find out the element names and their relative positions, so there is no real reason to worry or fret.
 
-Let us compare the two button widgets, using the script 01two_buttons.py found under the examples directory. When you run this
-script you will see 3 buttons. The top one is standard tkinter, the lower two are ttk. All three are grey but the tkinter button
-is paler. Move the cursor over all three buttons. The two ttk buttons lighten but the tkinter button does not react. Click on
-all three buttons, all three appear to be depressed, but the two ttk buttons show which of the two buttons was depressed last.
-We have just seen how the ttk button's state interacts with style. If we had left out the line
+Let us compare the two button widgets, using the script /examples/01two_buttons.py found under the examples directory. When you
+run this script you will see 3 buttons. The top one is standard tkinter, the lower two are ttk. All three are grey but the
+tkinter button is paler. Move the cursor over all three buttons. The two ttk buttons lighten but the tkinter button does not
+react. Click on all three buttons, all three appear to be depressed, but the two ttk buttons show which of the two buttons was
+depressed last. We have just seen how the ttk button's state interacts with style. If we had left out the line
 
 s.theme_use('default')
 
@@ -104,7 +104,11 @@ The class name is 'TButton'. Now let's find the component name:-
 'sticky': 'nswe'})]
 ````
 We have found 4 component names - highlight, border, padding and label (they were all preceded with 'Button.'). Be careful to
-use the correct component name with right theme. That just completed the second step. Now onto the element names:-
+use the correct component name with right theme. That just completed the second step. As a help in determining the component
+names for each widget check out the table /tables/02Components.md. See how the names change not only with the widgets, but 
+sometimes also with the theme.
+
+Now onto the element names:-
 ````
 d = s.element_options('Button.highlight')
 >>> d
@@ -200,9 +204,11 @@ another element just list the extra elemnt.
 s.configure('mix.TButton', foreground='green',background='red')
 b = ttk.Button(self, text='Friday', style='mix.TButton')
 ````
-We can modify 01two_buttons.py to incorporate the colour changes, we should see something like 02two_coloured_buttons.py. Did
-you notice that the background colour on the second ttk button changed as the mouse moved over it and when the button was
-pressed. The widget inherits all expressly styled properties not overwritten by our style changes, in our case shades of grey.
+We can modify /examples/01two_buttons.py to incorporate the colour changes, we should see something like 
+/examples/02two_coloured_buttons.py. Did you notice that the background colour on the second ttk button changed as the mouse
+moved over it and when the button was pressed. The widget inherits all expressly styled properties not overwritten by our style
+changes, in our case shades of grey. 
+
 That was easy wasn't it, feel like a challenge? Let's try modifying a horizontal scrollbar, use the layout and element_options
 to find all likely element candidates for the classic theme. We need to use place and set (instead of pack or grid) or else the
 scrollbar remains squashed and you can't see your results. If we make the scrollbar green with a blue border the result should
@@ -215,8 +221,8 @@ The last type of widget are those with auxiliary parts. Taking LabelFrame as an 
 label part rather than the Frame. We can fill the frame with a tkinter coloured frame to show off the widget. The second
 labelframe by contrast has a coloured frame. It is important to emphasise that configure calls either TLabelframe or
 TLabelframe.Label, depending whether we wish to alter the label or the frame, but in both cases the style property only refers
-to TLabelframe with no suffix.
+to TLabelframe with no suffix. This is illustrated in /examples/02labelframe.py.
 
-
-We are now in a position to change the colour of any widget.
+We are now in a position to change the colour and size of any widget, but whenever the state changes our widget will revert to
+a style inherited from the theme being used, so the interaction of states and style will be our next topic.
 
