@@ -68,7 +68,7 @@ programmed.
 
 ## 02 Simple Style Changes
 
-Usin named elements we can change the colours, width, font and relief of our widget. Instead of using property options on each
+Using named elements we can change the colours, width, font and relief of our widget. Instead of using property options on each
 widget, we use the Style module together with relevant component and element names. The first task is to determine the relevant
 elements of our widget.
 
@@ -226,3 +226,14 @@ to TLabelframe with no suffix. This is illustrated in /examples/02labelframe.py.
 We are now in a position to change the colour and size of any widget, but whenever the state changes our widget will revert to
 a style inherited from the theme being used, so the interaction of states and style will be our next topic.
 
+## 03 Linking Style with State
+
+Every widget exists with a dynamic state that for some widgets can be directly changed by the user's actions, such as moving the
+mouse over the widget, or by selecting or pressing the widget. To assist the user the widget changes in colour, relief and/or
+size. This positive feedback assists in enhancing the user's experience. Other states are changed through the program. States
+are a fundamental part of styles and themes. Check out the table /tables/03states.md if you need to refresh your memory.
+
+Some widgets, such as Frame would hardly ever need a state other than the normal state, others such as Button only really are 
+useful if they have different states. In order to help clarify when programming with states I will refer to the "normal"
+state even though it is not directly referenced, it is implicitly the state we have used when making simple changes. It is 
+the unnamed state 
