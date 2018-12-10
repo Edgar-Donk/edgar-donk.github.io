@@ -5,8 +5,12 @@ import random
 
 def change_style():
     color = random.choice(['red', 'blue', 'yellow', 'dark gray', 'purple', 'cyan', 'brown', 'orange'])
-    style.configure('Die.TButton', background=color)
-    style.map('Die.TButton', background=[('active', active_color(color))])
+    style.configure('Die.TButton', background=color,
+                   foreground=['white' if color != 'yellow' else 'black'],
+                    highlightthickness='20',
+                    font=('Helvetica', 18, 'bold'))
+    style.map('Die.TButton', foreground=[("pressed", "red"), ("active", "blue")],
+                            background=[('active', active_color(color))])
 
 
 def active_color(color):
