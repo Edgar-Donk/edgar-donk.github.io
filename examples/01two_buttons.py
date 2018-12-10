@@ -10,3 +10,5 @@ s.theme_use('default')
 origbutton(root,text='original').pack()
 tilebutton(root,text='ttk themed').pack()
 tilebutton(root,text='2nd ttk').pack()
+
+root.mainloop()
