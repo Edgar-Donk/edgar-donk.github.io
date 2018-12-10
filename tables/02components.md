@@ -11,7 +11,7 @@ LabelFrame |		border |		border |		border |		border
 LabelFrame - Label |		fill, text |		fill, text |		fill, text |		fill, text
 Menubutton |		border, focus, indicator, padding, label |		border, focus, indicator, padding, label |		highlight, border, indicator, padding, label |		border, focus, indicator, padding, label
 Notebook |		client	 |	client	 |	client	 |	client
-Notebook - Tab	 |	tab, padding, focus, label |		tab, padding, focus, label |		tab, padding, label	tab, padding, focus, label
+Notebook - Tab	 |	tab, padding, focus, label |		tab, padding, focus, label |		tab, padding, label |		tab, padding, focus, label
 PanedWindow |		background |		background |		background |		background
 PanedWindow - Sash |		hsash |		hsash, hgrip |		hsash |		hsash
 Progressbar |		trough, pbar |		trough, pbar |		trough, pbar |		trough, pbar
