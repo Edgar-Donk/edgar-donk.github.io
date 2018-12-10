@@ -231,9 +231,44 @@ a style inherited from the theme being used, so the interaction of states and st
 Every widget exists with a dynamic state that for some widgets can be directly changed by the user's actions, such as moving the
 mouse over the widget, or by selecting or pressing the widget. To assist the user the widget changes in colour, relief and/or
 size. This positive feedback assists in enhancing the user's experience. Other states are changed through the program. States
-are a fundamental part of styles and themes. Check out the table /tables/03states.md if you need to refresh your memory.
+are a fundamental part of styles and themes. Check out the table /tables/03states.md if you need to refresh your memory. All
+stated have an opposite situation whereby the name is prefixed by an exclamation mark, so the opposite of disabled is !disabled
+and not one of the other states such as active.
 
 Some widgets, such as Frame would hardly ever need a state other than the normal state, others such as Button only really are 
-useful if they have different states. In order to help clarify when programming with states I will refer to the "normal"
-state even though it is not directly referenced, it is implicitly the state we have used when making simple changes. It is 
-the unnamed state 
+useful if they have different states. When programming with states be aware that a widget with no named state is in the "normal"
+state even though it is not directly referenced, it is implicitly the state we have used when making simple changes. 
+
+We can determine what states are currently being used in a theme. Just as in the simple style change we need to know the class
+name and the element we are interested in. So if we wished to find the situation for the relief elemnt on a button we use 
+map() in the following manner:-
+````
+from tkinter.ttk import Style, Button
+>>>s = Style()
+>>>s.theme_use('default')
+>>>s.map('TButton', 'relief')
+[('!disabled', 'pressed', 'sunken')]
+````
+In this case the theme uses a compound state, in that the pressed state only applies when the button is not disabled, and the
+property is 'sunken'. These mapped states vary with both widget and theme. Within a theme we can have a common mapping.
+````
+>>>s.theme_use('default')
+>>>s.map('TButton', 'background')
+[]
+````
+Weird - we know that this changed in our button examples, so how to find out what is going on. Let's see if we have a common
+mapping working here.
+````
+>>>s.theme_use('default')
+>>>s.map('.', 'background')
+[('disabled', '#d9d9d9'), ('active', '#ececec')]
+````
+Ahha - now we can see that all widgets with a background element will react in a similar way, so if you haven't done it see what
+happens when you pass the cursor over our scrollbar example.
+
+One way to change the properties of a widget is to expand upon our simple method, so the normal state is set by configure(), we
+can then set the other states using map(). This means that any single element could have several properties corresponding to 
+more than one states. Related states should be listed with tuples. We can see this in the example above, we have an element
+called background with a list of two tuples, the first tuple is for the disabled state ('disabled', '#d9d9d9').
+
+
