@@ -12,3 +12,5 @@ s.configure('mix.TButton', foreground='green',background='red')
 origbutton(root,text='original').pack()
 tilebutton(root,text='ttk themed',style='green.TButton').pack()
 tilebutton(root,text='2nd ttk',style='mix.TButton').pack()
+
+root.mainloop()
