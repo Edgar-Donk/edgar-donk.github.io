@@ -264,11 +264,23 @@ mapping working here.
 [('disabled', '#d9d9d9'), ('active', '#ececec')]
 ````
 Ahha - now we can see that all widgets with a background element will react in a similar way, so if you haven't done it see what
-happens when you pass the cursor over our scrollbar example.
+happens when you pass the cursor over our scrollbar example. By the by if we test for relief with a common mapping we get an
+empty result, so common is a specific instance.
+````
+>>>s.map('.', 'relief')
+[]
+````
 
 One way to change the properties of a widget is to expand upon our simple method, so the normal state is set by configure(), we
 can then set the other states using map(). This means that any single element could have several properties corresponding to 
 more than one states. Related states should be listed with tuples. We can see this in the example above, we have an element
 called background with a list of two tuples, the first tuple is for the disabled state ('disabled', '#d9d9d9').
 
+In the example 03map_button.py we have configure which sets up the general widget appearance then using map to set the active
+state by changing the background colour. For a bit of fun we have a random selection from 6 colours, in order to set the active
+colour we first find the RGB colour using winfo_rgb(color) - color is the variable - then we change each of the RGB components
+and finally convert back to the hash value. Simple colour manipulations are possible in the RGB scheme. A further frill is that 
+we use a white foreground for dark background and a black foreground for a yellow background.
 
+As we can see keeping to the style system we can easily have two or more widgets with differing properties - this is useful when
+comparing total effects during the testing phase.
