@@ -215,7 +215,9 @@ scrollbar remains squashed and you can't see your results. If we make the scroll
 look like 02scrollbar.py. When querying the element_options you should see that both the arrows and thumb have a background as
 well as borderwidth so the appearance is matched. I have created a second scrollbar where the borderwidth is not changed, look
 at the arrows. In reality there was not a great deal of difference to the button example, just that we had to remember to add
-the orientation to the configuration name.
+the orientation to the configuration name. If you try one of the other themes alt, clam or default we have the additional option
+of arrowcolor, try out this element with pink say. Classic has no arrowcolor but if you leave it in then there is no reaction,
+not even a warning.
 
 The last type of widget are those with auxiliary parts. Taking LabelFrame as an example, we would normally wish to modify the
 label part rather than the Frame. We can fill the frame with a tkinter coloured frame to show off the widget. The second
@@ -265,7 +267,7 @@ mapping working here.
 ````
 Ahha - now we can see that all widgets with a background element will react in a similar way, so if you haven't done it see what
 happens when you pass the cursor over our scrollbar example. By the by if we test for relief with a common mapping we get an
-empty result, so common is a specific instance.
+empty result, so common is a specific instance and not some form of wildcard.
 ````
 >>>s.map('.', 'relief')
 []
@@ -277,10 +279,27 @@ more than one states. Related states should be listed with tuples. We can see th
 called background with a list of two tuples, the first tuple is for the disabled state ('disabled', '#d9d9d9').
 
 In the example 03map_button.py we have configure which sets up the general widget appearance then using map to set the active
-state by changing the background colour. For a bit of fun we have a random selection from 6 colours, in order to set the active
-colour we first find the RGB colour using winfo_rgb(color) - color is the variable - then we change each of the RGB components
-and finally convert back to the hash value. Simple colour manipulations are possible in the RGB scheme. A further frill is that 
-we use a white foreground for dark background and a black foreground for a yellow background.
+state by changing the background colour. Both configure and map use the same reference used in the style property. For a bit of
+fun we have a random selection from 6 colours, in order to set the active colour we first find the RGB colour using
+winfo_rgb(color) - color is the variable - then we change each of the RGB components and finally convert back to the hash value.
+Simple colour manipulations are possible in the RGB scheme. A further frill is that we use a white foreground for dark
+background and a black foreground for a yellow background.
 
 As we can see keeping to the style system we can easily have two or more widgets with differing properties - this is useful when
 comparing total effects during the testing phase.
+
+The order of mapping states for the element is important. If the active element is placed at the head then when the button or
+scrollbar is pressed the colour remains as the active colour. 
+
+## 04 Image - First Steps
+
+Tkinter and ttk can work with gif, pgm or ppm images using PhotoImage or xbm images if we use BitmapImage modules loaded from
+tkinter. If your version of tkinter is 8.6 or higher then you can work with png files direct. Some widgets have a property
+called image (check out if it is shown on Tkinter 8.5 reference: a GUI for Python) so once the image is initiated we can load it
+directly onto the widget. All the images I will be working with will be found in the directory "images". and the programs will
+be run assuming that the images can be found in this position created as sub-directory of the directory where the programs run
+on your computer.
+
+
+
+
