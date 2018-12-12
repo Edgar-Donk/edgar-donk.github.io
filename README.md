@@ -300,6 +300,18 @@ directly onto the widget. All the images I will be working with will be found in
 be run assuming that the images can be found in this position created as sub-directory of the directory where the programs run
 on your computer.
 
+First off we shall load just an image onto a button and see what happens when we pass the cursor over it, and press the button.
+Load up 04button_image.py not forgetting to place the images butImage.png and butImageTrans.png in your images file (if you are
+running tkinter 8.5 uncomment the lines as indicated, also comment out the  line indicated). We have loaded PhotoImage from 
+tkinter then we load the image into PhotoImage creating a reference which will be used within the widget's property option
+image. When working with images in a class there is always the problem that the image will not show unless special precautions
+are taken. When the image is a local variable reload the image directly after referencing it with the widget. Alternatively we
+can make the image a self variable. You should see three buttons, the top one with just an image, the second uses the same image
+with the centre made transparent - you may think it looks quite promising, until we see the third text. As it stands it is
+obvious that the image is not useful, it does not change dynamically with the widget. Where a widget can work with a single
+sized widget as in a pictogram then this option should be considered.
+
+
 
 
 
