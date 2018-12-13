@@ -43,8 +43,9 @@ Widgets have one or more layers that can be referenced directly using the Style 
 If we take a look at the button widget we have a rectangular shape divided into 4 elements, starting from the outside - border,
 focus, spacing and label. Look at
 ```
-![button:elements](/images/01button_elements.png) 
 ```
+![button:elements](/images/01button_elements.png) 
+
 
 this is an example of how a button may be constructed. We shall see that when a widget is modified or called by various themes
 nothing is totally hard and fast. While we are thinking of elements look at the vertical scrollbar 
@@ -293,8 +294,8 @@ scrollbar is pressed the colour remains as the active colour.
 
 ## 04 Image - First Steps
 
-Tkinter and ttk can work with gif, pgm or ppm images using PhotoImage or xbm images if we use BitmapImage modules loaded from
-tkinter. If your version of tkinter is 8.6 or higher then you can work with png files direct. Some widgets have a property
+Tkinter and ttk can work with gif, pgm or ppm images using PhotoImage or xbm images if we use BitmapImage modules, loaded from
+tkinter. If your version of tkinter is 8.6 or higher then you can work with png files directly. Some widgets have a property
 called image (check out if it is shown on Tkinter 8.5 reference: a GUI for Python) so once the image is initiated we can load it
 directly onto the widget. All the images I will be working with will be found in the directory "images". and the programs will
 be run assuming that the images can be found in this position created as sub-directory of the directory where the programs run
@@ -303,13 +304,23 @@ on your computer.
 First off we shall load just an image onto a button and see what happens when we pass the cursor over it, and press the button.
 Load up 04button_image.py not forgetting to place the images butImage.png and butImageTrans.png in your images file (if you are
 running tkinter 8.5 uncomment the lines as indicated, also comment out the  line indicated). We have loaded PhotoImage from 
-tkinter then we load the image into PhotoImage creating a reference which will be used within the widget's property option
-image. When working with images in a class there is always the problem that the image will not show unless special precautions
+tkinter where we load the image into PhotoImage creating a reference which will be used within the widget's property option
+image. 
+
+When working with images in a class there is always the problem that the image will not show unless special precautions
 are taken. When the image is a local variable reload the image directly after referencing it with the widget. Alternatively we
-can make the image a self variable. You should see three buttons, the top one with just an image, the second uses the same image
-with the centre made transparent - you may think it looks quite promising, until we see the third text. As it stands it is
-obvious that the image is not useful, it does not change dynamically with the widget. Where a widget can work with a single
-sized widget as in a pictogram then this option should be considered.
+can make the image a self variable. 
+
+You should see three buttons, the top one with just an image, the second uses the same image with the centre made transparent -
+you may think it looks quite promising, until we see the third text. As it stands it is obvious that the image option is not
+always useful, it does not change dynamically with the widget. Where a widget can work with a single sized widget, as in a
+pictogram, then this option should be considered. We can load the pictogram image and text simultaneously by using the compound
+option. 
+
+If multiple pictograms are available we can change these according to state. Check out the example 04button_pictogram.py this has three
+pictograms linked to 3 states which must have the active state listed last. 
+
+
 
 
 
