@@ -317,12 +317,32 @@ always useful, it does not change dynamically with the widget. Where a widget ca
 pictogram, then this option should be considered. We can load the pictogram image and text simultaneously by using the compound
 option. 
 
-If multiple pictograms are available we can change these according to state. Check out the example 04button_pictogram.py this has three
-pictograms linked to 3 states which must have the active state listed last. 
+If multiple pictograms are available we can change these according to state. Check out the example 04button_pictograms.py this
+has three pictograms linked to 3 states which must have the active state listed last just as we needed to do in the mapping 
+situation. When using the image property always ensure that there are an odd number of states, therefore the first state remains
+anonymous.
 
+## 05 Image - Create Widgets with Rounded Corners and Shadow Effects
 
+The 4 themes common to tkinter can be found where your python program is installed under the directory tcl/tk8.6/ttk. Apart from
+default which is listed as defaults.tcl, all the other themes are listed themenameTheme.tcl. There are obvious differences
+between tcl and tkinter but we can recognise some commands such as map and configure, we can also spot the element and state
+names. A new part of the mix is when we look at the OS specefic themes such as aqua or vista have variables that are system
+dependant. Even so we should be able to recognise how the answers to some of our scripts were formed. It would seem that the
+common themes have little to do with images and thus able to give the widest possible support to any style alterations we wish
+to make. By contrast it will be found that if one of the OS dependant themes was to be used as a basis then  changes would not
+be so straightforward. 
 
+As I said at the beginning there are remarkably few instances of the more interesting style changes found when trawling the
+internet. Up until this point most of the examples could have been made using "Tkinter 8.5 reference: a GUI for Python". The few
+instances I did find I will reproduce here.
 
+The first example is based on that created by Bryan Oakley a stalwart of StackOverflow. His original script created visible
+frames around entry and text widgets, example 05rounded_frame.py. Since he is using encoded data there is no reference to a
+file, instead PhotoImage refers to this data directly. Normally we have no states in the frame widget so he introduces lambda
+functions tied into <FocusIn> and <FocusOut> events.
+ 
+ 
 
 
 
