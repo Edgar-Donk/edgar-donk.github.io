@@ -458,6 +458,20 @@ Check some of the images - you may notice that a pressed image is the same as a 
 upside down. So once you are aware of how the themes work you may decide to devise your own. It takes quite a bit of time but is
 relatively straighforward.
 
+## 06 So you want to roll your own
+
+Anything you do should be separated from working directories, use copies of anything you want. Pretty obvious really.
+
+How will a widget look when the style or theme is changed. Tkinter is rather forgiving which may make tracking errors difficult
+but we can have a list of too many changeable properties and see just which ones will react. Remember as we have seen in
+ttktheme a widget is affected both by the image and general colours. Text is a useful tool in that the name and representation
+of a colour can be made in one line. The first example 06treeview.py shows how to select a theme then apply some colour changes
+to treeview, this has two sets of colours so we can confirm which works best by testing first, then try uncommenting Heading
+so that the treeview style reads 'Custom.Treeview.Heading '. If you want you can try adding ttktheme to the drop down list. The
+first part of the script displays the widget layout in a form that is easy to read - there probably is an easier way to do this!
+To contrast the colour changes we use 2 widgets, the first is not customised.
+
+
 
 
 
