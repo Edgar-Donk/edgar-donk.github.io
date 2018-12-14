@@ -406,6 +406,17 @@ used. The programmer is altering the entry widget, using the PhotoImage alias na
       'sticky': 'nswe'})],
    'sticky': 'nswe'})]
 ```   
-The other item of note is how he deals with the border width. Originally it was 1 all round, now it is border=[22, 7, 14]. This
-follows the same convention as used for padding.
+The other item of note is how he deals with the border width. Originally it was 1 all round, now it is ```border=[22, 7, 14]```.
+This follows the same convention as used for padding. Check out table 05padding_border_layout.md. Since we are using the normal
+interactive states of the entry widget, no additional programing is required as was necessary for the label example. 
+
+We should now be able to understand how to manage themes. When we use a simple style change affected widgets require that the 
+style property refers to the style change name. When a theme change is made affected widgets require no reference, therefore the
+names used in the style changes such, as "search1" would not be appropriate. We should be thinking of class names, once a style 
+has been tested and is ready to be part of the theme we would change the name from "new.TButton" to just "TButton" say. 
+
+
+
+
+
     
