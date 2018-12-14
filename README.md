@@ -395,9 +395,10 @@ with open('borderGrey1.gif', 'rb') as f:
 ```
 I altered the colour of the grey image.
 
-The next example will create a special frame, resembling the mac search element. Once again the image is loaded as encoded data,
-this time the programer uses the gif property to make multiple images. Look at the PhotoImage lines of code where the format is 
-used. The programmer is altering the entry widget, using the PhotoImage alias names "search1" rather than the "s1" name.
+The next example 05search_entry,py will create a special frame, resembling the mac search element. Once again the image is
+loaded as encoded data, this time the programmer uses the gif property to make multiple images. Look at the PhotoImage lines of
+code where the format is used. The programmer is altering the entry widget, using the PhotoImage alias names "search1" rather
+than the "s1" name. Compare is layout to that of a normal entry widget.
 ```
 [('Entry.field',
   {'border': '1',
@@ -408,12 +409,54 @@ used. The programmer is altering the entry widget, using the PhotoImage alias na
 ```   
 The other item of note is how he deals with the border width. Originally it was 1 all round, now it is ```border=[22, 7, 14]```.
 This follows the same convention as used for padding. Check out table 05padding_border_layout.md. Since we are using the normal
-interactive states of the entry widget, no additional programing is required as was necessary for the label example. 
+interactive states of the entry widget, no additional programming is required as was necessary for the label example. Using our
+newly acquired decoding skills we can see how the border layout numbers are derived. 22 pixels clears the tail of the
+magnifiying glass, 7 pixels clears the corner and the top clearance, whilst 14 pixels clears the right hand end. As it stands 
+this widget could be lengthened horizontally, but there is no was we could extend it vertically without a strange looking
+magnifiying glass formed as a result. When using an image ensure there is a section that can be repeated left and right, top and
+bottom.
 
 We should now be able to understand how to manage themes. When we use a simple style change affected widgets require that the 
 style property refers to the style change name. When a theme change is made affected widgets require no reference, therefore the
 names used in the style changes such, as "search1" would not be appropriate. We should be thinking of class names, once a style 
 has been tested and is ready to be part of the theme we would change the name from "new.TButton" to just "TButton" say. 
+
+Now would be a good a time as any to inspect what ttkthemes has to offer. Apart from the interface to python most is written in 
+TCL scripting language. We can take stock of the themes on offer, most work with gif images, that are substitutes for the border
+part of the relevant widget. Most use one of the 4 common themes as a parent. Aquativo uses coded images, whereas the black
+theme has no images. There are 3 themes that can use png images, but these are only usable with tkinter 8.6 or above. Clam is
+the most popular parent theme, although if you were to run these themes it would be difficult to tell. Most images are about 60
+by 60 pixels. 
+
+If you were to install ttkthemes it is easy to swith between the normal themes and ttkthemes. If you were to load the standard
+ttk Style module, then ttkthemes ar cut out, however if you load up ttkthemes 
+```
+import ttkthemes as ts  
+.....
+        try:
+            self.s = ts.themed_style.ThemedStyle()
+        except (NameError, AttributeError):
+            self.s = Style()
+```
+then any normal command used by Style can be used with no change providing we use the same alias system, in our case self.s., so
+list(sorted(self.s.theme_names())) would work for both the standard themes and the standard themes plus the ttkthemes.
+
+When comparing a ttktheme with a standard theme the first obvious difference is that we are loading the image files and using
+photo (we know as PhotoImage in python) on all the images, which are then referred later on by their name without the gif
+suffix. Thereafter the ttkthemes closely follow the standard themes by first loading up the colour aliases, then configuring the
+general settings using configure, followed by mapping the general states. From thereon the themes configure and map out the
+individual widgets, often the simple widgets are left out and the parent theme's widgets are used. The images are loaded using
+$I(image filename) as opposed to image as in python. The padding and border sizes would be shown as
+```
+-padding {6 2 6 2}
+as compared to in python
+border=[22, 7, 14]
+```
+After all that we see that ttkthemes has one or two major differences to the standard themes, look at the different ways that
+the combobox downward arrow is depicted. The button widget is the normal way to see whether this theme appeals to you or not. 
+Check some of the images - you may notice that a pressed image is the same as a normal image except that it has been turned
+upside down. So once you are aware of how the themes work you may decide to devise your own. It takes quite a bit of time but is
+relatively straighforward.
 
 
 
