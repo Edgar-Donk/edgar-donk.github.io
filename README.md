@@ -394,4 +394,18 @@ with open('borderGrey1.gif', 'rb') as f:
     print(encoded.decode('latin1')) # contains all western characters but not the €
 ```
 I altered the colour of the grey image.
+
+The next example will create a special frame, resembling the mac search element. Once again the image is loaded as encoded data,
+this time the programer uses the gif property to make multiple images. Look at the PhotoImage lines of code where the format is 
+used. The programmer is altering the entry widget, using the PhotoImage alias names "search1" rather than the "s1" name.
+```
+[('Entry.field',
+  {'border': '1',
+   'children': [('Entry.padding',
+     {'children': [('Entry.textarea', {'sticky': 'nswe'})],
+      'sticky': 'nswe'})],
+   'sticky': 'nswe'})]
+```   
+The other item of note is how he deals with the border width. Originally it was 1 all round, now it is border=[22, 7, 14]. This
+follows the same convention as used for padding.
     
