@@ -340,9 +340,58 @@ instances I did find I will reproduce here.
 The first example is based on that created by Bryan Oakley a stalwart of StackOverflow. His original script created visible
 frames around entry and text widgets, example 05rounded_frame.py. Since he is using encoded data there is no reference to a
 file, instead PhotoImage refers to this data directly. Normally we have no states in the frame widget so he introduces lambda
-functions tied into <FocusIn> and <FocusOut> events.
+functions tied into <FocusIn> and <FocusOut> events. He is using 2 separate images, the first is where the frame's contents have
+focus, the second where it loses focus. Click within the upper and lower frames, see how the outer colour changes, also note
+that the frame has decidedly rounded corners and a shadow on the right hand and lower sided. 
  
- 
+Let's remind ourselves about the layout and elements for frame:-
+```
+>>>s.theme_use('default')
+>>>s.layout('TFrame')
+[('Frame.border', {'sticky': 'nswe'})]
+>>>s.element_options('Frame.border') # only one component to query
+('background', 'borderwidth', 'relief')
+```
+In our script, compared to TFrame. Bryan created an extra state and changed the border, using the command
+```
+style.element_create("RoundedFrame", "image", "frameBorder", # he was working on the RoundedFrame, added an image 
+    ("focus", "frameFocusBorder"), border=16, sticky="nsew") # added the state focus  set to an image and changed the border
+```
+The number 16 for border is important, it is the allowance needed to create the rounded corners and shadows, without this the 
+resulting image created would look pretty terrible. A single figure is the equivalent of (16,16,16,16). The lower frame has
+obviously grown in comparison to the upper frame and looks pretty smart, both frames have the same style 'RoundedFrame'. Now is
+a good time to have a look at the underlying image. We will need to decode the coded part to find out about the underlying
+image. Since the coding is quite old it can only be a gif image. (Use all the code the dots below are just a shortcut for
+continuity).
+```
+import base64
+with open ('frameFocusBorder.gif','wb') as f:
+    decoded = base64.decodebytes(b"""
+R0lGODlhQABAAPcAAHx+fMTCxKSipOTi5JSSlNTS1LSytPTy9IyKjMzKzKyq
+..... 
+Ry/99NIz//oGrZpUUEAAOw==""")
+    f.write(decoded)
+```
+Using 05rounded_frame.py use the code from img1 (frameFocusBorder), we should see an image file frameFocusBorder.gif is created.
+You should see a file that is 64 by 64 pixels large. Load this on an image editor zoom in so that the pixels are shown as
+squares and move your cursor to where the centre of the corner is, and we can see why we have a border of 16 all round. If we
+reduce this figure to 8 say we will see about 13 indentations on the long side. A border of 12 will still show indentations, 
+although not as pronounced, by 16 they have disappeared altogether. It would seem that when a widget image is extended only the
+inner part of the image between the border extremes is copied for the extension.
 
-
-
+What happens when we adapt the above method for a labelframe? What about the top part of the frame where the text is written
+between a visible frame? Will we need a special method to create the gap? Ah well fools rush in where angels fear to tread. Run
+05rounded_labelframe.py. Well the labelframe reacts well, we see the label sitting in the frame break, and changing colour as a
+result of the program logic, try reversing the selection order and choosing one of the widgets with orientation. The
+style.element_create and style.layout remain the same as for the frame example. Since we no longer depend upon an event linked
+to clicking there are no more lambda functions but we do change the state of the labelframes triggered by command options of the
+widgets. You did notice the colour change of the frame - first obtain the decoded image, make the changes to the colour then 
+encode once again. 
+```
+import base64
+with open('borderGrey1.gif', 'rb') as f:
+    encoded = base64.encodestring(f.read())
+    print(encoded.decode('latin1')) # contains all western characters but not the €
+```
+I altered the colour of the grey image.
+    
