@@ -471,6 +471,15 @@ but we can have a list of too many changeable elements and see just which ones w
 ttktheme a widget is affected both by the image and general colours. Text is a useful tool in that the name and representation
 of a colour can be made in one line. 
 
+First it is best to refresh our memory of how a widget looks in the various themes, try 06theme_notebook.py this has most of the
+important widgets together with a theme selector. It has been set up to incorporate ttktheme. The first tab contains most of the
+normally used widgets, in order to see the scroll bars work, in the second tab with a treeview, it will be necessary to adjust
+the height and width using the sizegrip, the third tab has the scale and progress bars. There may be styles that appeal in 
+different themes, it should be possible to mix and match to your taste provided that you copy widget definitions and their
+images together.
+
+
+
 
 
 
