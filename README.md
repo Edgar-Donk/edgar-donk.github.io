@@ -224,7 +224,11 @@ The last type of widget are those with auxiliary parts. Taking LabelFrame as an 
 label part rather than the Frame. We can fill the frame with a tkinter coloured frame to show off the widget. The second
 labelframe by contrast has a coloured frame. It is important to emphasise that configure calls either TLabelframe or
 TLabelframe.Label, depending whether we wish to alter the label or the frame, but in both cases the style property only refers
-to TLabelframe with no suffix. This is illustrated in /examples/02labelframe.py.
+to TLabelframe with no suffix. This is illustrated in /examples/02labelframe.py. The next example 02treeview.py shows how to
+select a theme then apply some colour changes to the widget treeview, this has two sets of colours so we can confirm which works
+best by first testing, then try uncommenting 'Heading' so that the treeview style reads 'Custom.Treeview.Heading '. The first
+part of the script displays the widget layout in a form that is easy to read - there probably is an better way to do this! To
+view the colour changes we use 2 widgets, the first is not customised.
 
 We are now in a position to change the colour and size of any widget, but whenever the state changes our widget will revert to
 a style inherited from the theme being used, so the interaction of states and style will be our next topic.
@@ -463,13 +467,9 @@ relatively straighforward.
 Anything you do should be separated from working directories, use copies of anything you want. Pretty obvious really.
 
 How will a widget look when the style or theme is changed. Tkinter is rather forgiving which may make tracking errors difficult
-but we can have a list of too many changeable properties and see just which ones will react. Remember as we have seen in
+but we can have a list of too many changeable elements and see just which ones will react. Remember as we have seen in
 ttktheme a widget is affected both by the image and general colours. Text is a useful tool in that the name and representation
-of a colour can be made in one line. The first example 06treeview.py shows how to select a theme then apply some colour changes
-to treeview, this has two sets of colours so we can confirm which works best by testing first, then try uncommenting Heading
-so that the treeview style reads 'Custom.Treeview.Heading '. If you want you can try adding ttktheme to the drop down list. The
-first part of the script displays the widget layout in a form that is easy to read - there probably is an easier way to do this!
-To contrast the colour changes we use 2 widgets, the first is not customised.
+of a colour can be made in one line. 
 
 
 
