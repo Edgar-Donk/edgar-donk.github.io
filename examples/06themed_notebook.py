@@ -1,7 +1,8 @@
 #! /usr/bin/env python
 
 from tkinter import Tk, IntVar, StringVar, Label
-from tkinter.ttk import Frame,Notebook,Separator,Checkbutton,Button,Radiobutton,LabelFrame,Treeview,Scrollbar,Combobox,PanedWindow,Style,Scale,Progressbar
+from tkinter.ttk import Frame, Notebook, Separator, Checkbutton, Button, Radiobutton, LabelFrame, Treeview,\
+Scrollbar, Combobox, PanedWindow, Style, Scale, Progressbar, Sizegrip
 from tkinter.font import Font
 from ttkthemes import themed_style as ts 
 
@@ -176,6 +177,9 @@ class NotebookDemo:
                 ilen = Font().measure(val)
                 if self.tree.column(tree_columns[indx], width=None) < ilen:
                     self.tree.column(tree_columns[indx], width=ilen)
+                    
+        sg = Sizegrip(container)
+        sg.grid(sticky='e')                   
                     
         nb.add(container, text='Treeview', underline=0, padding=2)
 
