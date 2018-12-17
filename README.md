@@ -230,6 +230,14 @@ best by first testing, then try uncommenting 'Heading' so that the treeview styl
 part of the script displays the widget layout in a form that is easy to read - there probably is an better way to do this! To
 view the colour changes we use 2 widgets, the first is not customised.
 
+Generally try to keep it simple, try looking for a candidate that looks as though it might work, test it and see. Load a common
+theme such as clam, remember that if working in a windows or mac environment it will not work as straightforwardly if not
+changed. Look at 02Entry.py, if we use the clam theme it should create an entry with a blue background, however if the clam
+theme is not used and you are running with windows or mac OS, then the entry widget has to change by adding an element_create
+and adding the newly created element to layout. Either check out Changing Widget Colors or use queries in layout and 
+element_options, so we see that Entry.field has ('bordercolor', 'lightcolor', 'darkcolor', 'fieldbackground') whereas 
+Entry.textarea has ('font', 'width').
+
 We are now in a position to change the colour and size of any widget, but whenever the state changes our widget will revert to
 a style inherited from the theme being used, so the interaction of states and style will be our next topic.
 
@@ -429,11 +437,11 @@ Now would be a good a time as any to inspect what ttkthemes has to offer. Apart 
 TCL scripting language. We can take stock of the themes on offer, most work with gif images, that are substitutes for the border
 part of the relevant widget. Most use one of the 4 common themes as a parent. Aquativo uses coded images, whereas the black
 theme has no images. There are 3 themes that can use png images, but these are only usable with tkinter 8.6 or above. Clam is
-the most popular parent theme, although if you were to run these themes it would be difficult to tell. Most images are about 60
-by 60 pixels. 
+the most popular parent theme, although if you were to run these themes it would be difficult to tell. Most images are about 30
+by 30 pixels, with corners of one or three pixels radius. 
 
 If you were to install ttkthemes it is easy to swith between the normal themes and ttkthemes. If you were to load the standard
-ttk Style module, then ttkthemes ar cut out, however if you load up ttkthemes 
+ttk Style module, then ttkthemes are cut out, however if you load up ttkthemes 
 ```
 import ttkthemes as ts  
 .....
@@ -459,7 +467,9 @@ border=[22, 7, 14]
 After all that we see that ttkthemes has one or two major differences to the standard themes, look at the different ways that
 the combobox downward arrow is depicted. The button widget is the normal way to see whether this theme appeals to you or not. 
 Check some of the images - you may notice that a pressed image is the same as a normal image except that it has been turned
-upside down. So once you are aware of how the themes work you may decide to devise your own. It takes quite a bit of time but is
+upside down. Some themes could be easily adopted as being modern looking, others such as kroc may be of use in showing you the
+what to do. Of interest note that radiance and ubuntu are very nearly the same except that ubuntu uses png as opposed gif
+images. So once you are aware of how the themes work you may decide to devise your own. It takes quite a bit of time but is
 relatively straighforward.
 
 ## 06 So you want to roll your own
@@ -468,19 +478,67 @@ Anything you do should be separated from working directories, use copies of anyt
 
 How will a widget look when the style or theme is changed. Tkinter is rather forgiving which may make tracking errors difficult
 but we can have a list of too many changeable elements and see just which ones will react. Remember as we have seen in
-ttktheme a widget is affected both by the image and general colours. Text is a useful tool in that the name and representation
+ttkthemes a widget is affected both by the image and general colours. Text is a useful tool in that the name and representation
 of a colour can be made in one line. 
 
 First it is best to refresh our memory of how a widget looks in the various themes, try 06theme_notebook.py this has most of the
-important widgets together with a theme selector. It has been set up to incorporate ttktheme. The first tab contains most of the
-normally used widgets, in order to see the scroll bars work, in the second tab with a treeview, it will be necessary to adjust
-the height and width using the sizegrip, the third tab has the scale and progress bars. There may be styles that appeal in 
-different themes, it should be possible to mix and match to your taste provided that you copy widget definitions and their
+important widgets together with a theme selector. It has been set up to incorporate ttkthemes. The first tab contains most of
+the normally used widgets, in order to see the scroll bars work, in the second tab with a treeview, it will be necessary to
+adjust the height and width using the sizegrip, the third tab has the scale and progress bars. There may be styles that appeal
+in different themes, it should be possible to mix and match to your taste provided that you copy widget definitions and their
 images together.
 
+Once individual styles have been tested, we need to to incorporate these into a theme that can be called directly from the 
+application with a single import and a single call. Obviously one cannot work directly on the tkinter.ttk directory. One can
+concoct a complete standalone theme definition together with the appropriate images - but this is not for the fainthearted. A
+simpler solution is to use the ttkthemes module, adding your own theme - we already know that tkinter.ttk uses tcl just as
+with ttkthemes, so speed is not an issue.
 
+1. Create a new directory - give it an expressive name - green
+2. Choose a theme and copy its main tcl file and image directory together with its contents to the main directory. So just as
+  with the original file, we have a main directory called green, a main file renamed green.tcl, and a subdirectory also called
+  green.
+3. Edit green.tcl replace the name of the original by your name - so for elegance 
+```
+  namespace eval ::ttk::theme::green {
+    package provide ttk::theme::green 0.1
+    ....
+    LoadImages [file join [file dirname [info script]] green]
+    ....
+    ::ttk::style theme create green -settings {
+    ....
+``` 
+4. Copy one of the pkgindex.tcl files from one of the themes to your main directory, replace the name of the original by your
+  name
+```
+if {![file isdirectory [file join $dir green]]} { return }
+if {![package vsatisfies [package provide Tcl] 8.4]} { return }
 
-
+package ifneeded ttk::theme::green 0.6.2 \
+    [list source [file join $dir green.tcl]]
+```
+5. Edit the pkgindex.tcl found under the parent directory themes, add an extra line to the end of list of theme sources
+```
+  source [file join $themesdir green green.tcl]
+```
+6. edit ``` _widgets.py ``` file, in the main ttkthemes directory, in the section of pixmap_themes  add your theme to the list:-
+```
+pixmap_themes = [
+        "arc",
+        "blue",
+        "clearlooks",
+        "elegance",
+        "green",
+        "kroc",
+        "plastik",
+        "radiance",
+        "ubuntu",
+        "winxpblue
+]
+```
+7. That should do it. Test that everything works after your editing. Now you can replace original widgets with your changed
+  widgets.
+  
 
 
 
