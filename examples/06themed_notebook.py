@@ -1,8 +1,9 @@
 #! /usr/bin/env python
+# based on example from py in the eye
 
-from tkinter import Tk, IntVar, StringVar, Label
+from tkinter import Tk, IntVar, StringVar
 from tkinter.ttk import Frame, Notebook, Separator, Checkbutton, Button, Radiobutton, LabelFrame, Treeview,\
-Scrollbar, Combobox, PanedWindow, Style, Scale, Progressbar, Sizegrip
+Scrollbar, Combobox, PanedWindow, Style, Scale, Progressbar, Sizegrip, Label
 from tkinter.font import Font
 from ttkthemes import themed_style as ts 
 
