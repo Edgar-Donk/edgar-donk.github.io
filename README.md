@@ -249,46 +249,46 @@ Every widget exists with a state that for some widgets can be directly changed b
 mouse over the widget, or by selecting or pressing the widget. To assist the user whenever the state changes the widget changes
 in colour, relief and/or size. This positive feedback assists in enhancing the user's experience. Other states which are not
 being changed dynamically are changed through the program. States are a fundamental part of styles and themes. Check out the
-table /tables/03states.md if you need to refresh your memory. All states have an opposite situation whereby the name is prefixed
+table /tables/03states.md if you need to refresh your memory. All states have an opposite condition whereby the name is prefixed
 by an exclamation mark, so the opposite of disabled is !disabled and not one of the other states, such as active.
 
 Some widgets, such as Frame would hardly ever need a state other than the normal state, others such as Button only really are 
 useful if they have different states. When programming with states be aware that a widget with no named state is in the "normal"
 state even though normal is not directly referenced, it is implicitly the state we have used when making simple changes to the
 widget with Style.configure. When we survey states some are never used, or as the captain of the Pinafore might say - hardly
-ever.
+ever used.
 
 We can determine what states are currently being used in a theme. Just as in the simple style change we need to know the class
-name and the element we are interested in. So if we wished to find the situation for the relief elemnt on a button we use 
+name and the element we are interested in. So if we wished to find the situation for the relief element on a button we use 
 map() in the following manner:-
-````
+```
 from tkinter.ttk import Style, Button
 >>>s = Style()
 >>>s.theme_use('default')
 >>>s.map('TButton', 'relief')
 [('!disabled', 'pressed', 'sunken')]
-````
+```
 In this case the theme uses a compound state, in that the pressed state only applies when the button is not disabled, and the
 property is 'sunken'. These mapped states vary with both widget and theme. Within a theme we can have a common mapping.
-````
+```
 >>>s.theme_use('default')
 >>>s.map('TButton', 'background')
 []
-````
+```
 Weird - we know that this changed in our button examples, so how to find out what is going on. Let's see if we have a common
 mapping working here.
-````
+```
 >>>s.theme_use('default')
 >>>s.map('.', 'background')
 [('disabled', '#d9d9d9'), ('active', '#ececec')]
-````
+```
 Ahha - now we can see that all widgets with a background element will react in a similar way, so if you haven't done it see what
-happens when you pass the cursor over our scrollbar example. By the by if we test for relief, which we tested on button,  with a
+happens when you pass the cursor over our scrollbar example. By the by if we test for relief, which we tested on button, with a
 common mapping we get an empty result, so common is a specific instance and not some form of wildcard.
-````
+```
 >>>s.map('.', 'relief')
 []
-````
+```
 
 One way to change the properties of a widget is to expand upon our simple method, so the normal state is set by configure(), we
 can then set the other states using map(). This means that any single element could have several properties corresponding to 
@@ -296,27 +296,27 @@ more than one states. Related states should be listed with tuples. We can see th
 called background with a list of two tuples, the first tuple is for the disabled state ('disabled', '#d9d9d9') and the second 
 tuple ('active', '#ececec') applies to the active state.
 
-In the example 03map_button.py we have configured which sets up the general widget appearance then using map to set the active
-state by changing the background colour. Both configure and map use the same reference used in the style property. For a bit of
-fun we have a random selection from 6 colours, in order to set the active colour we first find the RGB colour using
+In the example 03map_button.py we have configure which sets up the general widget appearance then used map to set the active
+state by changing the background colour. Both configure and map utilise the same reference set in the style property. For a bit
+of fun we have a random selection from 6 colours, so we can set the active colour we first find the RGB colour using
 winfo_rgb(color) - color is the variable - then we change each of the RGB components and finally convert back to the hash value.
 Simple colour manipulations are possible in the RGB scheme. A further frill is that we use a white foreground for dark
 background and a black foreground for a yellow background.
 
 As we can see keeping to the style system we can easily have two or more widgets with differing properties - this is useful when
-comparing total effects during the testing phase and which should be selected.
+comparing state changes during the testing phase and helping in selection.
 
 The order of mapping states for the element is important. If the active element is placed at the head then when the button or
-scrollbar is pressed the colour remains as the active colour. As ever - test first.
+scrollbar is pressed the colour remains as the active colour without changing for other states. As ever - test first.
 
 ## 04 Image - First Steps
 
 Tkinter and ttk can work with gif, pgm or ppm images using PhotoImage or xbm images if we use BitmapImage modules, loaded from
-tkinter. If your version of tkinter is 8.6 or higher then you can work with png files directly. Some widgets have a property
-called image (check out if it is shown on Tkinter 8.5 reference: a GUI for Python) so once the image is initiated we can load it
-directly onto the widget. All the images I will be working with will be found in the directory "images". and the programs will
-be run assuming that the images can be found in this position created as sub-directory of the directory where the programs run
-on your computer.
+tkinter. If your version of tkinter is 8.6 or higher then PhotoImage also works with png files directly. Some widgets have a
+property called image (check out if it is shown on Tkinter 8.5 reference: a GUI for Python) so once the image is initiated in 
+PhotoImage it can be loaded directly onto the widget. All the images I will be working with will be found in the directory
+"images". and the programs will be run assuming that the images can be found in this position created as sub-directory of the
+directory where the example programs run on your computer.
 
 First off we shall load just an image onto a button and see what happens when we pass the cursor over it, and press the button.
 Load up 04button_image.py not forgetting to place the images butImage.png and butImageTrans.png in your images file (if you are
@@ -330,7 +330,7 @@ Using 04button_image.py vou should see three buttons, the top one with just an i
 centre made transparent - you may think it looks quite promising, until we see the third button and its text. As it stands it is
 obvious that the image option is not always useful, it does not change dynamically with the widget. Where a widget can work with
 a single sized widget, as in a pictogram, then this option should be considered. We can load the pictogram image and text
-simultaneously by using the compound option. 
+simultaneously by using the compound property option. 
 
 If multiple pictograms are available we can change these according to state. Check out the example 04button_pictograms.py, this
 has three pictograms linked to 3 states which must have the active state listed last, just as we needed to do in the mapping 
@@ -357,7 +357,7 @@ frames around entry and text widgets, example 05rounded_frame.py. Since he is us
 file, instead PhotoImage refers to this data directly. Normally we have no states in the frame widget so he introduces lambda
 functions tied into <FocusIn> and <FocusOut> events. He is using 2 separate images, the first is where the frame's contents have
 focus, the second where it loses focus. Click within the upper and lower frames, see how the outer colour changes, also note
-that the frame has decidedly rounded corners and a shadow on the right hand and lower sided. 
+that the frame has decidedly rounded corners and a shadow on the right hand and lower sides. 
  
 Let's remind ourselves about the layout and elements for frame:-
 ```
@@ -369,15 +369,14 @@ Let's remind ourselves about the layout and elements for frame:-
 ```
 In our script, compared to TFrame. Bryan created an extra state and changed the border, using the command
 ```
-style.element_create("RoundedFrame", "image", "frameBorder", # he was working on the RoundedFrame, added an image 
+style.element_create("RoundedFrame", "image", "frameBorder", # he was working on the RoundedFrame, so he added an image 
     ("focus", "frameFocusBorder"), border=16, sticky="nsew") # added the state focus  set to an image and changed the border
 ```
-The number 16 for border is important, it is the allowance needed to create the rounded corners and shadows, without this the 
-resulting image created would look pretty terrible. A single figure is the equivalent of (16,16,16,16). The lower frame has
+The border size, 16, is important, it is the allowance needed to create the rounded corners and shadows, without this the 
+resulting image created would look jagged. The single figure 16 is the equivalent of having (16,16,16,16). The lower frame has
 obviously grown in comparison to the upper frame and looks pretty smart, both frames have the same style 'RoundedFrame'. Now is
-a good time to have a look at the underlying image. We will need to decode the coded part to find out about the underlying
-image. Since the coding is quite old it can only be a gif image. (Use all the code the dots below are just a shortcut for
-continuity).
+a good time to have a look at the underlying image. To do this we will need to decode the coded image. Since the script is quite
+old it can only be a gif image. (Use all the lines of the coded image - the dots below are just a shortcut for continuity).
 ```
 import base64
 with open ('frameFocusBorder.gif','wb') as f:
@@ -387,15 +386,15 @@ R0lGODlhQABAAPcAAHx+fMTCxKSipOTi5JSSlNTS1LSytPTy9IyKjMzKzKyq
 Ry/99NIz//oGrZpUUEAAOw==""")
     f.write(decoded)
 ```
-Using 05rounded_frame.py use the code from img1 (frameFocusBorder), we should see an image file frameFocusBorder.gif is created.
-You should see a file that is 64 by 64 pixels large. Load this on an image editor zoom in so that the pixels are shown as
-squares and move your cursor to where the centre of the corner is, and we can see why we have a border of 16 all round. If we
+Use the code from img1 (frameFocusBorder) within 05rounded_frame.py, we should see that an image file frameFocusBorder.gif is
+created. You should see a file that is 64 by 64 pixels large. Load this on an image editor, zoom in so that the pixels are shown
+as squares and move your cursor to where the centre of the corner is, and we can see why we have a border of 16 all round. If we
 reduce this figure to 8 say we will see about 13 indentations on the long side. A border of 12 will still show indentations, 
-although not as pronounced, by 16 they have disappeared altogether. It would seem that when a widget image is extended only the
-inner part of the image between the border extremes is copied for the extension.
+although not as pronounced, by 16 they have disappeared altogether. It would seem that when a widget image needs to extend only
+the inner part of the image between the border extremes is utilised for the extension.
 
 What happens when we adapt the above method for a labelframe? What about the top part of the frame where the text is written
-between a visible frame? Will we need a special method to create the gap? Ah well fools rush in where angels fear to tread. Run
+between a visible frame? Will we need a special method to create the gap? Ah well, fools rush in where angels fear to tread. Run
 05rounded_labelframe.py. Well the labelframe reacts well, we see the label sitting in the frame break, and changing colour as a
 result of the program logic, try reversing the selection order and choosing one of the widgets with orientation. The
 style.element_create and style.layout remain the same as for the frame example. Since we no longer depend upon an event linked
@@ -408,12 +407,12 @@ with open('borderGrey1.gif', 'rb') as f:
     encoded = base64.encodestring(f.read())
     print(encoded.decode('latin1')) # contains all western characters but not the €
 ```
-I altered the colour of the grey image.
+I altered the colour of the grey image. The output from the print command is saved as our coded image.
 
 The next example 05search_entry,py will create a special frame, resembling the mac search element. Once again the image is
 loaded as encoded data, this time the programmer uses the gif property to make multiple images. Look at the PhotoImage lines of
 code where the format is used. The programmer is altering the entry widget, using the PhotoImage alias names "search1" rather
-than the "s1" name. Compare is layout to that of a normal entry widget.
+than the "s1" name. Compare its layout to that of a normal entry widget.
 ```
 [('Entry.field',
   {'border': '1',
@@ -422,56 +421,57 @@ than the "s1" name. Compare is layout to that of a normal entry widget.
       'sticky': 'nswe'})],
    'sticky': 'nswe'})]
 ```   
-The other item of note is how he deals with the border width. Originally it was 1 all round, now it is ```border=[22, 7, 14]```.
+The other item to note is how he deals with the border width. Originally it was 1 all round, now it is ```border=[22, 7, 14]```.
 This follows the same convention as used for padding. Check out table 05padding_border_layout.md. Since we are using the normal
 interactive states of the entry widget, no additional programming is required as was necessary for the label example. Using our
 newly acquired decoding skills we can see how the border layout numbers are derived. 22 pixels clears the tail of the
 magnifiying glass, 7 pixels clears the corner and the top clearance, whilst 14 pixels clears the right hand end. As it stands 
-this widget could be lengthened horizontally, but there is no was we could extend it vertically without a strange looking
-magnifiying glass formed as a result. When using an image ensure there is a section that can be repeated left and right, top and
-bottom.
+this widget could be lengthened horizontally, but there is no way we can extend it vertically without a strange looking
+magnifiying glass formed as a result. When using an image as a border substitute ensure there is a section that can be repeated
+left and right, top and bottom.
 
-We should now be able to understand how to manage themes. When we use a simple style change affected widgets require that the 
-style property refers to the style change name. When a theme change is made affected widgets require no reference, therefore the
-names used in the style changes such, as "search1" would not be appropriate. We should be thinking of class names, once a style 
-has been tested and is ready to be part of the theme we would change the name from "new.TButton" to just "TButton" say. 
+We should now be able to understand how to manage themes. When we use a simple style change affected widgets must have that 
+style property reference. When a theme change is made affected widgets require no reference, therefore the reference used in the
+style changes, such as "search1", would not be appropriate. We should be thinking of class names, once a style has been tested
+and is ready to be part of the theme we could change the name from "new.TButton" to just "TButton" say, then all buttons would
+be altered by the style change within that script. 
 
 Now would be a good a time as any to inspect what ttkthemes has to offer. Apart from the interface to python most is written in 
-TCL scripting language. We can take stock of the themes on offer, most work with gif images, that are substitutes for the border
-part of the relevant widget. Most use one of the 4 common themes as a parent. Aquativo uses coded images, whereas the black
-theme has no images. There are 3 themes that can use png images, but these are only usable with tkinter 8.6 or above. Clam is
-the most popular parent theme, although if you were to run these themes it would be difficult to tell. Most images are about 30
-by 30 pixels, with corners of one or three pixels radius. 
+TCL scripting language. We can take stock of the themes on offer, most work with gif images, that are used as substitutes for
+the border part of the relevant widget. Most ttkthemes use one of the 4 common themes as a parent. Aquativo uses coded images,
+whereas the black theme has no images. There are 3 themes that can use png images, but these are only usable with tkinter 8.6 or
+above. Clam is the most popular parent theme, although if you were to run these themes it would be difficult to tell which theme
+is the parent. Most images are about 30 by 30 pixels, with corners of one or three pixels radius. 
 
-If you were to install ttkthemes it is easy to swith between the normal themes and ttkthemes. If you were to load the standard
+If you were to install ttkthemes it is easy to switch between the normal themes and ttkthemes. If you were to load the standard
 ttk Style module, then ttkthemes are cut out, however if you load up ttkthemes 
 ```
-import ttkthemes as ts  
 .....
-        try:
+        try:  
+            import ttkthemes as ts 
             self.s = ts.themed_style.ThemedStyle()
         except (NameError, AttributeError):
             self.s = Style()
 ```
-then any normal command used by Style can be used with no change providing we use the same alias system, in our case self.s., so
-list(sorted(self.s.theme_names())) would work for both the standard themes and the standard themes plus the ttkthemes.
+then any normal command used by Style can be used unchanged providing we use the same alias system, in our case self.s., so
+list(sorted(self.s.theme_names())) would work for both the standard themes and the ttkthemes.
 
 When comparing a ttktheme with a standard theme the first obvious difference is that we are loading the image files and using
-photo (we know as PhotoImage in python) on all the images, which are then referred later on by their name without the gif
+photo (known as PhotoImage in tkinter) on all the images, which are then later referred to by their image name without the gif
 suffix. Thereafter the ttkthemes closely follow the standard themes by first loading up the colour aliases, then configuring the
 general settings using configure, followed by mapping the general states. From thereon the themes configure and map out the
 individual widgets, often the simple widgets are left out and the parent theme's widgets are used. The images are loaded using
 $I(image filename) as opposed to image as in python. The padding and border sizes would be shown as
 ```
--padding {6 2 6 2}
-as compared to in python
-border=[22, 7, 14]
+-padding {6 2 6 2} or -border {22 7 14}
+compared to using python
+padding = [6, 2, 6, 2] or border=[22, 7, 14]
 ```
 After all that we see that ttkthemes has one or two major differences to the standard themes, look at the different ways that
-the combobox downward arrow is depicted. The button widget is the normal way to see whether this theme appeals to you or not. 
-Check some of the images - you may notice that a pressed image is the same as a normal image except that it has been turned
-upside down. Some themes could be easily adopted as being modern looking, others such as kroc may be of use in showing you the
-what to do. Of interest note that radiance and ubuntu are very nearly the same except that ubuntu uses png as opposed gif
+the combobox downward arrow is depicted. Normally the button widget is the deciding factor as to whether this theme appeals to
+you or not. Check some of the images - you may notice that a pressed image is the same as a normal image except that it has been
+inverted. Some themes could be easily adopted as they stand, others such as kroc may be of use in showing you how to do certain
+effects. Of interest, note that radiance and ubuntu are very nearly the same except that ubuntu uses png as opposed gif
 images. So once you are aware of how the themes work you may decide to devise your own. It takes quite a bit of time but is
 relatively straighforward.
 
@@ -479,29 +479,28 @@ relatively straighforward.
 
 Anything you do should be separated from working directories, use copies of anything you want. Pretty obvious really.
 
-How will a widget look when the style or theme is changed. Tkinter is rather forgiving which may make tracking errors difficult
-but we can have a list of too many changeable elements and see just which ones will react. Remember as we have seen in
-ttkthemes a widget is affected both by the image and general colours. Text is a useful tool in that the name and representation
-of a colour can be made in one line. 
+How will a widget look when the style or theme is changed. Tkinter is rather forgiving, which may make tracking errors
+difficult, but we can have a list of too many changeable elements and see just how they will react. Remember as we have seen in
+ttkthemes a widget is affected both by the image and general colours. In this regard Text is a useful tool in that the name and
+its colour representation can be made in one line. 
 
-First it is best to refresh our memory of how a widget looks in the various themes, try 06theme_notebook.py this has most of the
-important widgets together with a theme selector. It has been set up to incorporate ttkthemes. The first tab contains most of
-the normally used widgets, in order to see the scroll bars work, in the second tab with a treeview, it will be necessary to
+First it is best to refresh our memory of how a widget looks in the various themes, try 06theme_notebook.py, this has most of
+the important widgets together with a theme selector. It has been set up to incorporate ttkthemes. The first tab contains most
+of the normally used widgets, the second tab has a treeview, in order to see the scroll bars work it will be necessary to
 adjust the height and width using the sizegrip, the third tab has the scale and progress bars. There may be styles that appeal
 in different themes, it should be possible to mix and match to your taste provided that you copy widget definitions and their
 images together.
 
 Once individual styles have been tested, we need to to incorporate these into a theme that can be called directly from the 
-application with a single import and a single call. Obviously one cannot work directly on the tkinter.ttk directory. One can
-concoct a complete standalone theme definition together with the appropriate images - but this is not for the fainthearted. A
-simpler solution is to use the ttkthemes module, adding your own theme - we already know that tkinter.ttk uses tcl just as
-with ttkthemes, so speed is not an issue.
+application with a single import and a single call. Obviously it would be foolish to work directly on the tkinter.ttk directory.
+One can concoct a complete standalone theme definition together with the appropriate images - but this is not for the
+fainthearted. A simpler solution is to use the ttkthemes module, adding your own theme name.  
 
 1. Create a new directory - give it an expressive name - green
-2. Choose a theme and copy its main tcl file and image directory together with its contents to the main directory. So just as
-  with the original file, we have a main directory called green, a main file renamed green.tcl, and a subdirectory also called
-  green.
-3. Edit green.tcl replace the name of the original by your name - so for elegance 
+2. Choose a ttktheme and copy its main tcl file and image subdirectory together with their contents to the green directory. So
+  just as with the original theme, we have a main directory called green, a main file renamed green.tcl, and a subdirectory also
+  called green.
+3. Edit green.tcl replacing the name of the original by your name - so using elegance as our example ttktheme 
 ```
   namespace eval ::ttk::theme::green {
     package provide ttk::theme::green 0.1
@@ -511,8 +510,8 @@ with ttkthemes, so speed is not an issue.
     ::ttk::style theme create green -settings {
     ....
 ``` 
-4. Copy one of the pkgindex.tcl files from one of the themes to your main directory, replace the name of the original by your
-  name
+4. Copy one of the pkgindex.tcl files from one of the themes to your main directory, replace the name of the original ttktheme
+  by your chosen name
 ```
 if {![file isdirectory [file join $dir green]]} { return }
 if {![package vsatisfies [package provide Tcl] 8.4]} { return }
@@ -520,7 +519,7 @@ if {![package vsatisfies [package provide Tcl] 8.4]} { return }
 package ifneeded ttk::theme::green 0.6.2 \
     [list source [file join $dir green.tcl]]
 ```
-5. Edit the pkgindex.tcl found under the parent directory themes, add an extra line to the end of list of theme sources
+5. Edit the pkgindex.tcl found under the parent directory of ttkthemes, add an extra line to the list of theme sources
 ```
   source [file join $themesdir green green.tcl]
 ```
@@ -539,10 +538,19 @@ pixmap_themes = [
         "winxpblue
 ]
 ```
-7. That should do it. Test that everything works after your editing. Now you can replace original widgets with your changed
-  widgets.
+7. That should do it. Test that everything works after your editing. Now you can start to replace original widgets with your
+  preferred widgets.
   
+The alternative to the above is to create a standalone package that I said was not for the fainthearted, but is in reality not
+too difficult. The main problems are the package will need to replicate what a tcl based ttktheme in python, loading the image
+files, ensuring that the style scripts run as a single script. We can use the script for plastik_theme.py https://github.com/enthought/Python-2.7.3/blob/master/Demo/tkinter/ttk/plastik_theme.py as a basis for our standalone. Convert this script from 
+python2 to 3, you should notice that the image directory location has to be referenced by the calling program. We will need the
+location of the plastik image files, when testing copy the image files found in ttkthemes to a suitable test location since
+these will eventually be replaced by new files of your own making.
 
+We can test the python version of the plastik theme by running the script 06treeview.py, under the main function we call install
+from plaik_theme, you will notice that it has plastik as a variable, so plastik is a subdirectory where the plastik images have
+been copied to.
 
 
 
