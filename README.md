@@ -67,7 +67,7 @@ s.theme_use('default')
 
 and we were running either a Windows or Mac system then we would have seen blue ttk buttons. By using a theme all ttk widgets
 react without any special input by default. This is in contrast to the original tkinter widgets which have to be individually
-programmed.
+programmed. The example 01Label_config.py shows the differences in property configurations between tkinter Label and ttk Label.
 
 ## 02 Simple Style Changes
 
@@ -303,7 +303,20 @@ winfo_rgb(color) - color is the variable - then we change each of the RGB compon
 Simple colour manipulations are possible in the RGB scheme. A further frill is that we use a white foreground for dark
 background and a black foreground for a yellow background.
 
-When using Style 
+When using Style.configure and Style.map you should notice that these are separate clauses within the program, if we use
+theme_settings configure and map can be run together into a single clause. Review 03combobox.py and note that how configure and
+map are now quoted followed by a full colon. If you are running under windows or mac if the theme_use command is commented out
+the combobox will be white, not green. Since we are running the program as a theme, combobox will react to our settings without
+the need for Combobox to have a property style setting. Now is a good time as ever to review the punctuation, in particular all
+the brackets being used. Theme_settings is a function so it has opening and closing round brackets, all those curly brackets
+look suspiciously like nested dictionaries, especially when we note the full colons following "Combobox", "configure" and "map"
+our erstwhile functions, "background", "fieldbackgrond" and "foreground" the relevant elements. The states and their relevant
+values (in these cases colours) are contained as pairs in tuples - round brackets. When we have two or more states used on a
+single element then we have a list of tuples - square brackets. But you probably already knew that. Just look at 03map_button.py
+again and compare how the programming differs when using style.configure or style.map, where they behave as normal functions
+with explicit properties. 
+
+When using a standalone theme, comming up soon, the method of theme_settings is the same as for theme_create.
 
 As we can see keeping to the style system we can easily have two or more widgets with differing properties - this is useful when
 comparing state changes during the testing phase and helping in selection.
@@ -544,10 +557,12 @@ pixmap_themes = [
   preferred widgets.
   
 The alternative to the above is to create a standalone package that I said was not for the fainthearted, but is in reality not
-too difficult. The main problems are the package will need to replicate what a tcl based ttktheme in python, loading the image
-files, ensuring that the style scripts run as a single script. We can use the script for plastik_theme.py https://github.com/enthought/Python-2.7.3/blob/master/Demo/tkinter/ttk/plastik_theme.py as a basis for our standalone. Convert this script from 
-python2 to 3, you should notice that the image directory location has to be referenced by the calling program. We will need the
-location of the plastik image files, when testing copy the image files found in ttkthemes to a suitable test location since
+too difficult. The main problems are the package will need to replicate what a tcl based ttktheme does but using python, loading
+the image files while ensuring that the configure and map scripts for the various widgets run as a single script. We can use the
+script for plastik_theme.py https://github.com/enthought/Python-2.7.3/blob/master/Demo/tkinter/ttk/plastik_theme.py as a basis
+for our standalone. Convert this script from python2 to 3, you should notice that the image directory location has to be
+referenced by the calling program. You should notice that the script uses Style.theme_create and follows the pattern already
+seen in 03combobox.py for theme_settings. When testing copy the image files found in ttkthemes to a suitable test location,
 these will eventually be replaced by new files of your own making.
 
 We can test the python version of the plastik theme by running the script 06treeview.py, under the main function we call install
@@ -562,10 +577,11 @@ style.theme_use("orange") # right at the end
 
 We now have either an extra theme in ttkthemes controlled by a tcl file or we have a standalone theme running under a python
 file. Associated with these control files is a subdirectory of image files. Either system is as valid as the other, the choice
-is yours. The approach on either is similar, after creating a good quality working widget with all the required states, we just
-replace the ttktheme widget in either green.tcl or orange.py, change the references to any images, alter the border sizes as
-necessary, then add your images to the image subdirectory. When everything works satisfactorily delete the ttktheme images. From
-hereonin change the widgets as tested and working. Occassionaly it may be necessary to change the widget layout.
+is yours. The approach on using either is similar, after creating a good quality working widget with all the required states, we
+just replace the ttktheme widget in either green.tcl or orange.py, change the references to any images, altering the border
+sizes as necessary, then add your images to the image subdirectory. When everything works satisfactorily delete the ttktheme
+images. From hereonin change the widgets after testing and proved to be working. Occasionaly it may be necessary to change the
+widget layout.
 ```
 
 
