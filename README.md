@@ -303,6 +303,8 @@ winfo_rgb(color) - color is the variable - then we change each of the RGB compon
 Simple colour manipulations are possible in the RGB scheme. A further frill is that we use a white foreground for dark
 background and a black foreground for a yellow background.
 
+When using Style 
+
 As we can see keeping to the style system we can easily have two or more widgets with differing properties - this is useful when
 comparing state changes during the testing phase and helping in selection.
 
@@ -549,8 +551,22 @@ location of the plastik image files, when testing copy the image files found in 
 these will eventually be replaced by new files of your own making.
 
 We can test the python version of the plastik theme by running the script 06treeview.py, under the main function we call install
-from plaik_theme, you will notice that it has plastik as a variable, so plastik is a subdirectory where the plastik images have
-been copied to.
+from plastik_theme, you will notice that it has plastik as a variable, so plastik is a subdirectory where the plastik images
+have been copied to. We can now change the plastik directory and subdirectory can be renamed after your theme name, say orange,
+then wherever we find plastik referenced in plastik_theme.py we should change it to our theme name.
+```
+style.theme_create("orange", "default", settings={
+.....
+style.theme_use("orange") # right at the end
+```
+
+We now have either an extra theme in ttkthemes controlled by a tcl file or we have a standalone theme running under a python
+file. Associated with these control files is a subdirectory of image files. Either system is as valid as the other, the choice
+is yours. The approach on either is similar, after creating a good quality working widget with all the required states, we just
+replace the ttktheme widget in either green.tcl or orange.py, change the references to any images, alter the border sizes as
+necessary, then add your images to the image subdirectory. When everything works satisfactorily delete the ttktheme images. From
+hereonin change the widgets as tested and working. Occassionaly it may be necessary to change the widget layout.
+```
 
 
 
