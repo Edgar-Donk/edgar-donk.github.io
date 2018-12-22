@@ -324,6 +324,13 @@ comparing state changes during the testing phase and helping in selection.
 The order of mapping states for the element is important. If the active element is placed at the head then when the button or
 scrollbar is pressed the colour remains as the active colour without changing for other states. As ever - test first.
 
+It is useful to be able to see the individual states together with their appearance when changing their states.
+03states_themes.py gives you the abilty to do just that, when no problem when changing themes, however when changing states we 
+need to ensure that the previous state is cancelled (you remember the state prefixed with an exclamion mark), we also have to
+ensure that we are dealing with a string rather than a tuple, further we must ensure that the tuple is not empty. In our example
+we are changing the state of a button, if needed you can change the widget or add another as required. Anticipating what should
+occur later we have enabled either the use of standard themes or additional themes from ttkthemes.
+
 ## 04 Image - First Steps
 
 Tkinter and ttk can work with gif, pgm or ppm images using PhotoImage or xbm images if we use BitmapImage modules, loaded from
