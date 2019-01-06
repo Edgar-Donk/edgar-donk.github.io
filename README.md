@@ -41,20 +41,20 @@ themes, therefore wherever possible my examples will use one of the 4 common the
 interaction with a ttk widget we will be using the Style() module imported from ttk.
   
 Widgets have one or more layers that can be referenced directly using the Style module, assisted by the style property option.
-If we take a look at the button widget we have a rectangular shape divided into 4 elements, starting from the outside - border,
+If we take a look at the button widget we have a rectangular shape divided into 4 components, starting from the outside - border,
 focus, spacing and label. Look at
 ```
 ```
-![button:elements](/images/01button_elements.png) 
+![button:components](/images/01button.png) 
 
 
 this is an example of how a button may be constructed. We shall see that when a widget is modified or called by various themes
-nothing is totally hard and fast. While we are thinking of elements look at the vertical scrollbar 
+the names may change. While we are thinking of components look at the vertical scrollbar 
 
-![scrollbar:elements](/images/01scrollbar_elements.png) ,
+![scrollbar:components](/images/01scrollbar.png) ,
 
-we have up and down arrow as well as a thumb element all contained in a trough. We have a method within the Style module
-whereby we can easily find out the element names and their relative positions, so there is no real reason to worry or fret.
+we have up and down arrow as well as a thumb component all contained in a trough. We have a method within the Style module
+whereby we can easily find out the component names and their relative positions, so there is no real reason to worry or fret.
 
 Let us compare two diferent types of button widgets, using the script /examples/01two_buttons.py found in the examples
 directory. When you run this script you will see 3 buttons. The top one is standard tkinter, the lower two are ttk. All three
@@ -372,15 +372,16 @@ directory where the example programs run on your computer.
 
 First off we shall load just an image onto a button and see what happens when we pass the cursor over it, and press the button.
 Load up 04button_image.py not forgetting to place the images butImage.png and butImageTrans.png in your images file (if you are
-running tkinter 8.5 uncomment the lines as indicated, also comment out the  line indicated). PhotoImage is imported from 
-tkinter then we load the image into PhotoImage creating a reference which will be used within the widget's property option
+running tkinter 8.5 uncomment the lines as indicated, also comment out the lines indicated, this will load Image and Imagetk from PIL
+then use Image.open and Imagetk.PhotoImage finally comment out the lines where PhotoImage is being used by itself). PhotoImage is
+imported from tkinter we then load the image into PhotoImage creating a reference which will be used within the widget's property option
 "image". When working with images in a class there is always the problem that the image will not show unless special precautions
-are taken. When the image is a local variable, reload the image directly after referencing it with the widget. Alternatively we
-can make the image a self variable. 
+are taken. When the image is a local variable, reload the image directly after referencing it with the widget, alternatively we
+can ensure that the image variable is prefixed by self. 
 
-Using 04button_image.py vou should see three buttons, the top one with just an image, the second uses the same image with the
+Using 04button_image.py you should see three buttons, the top one with just an image, the second uses the same image with the
 centre made transparent - you may think it looks quite promising, until we see the third button and its text. As it stands it is
-obvious that the image option is not always useful, it does not change dynamically with the widget. Where a widget can work with
+obvious that the image option is not always useful, since it does not change dynamically with the widget. Where a widget can work with
 a single sized widget, as in a pictogram, then this option should be considered. We can load the pictogram image and text
 simultaneously by using the compound property option. 
 
@@ -392,13 +393,15 @@ anonymous, corresponding to the normal state.
 ## 05 Image - Create Widgets with Rounded Corners and Shadow Effects
 
 The 4 themes common to tkinter can be found where your python program is installed under the directory tcl/tk8.6/ttk. Apart from
-default which is listed as defaults.tcl, all the other themes are listed as their own names suffixed with ".tcl". There are
+default which is listed as defaults.tcl, all the other themes are listed with their own names suffixed with ".tcl". There are
 obvious differences between the scripting language tcl and tkinter but we can recognise some commands such as map and configure,
-we can also spot the element and state names. A new part of the mix is when we look at the OS specefic themes such as aqua or
-vista have variables that are system dependant. Even so we should be able to recognise how the answers to some of our scripts
+we can also spot the element and state names. A new part of the mix is when we look at the OS specific themes such as aqua or
+vista which have variables that are system dependant. Even so we should be able to recognise how the answers to some of our scripts
 were formed. It would seem that the common themes have little to do with images and thus able to give the widest possible
 support to any style alterations we wish to make. By contrast it will be found that if one of the OS dependant themes was to be
-used as a parent then changes required would not be so straightforward. 
+used as a parent then changes required may not be so straightforward.
+
+So far we have seen that 
 
 As I said at the beginning there are remarkably few instances of the more interesting style changes found when trawling the
 internet. Up until this point most of the examples could have been made referring "Tkinter 8.5 reference: a GUI for Python". The
@@ -419,16 +422,17 @@ Let's remind ourselves about the layout and elements for frame:-
 >>>s.element_options('Frame.border') # only one component to query
 ('background', 'borderwidth', 'relief')
 ```
-In our script, compared to TFrame. Bryan created an extra state and changed the border, using the command
+In our example script, Bryan created an extra state and changed the border, using the command
 ```
 style.element_create("RoundedFrame", "image", "frameBorder", # he was working on the RoundedFrame, so he added an image 
     ("focus", "frameFocusBorder"), border=16, sticky="nsew") # added the state focus  set to an image and changed the border
 ```
 The border size, 16, is important, it is the allowance needed to create the rounded corners and shadows, without this the 
-resulting image created would look jagged. The single figure 16 is the equivalent of having (16,16,16,16). The lower frame has
-obviously grown in comparison to the upper frame and looks pretty smart, both frames have the same style 'RoundedFrame'. Now is
-a good time to have a look at the underlying image. To do this we will need to decode the coded image. Since the script is quite
-old it can only be a gif image. (Use all the lines of the coded image - the dots below are just a shortcut for continuity).
+resulting image created would look jagged. The single figure 16 is the equivalent of having (16,16,16,16), a border of 16 along all
+sides. The lower frame has obviously grown in comparison to the upper frame and looks pretty smart, both frames have the same style
+'RoundedFrame'. Now is a good time to have a look at the underlying image. To do this we will need to decode the coded image. Since the
+script is quite old it can only be a gif image. (Use all the lines of the coded image - the dotted line below is just a shortcut for
+continuity).
 ```
 import base64
 with open ('frameFocusBorder.gif','wb') as f:
@@ -443,15 +447,15 @@ created. You should see a file that is 64 by 64 pixels large. Load this on an im
 as squares and move your cursor to where the centre of the corner is, and we can see why we have a border of 16 all round. If we
 reduce this figure to 8 say we will see about 13 indentations on the long side. A border of 12 will still show indentations, 
 although not as pronounced, by 16 they have disappeared altogether. It would seem that when a widget image needs to extend only
-the inner part of the image between the border extremes is utilised for the extension.
+the inner part of the image between the border extremities is utilised for the extension.
 
 What happens when we adapt the above method for a labelframe? What about the top part of the frame where the text is written
 between a visible frame? Will we need a special method to create the gap? Ah well, fools rush in where angels fear to tread. Run
-05rounded_labelframe.py. Well the labelframe reacts well, we see the label sitting in the frame break, and changing colour as a
+05rounded_labelframe.py. Well the labelframe reacts well, we see the label sitting in the frame break, and the colour changes as a
 result of the program logic, try reversing the selection order and choosing one of the widgets with orientation. The
 style.element_create and style.layout remain the same as for the frame example. Since we no longer depend upon an event linked
 to clicking there are no more lambda functions but we do change the state of the labelframes triggered by command options of the
-widgets. You did notice the colour change of the frame - first obtain the decoded image, make the changes to the colour then 
+widgets. You did notice the the frame has a different colour - first obtain the decoded image, make the changes to the colour then 
 encode once again. 
 ```
 import base64
@@ -461,7 +465,7 @@ with open('borderGrey1.gif', 'rb') as f:
 ```
 I altered the colour of the grey image. The output from the print command is saved as our coded image.
 
-The next example 05search_entry,py will create a special frame, resembling the mac search element. Once again the image is
+The next example 05search_entry.py will create a special frame, resembling the mac search element. Once again the image is
 loaded as encoded data, this time the programmer uses the gif property to make multiple images. Look at the PhotoImage lines of
 code where the format is used. The programmer is altering the entry widget, using the PhotoImage alias names "search1" rather
 than the "s1" name. Compare its layout to that of a normal entry widget.
@@ -474,19 +478,19 @@ than the "s1" name. Compare its layout to that of a normal entry widget.
    'sticky': 'nswe'})]
 ```   
 The other item to note is how he deals with the border width. Originally it was 1 all round, now it is ```border=[22, 7, 14]```.
-This follows the same convention as used for padding. Check out table 05padding_border_layout.md. Since we are using the normal
-interactive states of the entry widget, no additional programming is required as was necessary for the label example. Using our
-newly acquired decoding skills we can see how the border layout numbers are derived. 22 pixels clears the tail of the
+This follows the same convention as used for padding, top and bottom sides are 14. Check out table 05padding_border_layout.md. Since we
+are using the normal interactive states of the entry widget, no additional programming is required as was necessary for the label
+example. Using our newly acquired decoding skills we can see how the border layout numbers are derived. 22 pixels clears the tail of the
 magnifiying glass, 7 pixels clears the corner and the top clearance, whilst 14 pixels clears the right hand end. As it stands 
 this widget could be lengthened horizontally, but there is no way we can extend it vertically without a strange looking
-magnifiying glass formed as a result. When using an image as a border substitute ensure there is a section that can be repeated
-left and right, top and bottom.
+magnifiying glass formed as a result. When substituting an image for a border ensure there is a section that can be repeated on the
+sides that is repeated left and right, top and bottom.
 
 We should now be able to understand how to manage themes. When we use a simple style change affected widgets must have that 
 style property reference. When a theme change is made affected widgets require no reference, therefore the reference used in the
-style changes, such as "search1", would not be appropriate. We should be thinking of class names, once a style has been tested
-and is ready to be part of the theme we could change the name from "new.TButton" to just "TButton" say, then all buttons would
-be altered by the style change within that script. 
+style changes, such as "search1" in 05search_entry.py, would not be appropriate. Instead we should be thinking of class names, once a
+style has been tested and is ready to be part of the customised theme we could change the name from "new.TButton" to just "TButton" say,
+then all buttons would be altered by the style change within that theme script. 
 
 Now would be a good a time as any to inspect what ttkthemes has to offer. Apart from the interface to python most is written in 
 TCL scripting language. We can take stock of the themes on offer, most work with gif images, that are used as substitutes for
