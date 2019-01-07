@@ -399,9 +399,11 @@ we can also spot the element and state names. A new part of the mix is when we l
 vista which have variables that are system dependant. Even so we should be able to recognise how the answers to some of our scripts
 were formed. It would seem that the common themes have little to do with images and thus able to give the widest possible
 support to any style alterations we wish to make. By contrast it will be found that if one of the OS dependant themes was to be
-used as a parent then changes required may not be so straightforward.
+used as a parent then changes required may not be quite so straightforward.
 
-So far we have seen that 
+So far we have seen that the ttk themes achieve uniformity across all widgets, by using common changes on dynamic states, also 
+within a widget having more than one element with the same name. A third aid to uniformity is by using using descriptive colour aliases
+rather than the colour names or hash values.
 
 As I said at the beginning there are remarkably few instances of the more interesting style changes found when trawling the
 internet. Up until this point most of the examples could have been made referring "Tkinter 8.5 reference: a GUI for Python". The
@@ -444,17 +446,18 @@ Ry/99NIz//oGrZpUUEAAOw==""")
 ```
 Use the code from img1 (frameFocusBorder) within 05rounded_frame.py, we should see that an image file frameFocusBorder.gif is
 created. You should see a file that is 64 by 64 pixels large. Load this on an image editor, zoom in so that the pixels are shown
-as squares and move your cursor to where the centre of the corner is, and we can see why we have a border of 16 all round. If we
+as squares and move your cursor to the centre of the corner, we then can see why we need to have a border of 16 all round. If we
 reduce this figure to 8 say we will see about 13 indentations on the long side. A border of 12 will still show indentations, 
-although not as pronounced, by 16 they have disappeared altogether. It would seem that when a widget image needs to extend only
-the inner part of the image between the border extremities is utilised for the extension.
+although not as pronounced, by 16 the indentations have disappeared altogether. It would seem that when a widget image needs to extend
+only the inner part of the image between the border extremities is utilised for the extension, in this case the middle 32 pixels of each
+side are used during an image extension.
 
 What happens when we adapt the above method for a labelframe? What about the top part of the frame where the text is written
 between a visible frame? Will we need a special method to create the gap? Ah well, fools rush in where angels fear to tread. Run
-05rounded_labelframe.py. Well the labelframe reacts well, we see the label sitting in the frame break, and the colour changes as a
+05rounded_labelframe.py. The labelframe reacts well, we see the label sitting in the frame break, and the colour changes as a
 result of the program logic, try reversing the selection order and choosing one of the widgets with orientation. The
 style.element_create and style.layout remain the same as for the frame example. Since we no longer depend upon an event linked
-to clicking there are no more lambda functions but we do change the state of the labelframes triggered by command options of the
+to clicking the lambda functions are not needed, but we do change the state of the labelframes triggered by command options of the
 widgets. You did notice the the frame has a different colour - first obtain the decoded image, make the changes to the colour then 
 encode once again. 
 ```
@@ -468,7 +471,21 @@ I altered the colour of the grey image. The output from the print command is sav
 The next example 05search_entry.py will create a special frame, resembling the mac search element. Once again the image is
 loaded as encoded data, this time the programmer uses the gif property to make multiple images. Look at the PhotoImage lines of
 code where the format is used. The programmer is altering the entry widget, using the PhotoImage alias names "search1" rather
-than the "s1" name. Compare its layout to that of a normal entry widget.
+than the "s1" name. 
+```
+s1 = PhotoImage("search1", data=data, format="gif -index 0")
+.......
+style.element_create("Search.field", "image", "search1",
+    ("focus", "search2"), border=[22, 7, 14], sticky="ew")
+style.layout("Search.entry", [
+    ("Search.field", {"sticky": "nswe", "border": 1, "children":
+        [("Entry.padding", {"sticky": "nswe", "children":
+            [("Entry.textarea", {"sticky": "nswe"})]
+        })]
+    })]
+)
+```
+Compare its layout to that of a normal entry widget.
 ```
 [('Entry.field',
   {'border': '1',
@@ -484,23 +501,22 @@ example. Using our newly acquired decoding skills we can see how the border layo
 magnifiying glass, 7 pixels clears the corner and the top clearance, whilst 14 pixels clears the right hand end. As it stands 
 this widget could be lengthened horizontally, but there is no way we can extend it vertically without a strange looking
 magnifiying glass formed as a result. When substituting an image for a border ensure there is a section that can be repeated on the
-sides that is repeated left and right, top and bottom.
+sides that is repeated both left and right, also top and bottom.
 
 We should now be able to understand how to manage themes. When we use a simple style change affected widgets must have that 
-style property reference. When a theme change is made affected widgets require no reference, therefore the reference used in the
+style property cross referenced. When a theme change is made affected widgets require no reference, therefore the reference used in the
 style changes, such as "search1" in 05search_entry.py, would not be appropriate. Instead we should be thinking of class names, once a
-style has been tested and is ready to be part of the customised theme we could change the name from "new.TButton" to just "TButton" say,
-then all buttons would be altered by the style change within that theme script. 
+style has been tested and is ready to be part of the customised theme we would use just "TButton" rather than "new.TButton" say,
+then all buttons would be altered by the style change within that themed script. 
 
 Now would be a good a time as any to inspect what ttkthemes has to offer. Apart from the interface to python most is written in 
 TCL scripting language. We can take stock of the themes on offer, most work with gif images, that are used as substitutes for
-the border part of the relevant widget. Most ttkthemes use one of the 4 common themes as a parent. Aquativo uses coded images,
-whereas the black theme has no images. There are 3 themes that can use png images, but these are only usable with tkinter 8.6 or
-above. Clam is the most popular parent theme, although if you were to run these themes it would be difficult to tell which theme
-is the parent. Most images are about 30 by 30 pixels, with corners of one or three pixels radius. 
+the border part of the relevant widget. Almost all ttkthemes use one of the 4 common themes as a parent, clam is the most popular,
+although if you were to use a ttktheme it would be difficult to tell which theme is the parent. It is interesting to note that Aquativo
+uses coded images, whereas the black theme has no images. Three themes use png images, but these are only usable with tkinter 8.6 and above. Finally most images are about 30 by 30 pixels, with corners of one or three pixels radius. 
 
-If you were to install ttkthemes it is easy to switch between the normal themes and ttkthemes. If you were to load the standard
-ttk Style module, then ttkthemes are cut out, however if you load up ttkthemes 
+If you were to install ttkthemes it is easy to switch between the normal themes and ttkthemes. Running the standard ttk Style module
+excludes ttkthemes, however if you load up ttkthemes with the following script:- 
 ```
 .....
         try:  
@@ -509,27 +525,27 @@ ttk Style module, then ttkthemes are cut out, however if you load up ttkthemes
         except (NameError, AttributeError):
             self.s = Style()
 ```
-then any normal command used by Style can be used unchanged providing we use the same alias system, in our case self.s., so
+then any normal command used by Style can be used unchanged, providing we use the same prefix system, in our case "self.s.", so
 list(sorted(self.s.theme_names())) would work for both the standard themes and the ttkthemes.
 
-When comparing a ttktheme with a standard theme the first obvious difference is that we are loading the image files and using
-photo (known as PhotoImage in tkinter) on all the images, which are then later referred to by their image name without the gif
-suffix. Thereafter the ttkthemes closely follow the standard themes by first loading up the colour aliases, then configuring the
+When comparing the script of a ttktheme with a standard theme the first obvious difference is that we are loading the image files and
+using photo (known as PhotoImage in tkinter) on all the images, which are then later referred to by their image name without the gif or
+png suffix. Thereafter the ttkthemes closely follow the standard themes by first loading up the colour aliases, then configuring the
 general settings using configure, followed by mapping the general states. From thereon the themes configure and map out the
-individual widgets, often the simple widgets are left out and the parent theme's widgets are used. The images are loaded using
-$I(image filename) as opposed to image as in python. The padding and border sizes would be shown as
+individual widgets, often the simple widgets are left out in which case the parent theme's widgets are used. The images are loaded using
+$I(image filename) as opposed to "image" in python. The padding and border sizes would be shown as:-
 ```
 -padding {6 2 6 2} or -border {22 7 14}
 compared to using python
 padding = [6, 2, 6, 2] or border=[22, 7, 14]
 ```
-After all that we see that ttkthemes has one or two major differences to the standard themes, look at the different ways that
-the combobox downward arrow is depicted. Normally the button widget is the deciding factor as to whether this theme appeals to
-you or not. Check some of the images - you may notice that a pressed image is the same as a normal image except that it has been
-inverted. Some themes could be easily adopted as they stand, others such as kroc may be of use in showing you how to do certain
-effects. Of interest, note that radiance and ubuntu are very nearly the same except that ubuntu uses png as opposed gif
-images. So once you are aware of how the themes work you may decide to devise your own. It takes quite a bit of time but is
-relatively straighforward.
+After all that we see that ttkthemes show one or two major differences to the standard themes - all states require their own separate
+images for each widget, which if properly used allows a more pleasing effect, look at the different ways that the combobox downward
+arrow is depicted. Check some of the images - you may notice that a pressed image is the same as a normal image except that it has been
+inverted (this is often the case where a button has a surface with a 3D effect). Some themes could be easily adopted as they stand,
+others just may be of use in showing you how to obtain certain effects. Note that radiance and ubuntu are very nearly the same except
+that ubuntu uses png as opposed gif images. So once you are aware of how the themes work you may decide to devise your own. It takes
+quite a bit of time but is relatively straighforward.
 
 ## 06 So you want to roll your own
 
