@@ -38,11 +38,13 @@ tkinter, there are 24 more property options than in ttk which has a single <styl
 generally only applying it to a single widget, if we create a similar style in several ttk widgets we could save it as a theme.
 Ttk has already created 4 standard themes common to all operating systems. Windows and the MacOS have their own customised
 themes, therefore wherever possible my examples will use one of the 4 common themes alt, clam, classic or default. In any 
-interaction with a ttk widget we will be using the Style() module imported from ttk.
+interaction with a ttk widget we will be using the Style() module imported from ttk. There is a summary of all the Style() commands
+in the table 01style_commands.md, we will be going through these commands one by one.
   
-Widgets have one or more layers that can be referenced directly using the Style module, assisted by the style property option.
-If we take a look at the button widget we have a rectangular shape divided into 4 components, starting from the outside - border,
-focus, spacing and label. Look at
+Widgets have one or more components that can be referenced directly using the Style module, assisted by the widget style property
+option. Just to clarify - every ttk widget has a 'style' property which is used when we wish to modify a widget's style (colour, size,
+relief and font). If we take a look at the button widget we have a rectangular shape divided into 4 components, starting from the
+outside - border, focus, spacing and label. Look at
 ```
 ```
 ![button:components](/images/01button.png) 
@@ -76,8 +78,8 @@ widget, we use the Style module together with relevant component and element nam
 elements of our widget.
 
 The dependancies of the queries to find out the elements and their properties are as follows:-
-1 Widget name
 ````
+--> 1 Widget name
 --> 2 class name (widget.winfo_class)
 --> 3 component name (Style.layout)
 --> 4 element name (Style.element_options) 
