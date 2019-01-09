@@ -203,7 +203,7 @@ b = ttk.Button(self, text='Friday', style='green.TButton')
 ````
 The style property of Button agrees with the style name for the relevant Style configuration. The configuration name can be
 built on a previously named style, so we could create red.green.TButton using a red background, say. If we need to configure
-another element just list the extra elemnt.
+another element just list the extra element.
 ````
 s.configure('mix.TButton', foreground='green',background='red')
 b = ttk.Button(self, text='Friday', style='mix.TButton')
@@ -239,7 +239,7 @@ not is not changed. Look at 02Entry.py, if we use the clam theme it should creat
 the clam theme is not used and you are running with windows or mac OS, then the entry widget has to change by adding an
 element_create and adding the newly created element to layout. To find the correct element option, either check out "Changing
 Widget Colors" or use query layout and element_options, then we see that Entry.field has ('bordercolor', 'lightcolor',
-'darkcolor', 'fieldbackground') whereas Entry.textarea has ('font', 'width'). If you had used the elemnt name background the
+'darkcolor', 'fieldbackground') whereas Entry.textarea has ('font', 'width'). If you had used the element name background the
 widget would not have reacted.
 
 We are now in a position to change the element colour and size of any widget, but whenever the state changes our widget will
@@ -332,7 +332,7 @@ single element then we have a list of tuples - square brackets. But you probably
 again and compare how the programming differs when using style.configure or style.map, where they behave as normal functions
 with explicit properties. 
 
-When using a standalone theme, comming up soon, the method of theme_settings is the same as for theme_create.
+When using a standalone theme, coming up soon, the method of theme_settings is the same as for theme_create.
 
 As we can see keeping to the style system we can easily have two or more widgets with differing properties - this is useful when
 comparing state changes during the testing phase and helping in choosing the most appropriate combination.
@@ -554,9 +554,11 @@ quite a bit of time but is relatively straighforward.
 Anything you do should be separated from working directories, use copies of anything you want. Pretty obvious really.
 
 How will a widget look when the style or theme is changed. Tkinter is rather forgiving, which may make tracking errors
-difficult, but we can have a list of too many changeable elements and see just how they will react. Remember as we have seen in
-ttkthemes a widget is affected both by the image and general colours. In this regard Text is a useful tool in that the name and
-its colour representation can be made in one line. 
+difficult, but we can have a list of too many changeable elements and see just how they will react. Using this property we can see how
+and which elements affect our widget, look at the script 06checkbox_themes.py, not only do we have an excess of element names, but we
+can change the theme, we also display the layout of the widget. It is a simple edit to display another widget. Remember as we have seen
+in ttkthemes a widget is affected both by the image and general colours. In this regard tkinter's Text is a useful tool in that the name
+and its colour representation can be made in one line.
 
 First it is best to refresh our memory of how a widget looks in the various themes, try 06theme_notebook.py, this has most of
 the important widgets together with a theme selector. It has been set up to incorporate ttkthemes. The first tab contains most
