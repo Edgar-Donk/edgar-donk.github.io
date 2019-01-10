@@ -9,8 +9,8 @@ class Example:
         master.title('Button Test')
         fr.grid(column=0, row=0, sticky=('nsew'))
 
-        # buttonImage = Image.open('images/butImage.png') ## uncomment if you are running tkinter 8.5
-        # buttonImageTrans = Image.open('images/butImageTrans.png') ## uncomment if you are running tkinter 8.5
+        # buttonImage = Image.open('../images/butImage.png') ## uncomment if you are running tkinter 8.5
+        # buttonImageTrans = Image.open('../images/butImageTrans.png') ## uncomment if you are running tkinter 8.5
         # ImageTk.PhotoImage(images/buttonImage)  ## uncomment if you are running tkinter 8.5
         # ImageTk.PhotoImage(images/buttonImageTrans)  ## uncomment if you are running tkinter 8.5
         
