@@ -369,8 +369,8 @@ Tkinter and ttk can work with gif, pgm or ppm images using PhotoImage or xbm ima
 tkinter. If your version of tkinter is 8.6 or higher then PhotoImage also works with png files directly. Some widgets have a
 property called image (check out if it is shown on Tkinter 8.5 reference: a GUI for Python) so once the image is initiated in 
 PhotoImage it can be loaded directly onto the widget. All the images I will be working with will be found in the directory
-"images". and the programs will be run assuming that the images can be found in this position created as sub-directory of the
-directory where the example programs run on your computer.
+"images". and the programs will be run assuming that the images sub-directory has the same parent directory as the examples sub-
+directory on your computer.
 
 First off we shall load just an image onto a button and see what happens when we pass the cursor over it, and press the button.
 Load up 04button_image.py not forgetting to place the images butImage.png and butImageTrans.png in your images file (if you are
