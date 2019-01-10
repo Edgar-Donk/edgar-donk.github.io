@@ -558,21 +558,27 @@ difficult, but we can have a list of too many changeable elements and see just h
 and which elements affect our widget, look at the script 06checkbox_themes.py, not only do we have an excess of element names, but we
 can change the theme, we also display the layout of the widget. It is a simple edit to display another widget. Remember as we have seen
 in ttkthemes a widget is affected both by the image and general colours. In this regard tkinter's Text is a useful tool in that the name
-and its colour representation can be made in one line.
+and its colour representation can be made in one line. In 06combobox_text_themes.py we have a dictionary of element_options containing
+a list of elements with their options, colour, size and font, these are then listed in style configure these can then be added to the
+Text widget so that we display each element its option and if a colour shows the hash value and a rectangle of colour. Almost all the 
+elements react as expected except for the font for combobox, which is unusual in that it will not react with configure and the style
+property, nor will it change with the font property - as the Entry widget does. A special class is therefore required to allow us to
+change the font of a specified combobox, which is written to allow other properties to be included. A simpler method is to use
+option_add but it seems to affect all the other comboboxes. Combobox is derived from the entry and listbox widgets and this might
+contribute to the anomoly in some way.
 
-First it is best to refresh our memory of how a widget looks in the various themes, try 06theme_notebook.py, this has most of
-the important widgets together with a theme selector. It has been set up to incorporate ttkthemes. The first tab contains most
-of the normally used widgets, the second tab has a treeview, in order to see the scroll bars work it will be necessary to
-adjust the height and width using the sizegrip, the third tab has the scale and progress bars. There may be styles that appeal
-in different themes, it should be possible to mix and match to your taste provided that you copy widget definitions and their
-images together.
+Let us refresh our memory of how a widget looks in the various themes, try 06theme_notebook.py, this has most of the important widgets
+together with a theme selector. It has been set up to incorporate ttkthemes. The first tab contains most of the normally used widgets,
+the second tab has a treeview, in order to see the scroll bars work it will be necessary to adjust the height and width using the
+sizegrip, the third tab has the scale and progress bars. There may be widget styles that appeal in different themes, it should be
+possible to mix and match to your taste provided that you copy widget definitions together with any required images.
 
 Once individual styles have been tested, we need to to incorporate these into a theme that can be called directly from the 
 application with a single import and a single call. Obviously it would be foolish to work directly on the tkinter.ttk directory.
 One can concoct a complete standalone theme definition together with the appropriate images - but this is not for the
 fainthearted. A simpler solution is to use the ttkthemes module, adding your own theme name.  
 
-1. Create a new directory - give it an expressive name - green
+1. Create a new directory - give it an expressive name - say green
 2. Choose a ttktheme and copy its main tcl file and image subdirectory together with their contents to the green directory. So
   just as with the original theme, we have a main directory called green, a main file renamed green.tcl, and a subdirectory also
   called green.
@@ -621,15 +627,15 @@ The alternative to the above is to create a standalone package that I said was n
 too difficult. The main problems are the package will need to replicate what a tcl based ttktheme does but using python, loading
 the image files while ensuring that the configure and map scripts for the various widgets run as a single script. We can use the
 script for plastik_theme.py https://github.com/enthought/Python-2.7.3/blob/master/Demo/tkinter/ttk/plastik_theme.py as a basis
-for our standalone. Convert this script from python2 to 3, you should notice that the image directory location has to be
-referenced by the calling program. You should notice that the script uses Style.theme_create and follows the pattern already
-seen in 03combobox.py for theme_settings. When testing copy the image files found in ttkthemes to a suitable test location,
+for our standalone - this should shortcut a lot of the work. Convert this script from python2 to 3, you should notice that the image
+directory location has to be referenced by the calling program. Notice that the script uses Style.theme_create and follows the pattern
+already seen in 03combobox.py for theme_settings. When testing copy the image files found in ttkthemes to a suitable test location,
 these will eventually be replaced by new files of your own making.
 
 We can test the python version of the plastik theme by running the script 06treeview.py, under the main function we call install
 from plastik_theme, you will notice that it has plastik as a variable, so plastik is a subdirectory where the plastik images
-have been copied to. We can now change the plastik directory and subdirectory can be renamed after your theme name, say orange,
-then wherever we find plastik referenced in plastik_theme.py we should change it to our theme name.
+have been copied to. We can now change the plastik directory and subdirectory, these can be renamed after your theme name, say orange,
+then wherever we find plastik referenced in plastik_theme.py we should change it to our orange theme name.
 ```
 style.theme_create("orange", "default", settings={
 .....
@@ -641,8 +647,10 @@ file. Associated with these control files is a subdirectory of image files. Eith
 is yours. The approach on using either is similar, after creating a good quality working widget with all the required states, we
 just replace the ttktheme widget in either green.tcl or orange.py, change the references to any images, altering the border
 sizes as necessary, then add your images to the image subdirectory. When everything works satisfactorily delete the ttktheme
-images. From hereonin change the widgets after testing and proved to be working. Occasionaly it may be necessary to change the
-widget layout.
+images. Occasionaly it may be necessary to change the widget layout. In both methods we normally translate between tcl and python, use
+the files plastik.tcl and plastik.py to help spot the differences and similarities between the two languages.
+
+
 ```
 
 
