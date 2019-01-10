@@ -132,8 +132,10 @@ combo1.grid(row=2, column=0, padx=5, pady=5)
 combo1.set('Apple')
 
 '''
-combo2 = Combobox(fra, style="*" + tWidg + "*Listbox", values=("Milk","Water","Juice"))
+# try uncommenting these lines, and comment out the cb lines following 
+combo2 = Combobox(fra, style="Custom." + tWidg, values=("Milk","Water","Juice"))
 combo2.grid(row=3, column=0, padx=5, pady=5)
+combo2.option_add('*TCombobox*Listbox.font', element_options['font'])
 combo2.set('Milk')
 # this affects all comboboxes
 '''
