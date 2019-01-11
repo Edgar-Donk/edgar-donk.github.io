@@ -646,13 +646,52 @@ We now have either an extra theme in ttkthemes controlled by a tcl file or we ha
 file. Associated with these control files is a subdirectory of image files. Either system is as valid as the other, the choice
 is yours. The approach on using either is similar, after creating a good quality working widget with all the required states, we
 just replace the ttktheme widget in either green.tcl or orange.py, change the references to any images, altering the border
-sizes as necessary, then add your images to the image subdirectory. When everything works satisfactorily delete the ttktheme
-images. Occasionaly it may be necessary to change the widget layout. In both methods we normally translate between tcl and python, use
-the files plastik.tcl and plastik.py to help spot the differences and similarities between the two languages.
+sizes as necessary, then add your images to the image subdirectory. When everything works satisfactorily delete the unused images found
+in green or orange directories. Occasionaly it may be necessary to change the widget layout. In both methods we normally translate
+between tcl and python, use the files plastik.tcl and plastik.py to help spot the differences and similarities between the two
+languages.
 
-
+Let's see if we can pin the above on an example or two. First let us change the combobox on both our test themes to that used by
+radiance. We need to compare the files and we see that radiance.tcl consists of the following :-
 ```
+        ## Combobox.
+        #
+        ttk::style configure TCombobox -selectbackground
 
+        ttk::style element create Combobox.downarrow image \
+            [list $I(comboarrow-n) \
+                 disabled $I(comboarrow-d) \
+                 pressed $I(comboarrow-p) \
+                 active $I(comboarrow-a) \
+                ] \
+            -border 1 -sticky {}
+
+        ttk::style element create Combobox.field image \
+            [list $I(combo-n) \
+                 {readonly disabled} $I(combo-rd) \
+                 {readonly pressed} $I(combo-rp) \
+                 {readonly focus} $I(combo-rf) \
+                 readonly $I(combo-rn) \
+                ] \
+            -border 4 -sticky ew
+```
+whereas green.tcl looks like :-
+```
+        # Combobox
+        #
+        ::ttk::style element create Combobox.field image \
+            [list $I(combo-active) \
+                {readonly} $I(button-active) \
+                {active}   $I(combo-active) \
+            ] -border {9 10 32 15} -padding {9 4 8 4} -sticky news
+        ::ttk::style element create Combobox.downarrow image \
+            [list $I(stepper-down) disabled $I(stepper-down)] \
+            -sticky e -border {15 0 0 0}
+```
+In both cases the combobox consists of an element create for the components field and downarrow. Radiance has fewer images, which
+luckily do not have a name clash. It seems that we can just replace the relevant script parts and copy all the radiance image files to
+the green image directory. When this is done we can test with one of our files such as 06themed_notebook.py, or
+06combobox_text_theme.py. 
 
 
     
