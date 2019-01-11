@@ -3,7 +3,7 @@
 
 from pprint import pformat
 from tkinter import Tk, Message, Text
-from tkinter.ttk import Style, Combobox, Button, Separator, Frame
+from tkinter.ttk import Style, Combobox, Button, Separator, Frame, Label
 
 def theme_changed(theme):
     style.theme_use(theme)
@@ -56,8 +56,13 @@ element_options = {
                 'sashthickness': 10, 'font': 'Gigi 12'}
 
 root = Tk()
-style = Style()
+try:  
+    import ttkthemes as ts 
+    style = ts.themed_style.ThemedStyle()
+except (NameError, AttributeError):
+    style = Style()
 tWidg = 'TCombobox'
+
 
 class CustomBox(Combobox):
     def __init__(self, *args, **kwargs):
@@ -120,16 +125,22 @@ fra.grid(row=0, column=1, padx=5, pady=5)
 combo = Combobox(fra, values=sorted(style.theme_names()), state='readonly')
 combo.set(style.theme_use())
 combo.bind('<<ComboboxSelected>>', lambda _e: theme_changed(combo.get()))
-combo.grid(row=0, column=0, padx=5, pady=5)
+combo.grid(row=0, column=1, padx=5, pady=5)
 
 out = theme_changed(style.theme_use())
 
+lab1 = Label(fra, text='Choose Theme')
+lab1.grid(row=0, column=0, padx=5, pady=5)
+
 sep = Separator(fra, orient='horizontal')
-sep.grid(row=1, column=0, padx=5, pady=5)
+sep.grid(row=1, column=1, padx=5, pady=5, sticky='ew')
 
 combo1 = Combobox(fra, values=("Apple","Orange","Melon"))
-combo1.grid(row=2, column=0, padx=5, pady=5)
+combo1.grid(row=2, column=1, padx=5, pady=5)
 combo1.set('Apple')
+
+lab2 = Label(fra, text='Normal Widget')
+lab2.grid(row=2, column=0, padx=5, pady=5)          
 
 '''
 # try uncommenting these lines, and comment out the cb lines following 
@@ -141,10 +152,16 @@ combo2.set('Milk')
 '''
 cb = CustomBox(fra, font=element_options['font'], style="Custom." + tWidg,
                       values=("Milk","Water","Juice"))
-cb.grid(row=3, column=0, padx=5, pady=5)
+cb.grid(row=3, column=1, padx=5, pady=5)
 cb.set('Milk')
 
+lab3 = Label(fra, text='Widget with Style')
+lab3.grid(row=3, column=0, padx=5, pady=5)
+lab4 = Label(fra, text='Widget Layout')
+lab4.grid(row=4, column=0, padx=5, pady=5)
+
 mess = Message(fra, text=out, width=250)
-mess.grid(row=4, column=0, padx=5, pady=5)
+mess.grid(row=5, column=0, padx=5, pady=5)
 
 root.mainloop()
+
