@@ -652,7 +652,11 @@ between tcl and python, use the files plastik.tcl and plastik.py to help spot th
 languages.
 
 Let's see if we can pin the above on an example or two. First let us change the combobox on both our test themes to that used by
-radiance. We need to compare the files and we see that radiance.tcl consists of the following :-
+radiance. On my computer, Windows 64 bit python 3.6, the combobox from elegance aka green looks like
+
+![combobox:elegance](/images/elegance_cb.png) 
+whereas radiance looks like ![combobox:radiance](/images/radiance_cb.png). 
+We need to compare the files and we see that radiance.tcl consists of the following :-
 ```
         ## Combobox.
         #
@@ -691,7 +695,40 @@ whereas green.tcl looks like :-
 In both cases the combobox consists of an element create for the components field and downarrow. Radiance has fewer images, which
 luckily do not have a name clash. It seems that we can just replace the relevant script parts and copy all the radiance image files to
 the green image directory. When this is done we can test with one of our files such as 06themed_notebook.py, or
-06combobox_text_theme.py. 
+06combobox_text_theme.py. If we look at the combobox created by green we get 
+![combobox:green_orig](/images/green_cb_orig.png)
+which as you can see on my windows box is not quite the same as the radiance combobox, look at the position of the down arrow. If we
+check green.tcl we see that there is no parent theme in the line 
+```
+::ttk::style theme create green -settings {
+```
+unlike radiance.tcl where we find
+```
+ttk::style theme create radiance -parent clam -settings {
+```
+since elegance aka green was probably created in Linux the normal theme would have been default. Using this parent theme the combobox is 
+not altered enough - let's try the clam theme instead - ahh far better.
+![combobox:green_post](/images/green_cb_post.png)
+
+Now for the orange theme taken from the py file. 
+```
+"Combobox.field": {"element create":
+            ("image", 'combo-n',
+                ('readonly', 'active', 'combo-ra'),
+                ('focus', 'active', 'combo-fa'),
+                ('active', 'combo-a'), ('!readonly', 'focus', 'combo-f'),
+                ('readonly', 'combo-r'),
+                {'border': [4, 6, 24, 15], 'padding': [4, 4, 5],
+                 'sticky': 'news'}
+            )
+        },
+        "Combobox.downarrow": {"element create":
+            ("image", 'arrow-d', {'sticky': 'e', 'border': [15, 0, 0, 0]})
+         },
+```
+We have to be careful not to overwrite combo- image files with our new files imported from radiance, give them a new designation,
+say combor- so the old files remain until all has been tested. Also we have to ensure that we have the corresponding python taken
+from the tcl in radiance.tcl. It's probably best to run a python test file.
 
 
     
