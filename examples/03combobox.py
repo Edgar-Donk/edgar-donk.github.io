@@ -5,7 +5,7 @@ style = Style()
 style.theme_use('default') # this is needed even though we are using 'default' in theme_settings
 style.theme_settings("default", {
    "TCombobox": {          # widget class name
-       "configure": {"padding": 5}, # note how we use style.configure and style.map
+       "configure": {"padding": 5}, # note how we now use style.configure and style.map
        "map": {
            "background": [("active", "green2"), # background refers to downarrow
                           ("!disabled", "green4")],
