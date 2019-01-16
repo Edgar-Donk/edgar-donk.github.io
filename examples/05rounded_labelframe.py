@@ -1,7 +1,8 @@
+'''
+Using 05rounded_frame.py to make a similar procedure for labelframe.
+'''
 from tkinter import StringVar, Tk, IntVar, PhotoImage
 from tkinter.ttk import Style, Radiobutton, Combobox, LabelFrame, Frame, Checkbutton
-
-
 
 class App:
     def __init__(self):
