@@ -1,3 +1,9 @@
+'''
+Use png image files, if running tkinter 8.6 or more, this will run - if using tkinter 8.5 then we  need to use
+PIL open the images with PIL.Image then load this with ImageTk.PhotoImage into the Button widget.
+
+The image needs to be referred to if the handle is a local variable, otherwise use a class variable (prefixed with self)
+'''
 from tkinter import Tk, PhotoImage, Frame
 from tkinter.ttk import Button, Style
 #from PIL import Image, ImageTk ## uncomment if you are running tkinter 8.5
@@ -9,10 +15,10 @@ class Example:
         master.title('Button Test')
         fr.grid(column=0, row=0, sticky=('nsew'))
 
-        # buttonImage = Image.open('../images/butImage.png') ## uncomment if you are running tkinter 8.5
-        # buttonImageTrans = Image.open('../images/butImageTrans.png') ## uncomment if you are running tkinter 8.5
-        # ImageTk.PhotoImage(images/buttonImage)  ## uncomment if you are running tkinter 8.5
-        # ImageTk.PhotoImage(images/buttonImageTrans)  ## uncomment if you are running tkinter 8.5
+        # im1 =  = Image.open('../images/butImage.png') ## uncomment if you are running tkinter 8.5
+        # im2 = Image.open('../images/butImageTrans.png') ## uncomment if you are running tkinter 8.5
+        # self.buttonPhoto = ImageTk.PhotoImage(im1)  ## uncomment if you are running tkinter 8.5
+        # buttonPhotoTrans = ImageTk.PhotoImage(im2)  ## uncomment if you are running tkinter 8.5
         
         self.buttonPhoto = PhotoImage(file='images/butImage.png') ## comment out if you are running tkinter 8.5
         buttonPhotoTrans = PhotoImage(file='images/butImageTrans.png') ## comment out if you are running tkinter 8.5
@@ -20,7 +26,7 @@ class Example:
         we are using both a local and a variable prefixed with self
         '''
         but = Button(master, image=self.buttonPhoto)
-        #but.image = buttonPhoto - not needed because using self
+        #but.image = self.buttonPhoto - not needed because using self
         but.grid(column=0, row=0, sticky=('ew'), padx=10, pady=10)
         myButton = Button(master, compound='center', text='Click on Me!',
                          style='new.TButton', image=buttonPhotoTrans) 
