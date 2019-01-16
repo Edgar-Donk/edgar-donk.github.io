@@ -7,7 +7,7 @@ w = Label(root, text="Hello, world!")
 w.pack()
 print('TKINTER')
 print()
-pprint.pprint(w.config())
+pprint.pprint(w.config()) # this displays all the configuration options of the widget
 print()
 print('##################################################')
 print()
