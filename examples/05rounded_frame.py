@@ -1,3 +1,10 @@
+'''
+Loading an image into a widget using element_create, layout and configure.
+The image has been loaded as a data file, bypassing the need to open an
+image file. Since the frame widget does not inherintly have a link to
+any states other than the normal state, hence the need to provide
+bind to the entry and text widgets together with lambda functions.
+'''
 from tkinter import Tk, PhotoImage, Text
 from tkinter.ttk import Style, Frame, Entry
 
@@ -82,12 +89,12 @@ EEAAWaeN9tpqt832221HEEECW6M3wc+Hga3SBgtMODBABw00UEEBgxdO+OGG
 J4744oZzXUEDHQxwN7F5G7QRdXxPoPkAnHfu+eeghw665n1vIKhJBQUEADs=""")
 
 style = Style()
-# img1 is frameFocusBorder, img2 is frameBorder
+# img1 is frameFocusBorder, img2 is frameBorder - cross reference
 style.element_create("RoundedFrame", "image", "frameBorder",
     ("focus", "frameFocusBorder"), border=16, sticky="nsew")
 
 style.layout("RoundedFrame", [("RoundedFrame", {"sticky": "nsew"})])
-style.configure("TEntry", borderwidth=0)
+style.configure("TEntry", borderwidth=0) # general handle widget class Entry
 
 frame = Frame(style="RoundedFrame", padding=10)
 frame.pack(fill='x')
