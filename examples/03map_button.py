@@ -1,3 +1,6 @@
+'''
+Creating a colour change whenever state is changed, using style.configure and style.map
+'''
 from tkinter import Tk
 from tkinter.ttk import Style,Button
 import random
@@ -5,11 +8,11 @@ import random
 
 def change_style():
     color = random.choice(['red', 'blue', 'yellow', 'dark gray', 'purple', 'cyan', 'brown', 'orange'])
-    style.configure('Die.TButton', background=color,
+    style.configure('Die.TButton', background=color,    # cross reference 'Die.TButton'
                    foreground=['white' if color != 'yellow' else 'black'],
                     highlightthickness='20',
                     font=('Helvetica', 18, 'bold'))
-    style.map('Die.TButton', foreground=[("pressed", "red"), ("active", "blue")],
+    style.map('Die.TButton', foreground=[("pressed", "red"), ("active", "blue")], # cross reference 'Die.TButton'
                             background=[('active', active_color(color))])
 
 
@@ -31,7 +34,7 @@ root = Tk()
 style = Style(root)
 style.theme_use('default')
 
-button = Button(root, text='Test', style='Die.TButton')
+button = Button(root, text='Test', style='Die.TButton') # cross reference 'Die.TButton'
 change_style()
 button.pack()
 
