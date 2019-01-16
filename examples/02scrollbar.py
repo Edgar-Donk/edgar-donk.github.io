@@ -1,3 +1,12 @@
+'''
+Altering a widget with orientation - look how configure needs the orientation in the style
+cross reference. The widget needs to have its orientation in the property orient.
+
+When the Scrollbar is unattached it can only be displayed properly using place rather than
+pack or grid layout managers. 
+
+The classic theme displays a quirky arrow change when the borderwidth is changed.
+'''
 from tkinter import Tk
 from tkinter.ttk import Style, Scrollbar
 
