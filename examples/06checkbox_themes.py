@@ -1,3 +1,10 @@
+'''
+Using pprint we have an easier method to show the layout in a reasonable manner.
+
+Configure has probably more colours than will be displayed, it will help show
+which elements can be coloured, where they are situated. In this exercise use
+colours that can be easily picked out rather than for final looks.
+'''
 from pprint import pformat
 from tkinter import Tk, Message
 from tkinter.ttk import Style, Combobox, Button, Checkbutton
