@@ -1,4 +1,6 @@
-"""Demo based on the demo mclist included with tk source distribution."""
+"""Demo based on the demo mclist included with tk source distribution.
+After creating orange standalone the call to plastik can be changed to orange.
+Run the python script from the os system rather than using python's Idle."""
 from tkinter import Tk
 import tkinter.font
 from tkinter.ttk import Treeview, Scrollbar
@@ -92,7 +94,8 @@ def main():
     root = tkinter.Tk()
     root.wm_title("Multi-Column List")
     root.wm_iconname("mclist")
-
+    
+    # change plastik references to orange following lines
     import plastik_theme
     
     try:
