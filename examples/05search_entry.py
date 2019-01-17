@@ -2,6 +2,9 @@
 
 Translated from Tcl code by Schelte Bron, http://wiki.tcl.tk/18188
 wish I knew who translated it to Python - but thanks anyway
+
+Since we are directly using widgets and their states the code is somewhat simplified
+compared to the rounded frame.
 """
 from tkinter import Tk, PhotoImage
 from tkinter.ttk import Style, Entry
@@ -49,7 +52,7 @@ otQhBRa6VvSJIRwhIkotvgRTzMUYZ6xxMcj4QkspeKDxxRhEmUfIHWjAgQcijEDissuXvCyz
 zH7Q8YQURxDhUsn/bCInR3AELfTQZBRt9BBJkCGFFVhMwTNBlnBCSCGEIJQQIAklZMXWRBAR
 RRRWENHwRQEBADs="""
 
-
+# the images are combined gif data
 s1 = PhotoImage("search1", data=data, format="gif -index 0")
 s2 = PhotoImage("search2", data=data, format="gif -index 1")
 
