@@ -629,13 +629,14 @@ the image files while ensuring that the configure and map scripts for the variou
 script for plastik_theme.py https://github.com/enthought/Python-2.7.3/blob/master/Demo/tkinter/ttk/plastik_theme.py as a basis
 for our standalone - this should shortcut a lot of the work. Convert this script from python2 to 3, you should notice that the image
 directory location has to be referenced by the calling program. Notice that the script uses Style.theme_create and follows the pattern
-already seen in 03combobox.py for theme_settings. When testing copy the image files found in ttkthemes to a suitable test location,
-these will eventually be replaced by new files of your own making.
+already seen in 03combobox.py for theme_settings. When testing copy the image files found in ttkthemes plastik to a suitable test
+location, these will eventually be replaced by new files of your own making.
 
-We can test the python version of the plastik theme by running the script 06treeview.py, under the main function we call install
-from plastik_theme, you will notice that it has plastik as a variable, so plastik is a subdirectory where the plastik images
-have been copied to. We can now change the plastik directory and subdirectory, these can be renamed after your theme name, say orange,
-then wherever we find plastik referenced in plastik_theme.py we should change it to our orange theme name.
+We can test the python version of the plastik theme by running the script 06treeview.py directly from your os system not using python's
+Idle, under the main function we call install from plastik_theme, you will notice that it has plastik as a variable, so plastik is a
+subdirectory where the plastik images have been copied to. We can now change the plastik directory and subdirectory, these can be
+renamed after your theme name, say orange, then wherever we find plastik referenced in plastik_theme.py we should change it to our
+orange theme name.
 ```
 style.theme_create("orange", "default", settings={
 .....
@@ -647,7 +648,7 @@ file. Associated with these control files is a subdirectory of image files. Eith
 is yours. The approach on using either is similar, after creating a good quality working widget with all the required states, we
 just replace the ttktheme widget in either green.tcl or orange.py, change the references to any images, altering the border
 sizes as necessary, then add your images to the image subdirectory. When everything works satisfactorily delete the unused images found
-in green or orange directories. Occasionaly it may be necessary to change the widget layout. In both methods we normally translate
+in green or orange image directories. Occasionaly it may be necessary to change the widget layout. In both methods we normally translate
 between tcl and python, use the files plastik.tcl and plastik.py to help spot the differences and similarities between the two
 languages.
 
@@ -655,7 +656,8 @@ Let's see if we can pin the above on an example or two. First let us change the 
 radiance. On my computer, Windows 64 bit python 3.6, the combobox from elegance aka green looks like
 
 ![combobox:elegance](/images/elegance_cb.png) 
-whereas radiance looks like ![combobox:radiance](/images/radiance_cb.png). 
+whereas radiance looks like
+![combobox:radiance](/images/radiance_cb.png). 
 We need to compare the files and we see that radiance.tcl consists of the following :-
 ```
         ## Combobox.
@@ -728,7 +730,11 @@ Now for the orange theme taken from the py file.
 ```
 We have to be careful not to overwrite combo- image files with our new files imported from radiance, give them a new designation,
 say combor- so the old files remain until all has been tested. Also we have to ensure that we have the corresponding python taken
-from the tcl in radiance.tcl. It's probably best to run a python test file.
+from the tcl in radiance.tcl. It's probably best to run a python test file such as 06orange_widget_test.py. Copy the necessary radiance
+image files to a suitable images directory, adjusting the names as necessary. When running theme_create you can experiment having the
+parent directory as default instead of clam - the results should be similar to those given in the green.tcl test. The resulting python
+script within theme_create can be used to overwrite the combobox part of orange.py. We can test whether orange.py is correct using
+06combo_orange.py, run under os rather than using python's idle.
 
 
     
