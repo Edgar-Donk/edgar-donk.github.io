@@ -1,5 +1,10 @@
 # https://stackoverflow.com/questions/43086378/how-to-modify-ttk-combobox-fonts
 # thanks to CommonSense
+'''
+Using the widget Text to display the customised colours, their hash representation and to which element 
+they have been assigned. The combobox font cannot be easily modified, hence the element_options
+used with a CustomBox (modified combobox). The alternative is to use option_add.
+'''
 
 from pprint import pformat
 from tkinter import Tk, Message, Text
