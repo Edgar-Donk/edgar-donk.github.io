@@ -736,5 +736,64 @@ parent directory as default instead of clam - the results should be similar to t
 script within theme_create can be used to overwrite the combobox part of orange.py. We can test whether orange.py is correct using
 06combo_orange.py, run under os rather than using python's idle.
 
+When working with radiance note how often the widgets have their images added by using "element create" - there are relatively few
+widgets that require a layout and mapping. This bodes well for any future designs we may have since this is a relatively simple
+construct. 
+
+Onto our next exercise - let us create a button with the focus state's dashed line surrounds the button. In radiance we see that the
+button part of the script looks like:-
+````
+        ## Buttons.
+        #
+        ttk::style configure TButton -width -11 -anchor center
+        ttk::style configure TButton -padding {10 0}
+        ttk::style layout TButton {
+            Button.focus -children {
+                Button.button -children {
+                    Button.padding -children {
+                        Button.label
+                    }
+                }
+            }
+        }
+```
+followed by an element create, which we can ignore as it does not concern focus. The first configure clause can be ignored as it 
+concerns itself with size and anchor, however the second configure is interesting. Let us just insert this clause into the green.tcl
+button widget.
+```
+        # Button
+        #
+        ttk::style configure TButton -padding {10 0}
+        ::ttk::style layout TButton {
+            Button.background
+            Button.button -children {
+                Button.focus -children {
+                    Button.label
+                }
+            }
+        }
+```        
+Testing this we see no effect which might not be surprising when we see that at this stage the button widget has no element named
+padding. We can test this finding out the components and their elements from an active session. We can change the button layout of the
+green theme and test again. It works! Let's try it out on the orange theme. Checking out the button we see we have a configure and a 
+layout that already has padding, so hopefully it works with only minimal changes. First we add padding to configure. This does not work
+when testing, so we swop button and padding.
+```
+        "TButton": {
+            "configure": {"width": 10, "anchor": "center", "padding": [10, 0]},
+            "layout": [
+                ("Button.focus", {"children":
+                    [("Button.button", {"children":
+                        [("Button.padding", {"children":
+                            [("Button.label", {"side": "left", "expand": 1})]
+                        })]
+                    })]
+                })
+            ]
+        },
+```
+This works. The conclusion is that one may have to test the configure and layout options with a small script such as
+06orange_widget_test.py adapted to suit your needs.
+
 
     
