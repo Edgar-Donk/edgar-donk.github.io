@@ -654,10 +654,17 @@ languages.
 
 Let's see if we can pin the above on an example or two. First let us change the combobox on both our test themes to that used by
 radiance. On my computer, Windows 64 bit python 3.6, the combobox from elegance aka green looks like
-
+``` 
+```
 ![combobox:elegance](/images/elegance_cb.png) 
+```
+```
 whereas radiance looks like
-![combobox:radiance](/images/radiance_cb.png). 
+```
+```
+![combobox:radiance](/images/radiance_cb.png)
+``` 
+```
 We need to compare the files and we see that radiance.tcl consists of the following :-
 ```
         ## Combobox.
@@ -710,6 +717,7 @@ ttk::style theme create radiance -parent clam -settings {
 ```
 since elegance aka green was probably created in Linux the normal theme would have been default. Using this parent theme the combobox is 
 not altered enough - let's try the clam theme instead - ahh far better.
+
 ![combobox:green_post](/images/green_cb_post.png)
 
 Now for the orange theme taken from the py file. 
