@@ -704,8 +704,10 @@ whereas green.tcl looks like :-
 In both cases the combobox consists of an element create for the components field and downarrow. Radiance has fewer images, which
 luckily do not have a name clash. It seems that we can just replace the relevant script parts and copy all the radiance image files to
 the green image directory. When this is done we can test with one of our files such as 06themed_notebook.py, or
-06combobox_text_theme.py. If we look at the combobox created by green we get 
+06combobox_text_theme.py. If we look at the combobox created by green we get
+
 ![combobox:green_orig](/images/green_cb_orig.png)
+
 which as you can see on my windows box is not quite the same as the radiance combobox, look at the position of the down arrow. If we
 check green.tcl we see that there is no parent theme in the line 
 ```
