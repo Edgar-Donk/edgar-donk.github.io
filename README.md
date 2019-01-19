@@ -426,7 +426,7 @@ few instances I did find that displayed rounded corners and shadow effects I wil
 The first example is based on that created by Bryan Oakley, a stalwart of StackOverflow. His original script created visible
 frames around entry and text widgets, example 05rounded_frame.py. Since he is using encoded data there is no reference to a
 file, instead PhotoImage refers to this data directly. Normally we have no states in the frame widget so he introduces lambda
-functions tied into <FocusIn> and <FocusOut> events. He is using 2 separate images, the first is where the frame's contents have
+functions tied into *FocusIn* and *FocusOut* events. He is using 2 separate images, the first is where the frame's contents have
 focus, the second where it loses focus. Click within the upper and lower frames, see how the outer colour changes, also note
 that the frame has decidedly rounded corners and a shadow on the right hand and lower sides. 
  
@@ -485,7 +485,7 @@ I altered the colour of the grey image. The output from the print command is sav
 The next example 05search_entry.py will create a special frame, resembling the mac search element. Once again the image is
 loaded as encoded data, this time the programmer uses the gif property to make multiple images. Look at the PhotoImage lines of
 code where the format is used. The programmer is altering the entry widget, using the PhotoImage alias names "search1" rather
-than the "s1" name. 
+than the s1 variable. 
 ```
 s1 = PhotoImage("search1", data=data, format="gif -index 0")
 .......
@@ -834,3 +834,17 @@ place - can be used. The only minor problem is that it works best with a full vi
 jpg as the image type so that it can be downloaded from many digital cameras and is usually half the size of a png or gif of equivalent
 size.
     
+The next example can be used as a template for subsequent more complex widgets. In my quest for blue sky thinking for a theme I'm using
+piratz that certainly is different, but should not be taken too seriously, on the other hand it was fun to dream up the widgets and
+their necessary images. The first example 07pirate_label.py can be used as a template for our subsequent pirate examples, so this could
+be used to build up a standalone python script. We need to create our image, this tries to invoke a Caribbean island, the palm tree
+poses a challenge particularly if the label grows in height. We choose border sizes that give the desired effect, then we test using 
+the theme construct rather than styling an individual widget with configure, layout and map. With this widget both theme_create and 
+theme settings work equally well. To increase the height of the widget we can create two lines of text - certainly easier than adding
+a configure clause. Try changing the border size to [20, 6, 4, 4], it looks reasonable if we have sticky "ew" and only one line of code.
+Having created the image it is relatively easy to make it grey in our image editor and save the image for the disabled state.
+
+When dealing with states it helps to keep in mind what will be required in the program in relation to that widget. It certainly helps
+to view how various themes tackled that problem. Some widgets can operate with a bare minimum of states, others may require quite a few,
+but don't forget that the common settings may also help without the need to create additional images.
+
