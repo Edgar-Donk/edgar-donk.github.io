@@ -372,6 +372,12 @@ PhotoImage it can be loaded directly onto the widget. All the images I will be w
 "images". and the programs will be run assuming that the images sub-directory has the same parent directory as the examples sub-
 directory on your computer.
 
+Check out your tkinter version - either look at the python version then deduce the tkinter version or use an active session:-
+```
+import tkinter
+print(tkinter.TkVersion)
+```
+
 First off we shall load just an image onto a button and see what happens when we pass the cursor over it, and press the button.
 Load up 04button_image.py not forgetting to place the images butImage.png and butImageTrans.png in your images file (if you are
 running tkinter 8.5 uncomment the lines as indicated, also comment out the lines indicated, this will load Image and Imagetk from PIL
@@ -391,6 +397,12 @@ If multiple pictograms are available we can change these according to state. Che
 has three pictograms linked to 3 states which must have the active state listed last, just as we needed to do in the mapping 
 situation. When using the image property always ensure that there are an odd number of states, therefore the first state remains
 anonymous, corresponding to the normal state.
+
+Be careful when referencing the image in the image property:-
+```
+im1 = PhotoImage("ref1", file='myimage.gif')
+```
+We can use "ref1" as our image reference or im1 (unquoted).
 
 ## 05 Image - Create Widgets with Rounded Corners and Shadow Effects
 
@@ -566,6 +578,10 @@ property, nor will it change with the font property - as the Entry widget does. 
 change the font of a specified combobox, which is written to allow other properties to be included. A simpler method is to use
 option_add but it seems to affect all the other comboboxes. Combobox is derived from the entry and listbox widgets and this might
 contribute to the anomoly in some way.
+
+When using font we can refer to each instance of the font directly - such as 'Helvetica 12 Bold' - or we can use the generic names
+used by Tk 06tkfonts.md, this has the advantage that they are compatible to all operating systems, and no special precautions should be
+necessary. If you do use custom fonts obviously check on their availability on other os - maybe easier said than done.
 
 Let us refresh our memory of how a widget looks in the various themes, try 06theme_notebook.py, this has most of the important widgets
 together with a theme selector. It has been set up to incorporate ttkthemes. The first tab contains most of the normally used widgets,
@@ -805,5 +821,16 @@ when testing, so we swop button and padding.
 This works. The conclusion is that one may have to test the configure and layout options with a small script such as
 06orange_widget_test.py adapted to suit your needs.
 
+## 07 Blue Sky Thinking
 
+We may decide to adapt one of the existing ttktheme themes, using constructs copied from other themes as demonstrated previously - that
+is not what I mean by "Blue Sky Thinking", I mean something a little more unconventional. 
+
+The first example is probably best run as a standalone style for frame. The idea is copied from a blog that demonstrated how to use 
+canvas to contain the background image and some other widgets together with a matplotlib interface. This works but the geometry
+management is limited to the canvas system. If we use frame as our parent widget all the normal geometry managers - grid, pack and
+place - can be used. The only minor problem is that it works best with a full view of the background image. Use the example
+07frame_background_image.py to see what I mean, use a jpg image of your choice as backdrop, typically a panaoramic view. We are using
+jpg as the image type so that it can be downloaded from many digital cameras and is usually half the size of a png or gif of equivalent
+size.
     
