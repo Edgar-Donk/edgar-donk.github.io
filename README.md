@@ -835,14 +835,18 @@ jpg as the image type so that it can be downloaded from many digital cameras and
 size.
     
 The next example can be used as a template for subsequent more complex widgets. In my quest for blue sky thinking for a theme I'm using
-piratz that certainly is different, but should not be taken too seriously, on the other hand it was fun to dream up the widgets and
-their necessary images. The first example 07pirate_label.py can be used as a template for our subsequent pirate examples, so this could
+piratz, that certainly is different, but should not be taken too seriously, on the other hand it was fun to dream up the widgets and
+their necessary images. The first example 07pirate_label.py can be used as a template for our subsequent pirate examples, it can
 be used to build up a standalone python script. We need to create our image, this tries to invoke a Caribbean island, the palm tree
-poses a challenge particularly if the label grows in height. We choose border sizes that give the desired effect, then we test using 
+poses a challenge, particularly if the label grows in height. We choose border sizes that give the desired effect, then we test using 
 the theme construct rather than styling an individual widget with configure, layout and map. With this widget both theme_create and 
 theme settings work equally well. To increase the height of the widget we can create two lines of text - certainly easier than adding
 a configure clause. Try changing the border size to [20, 6, 4, 4], it looks reasonable if we have sticky "ew" and only one line of code.
-Having created the image it is relatively easy to make it grey in our image editor and save the image for the disabled state.
+Having created the image it is relatively easy to make it grey in our image editor and save the image for the disabled state. The
+padding [19,3,3,3] is required to position the text. If we look at an enlarged image which shows the grid we can estimate the border,
+after this works the padding can be sorted out. If there is no surrounding image border (not the widget border) it simplifies
+calculations. The text area has been made transparent, in fact the appearance may look better with all the white surround made
+transparent.   
 
 When dealing with states it helps to keep in mind what will be required in the program in relation to that widget. It certainly helps
 to view how various themes tackled that problem. Some widgets can operate with a bare minimum of states, others may require quite a few,
