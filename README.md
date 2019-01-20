@@ -846,9 +846,21 @@ Having created the image it is relatively easy to make it grey in our image edit
 padding [19,3,3,3] is required to position the text. If we look at an enlarged image which shows the grid we can estimate the border,
 after this works the padding can be sorted out. If there is no surrounding image border (not the widget border) it simplifies
 calculations. The text area has been made transparent, in fact the appearance may look better with all the white surround made
-transparent.   
+transparent.
+
+The next widget we may consider is the Separator. At first glance it may seem to be a simple widget to alter, but if we try to do so
+we will find that the separator has an orientation, but its components consist only of Sepearator.separator with no orientation. There
+is no easy way to make the vertical separator react correctly as there is only the one component. I have left 2 separator images in the
+images directory which can be tested in an edited copy of 07pirate_label.py - the relevant part of theme_create is:-
+```
+    'Separator.separator': {"element create":
+          ('image', "separator",
+           {'border':[3], 'sticky': 'nsew'})}
+```           
+The horizontal separator works as expected, but the vertical separator is just too wide. As with the scrollbar example use the place
+manager to display the widget.
 
 When dealing with states it helps to keep in mind what will be required in the program in relation to that widget. It certainly helps
 to view how various themes tackled that problem. Some widgets can operate with a bare minimum of states, others may require quite a few,
-but don't forget that the common settings may also help without the need to create additional images.
+but don't forget that some themes use the common settings to help without the need for additional images.
 
