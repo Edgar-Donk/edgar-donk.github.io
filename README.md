@@ -529,6 +529,11 @@ the border part of the relevant widget. Almost all ttkthemes use one of the 4 co
 although if you were to use a ttktheme it would be difficult to tell which theme is the parent. It is interesting to note that Aquativo
 uses coded images, whereas the black theme has no images. Three themes use png images, but these are only usable with tkinter 8.6 and above. Finally most images are about 30 by 30 pixels, with corners of one or three pixels radius. 
 
+If you want to modify the gif images in an image editor there should be no great problem, provided you do not try converting to another
+format and back again. Use the image editor for small simple changes. When checking out or modifying an image pixel by pixel using PIL
+(Pillow) remember that gif only has 256 colours - so the rgb and hsv values you see in your image editor are for your convenience - it
+would probably be better to use png from the outset.
+
 If you were to install ttkthemes it is easy to switch between the normal themes and ttkthemes. Running the standard ttk Style module
 excludes ttkthemes, however if you load up ttkthemes with the following script:- 
 ```
@@ -827,7 +832,7 @@ We may decide to adapt one of the existing ttktheme themes, using constructs cop
 is not what I mean by "Blue Sky Thinking", I mean something a little more unconventional. 
 
 The first example is probably best run as a standalone style for frame. The idea is copied from a blog that demonstrated how to use 
-canvas to contain the background image and some other widgets together with a matplotlib interface. This works but the geometry
+tkinter canvas to contain the background image and some other widgets together with a matplotlib interface. This works but the geometry
 management is limited to the canvas system. If we use frame as our parent widget all the normal geometry managers - grid, pack and
 place - can be used. The only minor problem is that it works best with a full view of the background image. Use the example
 07frame_background_image.py to see what I mean, use a jpg image of your choice as backdrop, typically a panaoramic view. We are using
@@ -864,3 +869,5 @@ When dealing with states it helps to keep in mind what will be required in the p
 to view how various themes tackled that problem. Some widgets can operate with a bare minimum of states, others may require quite a few,
 but don't forget that some themes use the common settings to help without the need for additional images.
 
+Say we look at the combobox, it may seem problematic to alter this too much - after all we need to have a drop down list - so let's
+think about using the images from radiance. 
