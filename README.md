@@ -848,14 +848,14 @@ the theme construct rather than styling an individual widget with configure, lay
 theme settings work equally well. To increase the height of the widget we can create two lines of text - certainly easier than adding
 a configure clause. Try changing the border size to [20, 6, 4, 4], it looks reasonable if we have sticky "ew" and only one line of code.
 Having created the image it is relatively easy to make it grey in our image editor and save the image for the disabled state. The
-padding [19,3,3,3] is required to position the text. If we look at an enlarged image which shows the grid we can estimate the border,
-after this works the padding can be sorted out. If there is no surrounding image border (not the widget border) it simplifies
-calculations. The text area has been made transparent, in fact the appearance may look better with all the white surround made
-transparent.
+padding [19,3,3,3] is required to position the text. If we look at an enlarged image which shows the grid we can estimate the border
+sizes, after this is made to work the padding can be sorted out. If there is no surrounding image border (not the widget border) it
+simplifies calculations. The text area has been made transparent, in fact the appearance may look better with all the white surround
+made transparent.
 
 The next widget we may consider is the Separator. At first glance it may seem to be a simple widget to alter, but if we try to do so
-we will find that the separator has an orientation, but its components consist only of Sepearator.separator with no orientation. There
-is no easy way to make the vertical separator react correctly as there is only the one component. I have left 2 separator images in the
+we will find that the separator has an orientation, but its components consist only of Separator.separator with no orientation. There
+is no easy way to make the vertical separator react correctly as there is no vertical component. I have left 2 separator images in the
 images directory which can be tested in an edited copy of 07pirate_label.py - the relevant part of theme_create is:-
 ```
     'Separator.separator': {"element create":
@@ -870,4 +870,10 @@ to view how various themes tackled that problem. Some widgets can operate with a
 but don't forget that some themes use the common settings to help without the need for additional images.
 
 Say we look at the combobox, it may seem problematic to alter this too much - after all we need to have a drop down list - so let's
-think about using the images from radiance. 
+use the images from ubuntu. We can see that ubuntu uses theme create but has no need for layout. All the ubuntu images have a
+brown-beige look which we can change to aquamarine based colours using 07list_colours.py and 07shift_colours.py. If we list the colours 
+sorted by the sum of the colour components, we can find out the different components, then we apply the darkest shade of brown-beige to
+the shift colours. This then sorts out the shades of brown-beige and substitutes aquamarine shades. We need to skip over arrows which
+are grey shades. Then the arrows are painted over with the appropriate background colour of the image using an image editor. The arrow
+is replaced by the tree from 07pirate_label.py.  The reason that we are using ubuntu is that the images are png, and it is easier to
+shift the colours in PIL rather than gif.
