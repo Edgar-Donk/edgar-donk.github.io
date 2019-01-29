@@ -829,7 +829,11 @@ This works. The conclusion is that one may have to test the configure and layout
 ## 07 Blue Sky Thinking
 
 We may decide to adapt one of the existing ttktheme themes, using constructs copied from other themes as demonstrated previously - that
-is not what I mean by "Blue Sky Thinking", I mean something a little more unconventional. 
+is not what I mean by "Blue Sky Thinking", I mean something a little more unconventional.
+
+When dealing with states it helps to keep in mind what will be required in the program in relation to that widget. It certainly helps
+to view how various themes tackled that problem. Some widgets can operate with a bare minimum of states, others may require quite a few,
+but don't forget that some themes use the common settings to help display states without the need for additional images.
 
 The first example is probably best run as a standalone style for frame. The idea is copied from a blog that demonstrated how to use 
 tkinter canvas to contain the background image and some other widgets together with a matplotlib interface. This works but the geometry
@@ -849,12 +853,12 @@ theme settings work equally well. To increase the height of the widget we can cr
 a configure clause. Try changing the border size to [20, 6, 4, 4], it looks reasonable if we have sticky "ew" and only one line of code.
 Having created the image it is relatively easy to make it grey in our image editor and save the image for the disabled state. The
 padding [19,3,3,3] is required to position the text. If we look at an enlarged image which shows the grid we can estimate the border
-sizes, after this is made to work the padding can be sorted out. If there is no surrounding image border (not the widget border) it
-simplifies calculations. The text area has been made transparent, in fact the appearance may look better with all the white surround
-made transparent.
+sizes, after this is made to work the padding can be sorted out. If there is no surrounding area around the image (needed for shading)
+it simplifies calculations. The text area has been made transparent, in fact the appearance may look better without a white surround,
+instead make the surround transparent. We are using png images as it will help in subsequent widgets.
 
 The next widget we may consider is the Separator. At first glance it may seem to be a simple widget to alter, but if we try to do so
-we will find that the separator has an orientation, but its components consist only of Separator.separator with no orientation. There
+we will find that the separator has an orientation, but its only component consists of Separator.separator with no orientation. There
 is no easy way to make the vertical separator react correctly as there is no vertical component. I have left 2 separator images in the
 images directory which can be tested in an edited copy of 07pirate_label.py - the relevant part of theme_create is:-
 ```
@@ -865,15 +869,28 @@ images directory which can be tested in an edited copy of 07pirate_label.py - th
 The horizontal separator works as expected, but the vertical separator is just too wide. As with the scrollbar example use the place
 manager to display the widget.
 
-When dealing with states it helps to keep in mind what will be required in the program in relation to that widget. It certainly helps
-to view how various themes tackled that problem. Some widgets can operate with a bare minimum of states, others may require quite a few,
-but don't forget that some themes use the common settings to help without the need for additional images.
+Let us try the entry widget. The thinking here is that we have a fairly simple widget, so an image of an old yellowed document may be
+appropriate. The image has irregular edges, so instead of a smooth expansion I have purposefully chosen border values that create more
+jagged borders. If required we could impose an old font such as the equivalent of "Old English" in Windows. As with pirate label there 
+was no need to create a layout, element create is all we need.
 
-Say we look at the combobox, it may seem problematic to alter this too much - after all we need to have a drop down list - so let's
-use the images from ubuntu. We can see that ubuntu uses theme create but has no need for layout. All the ubuntu images have a
-brown-beige look which we can change to aquamarine based colours using 07list_colours.py and 07shift_colours.py. If we list the colours 
-sorted by the sum of the colour components, we can find out the different components, then we apply the darkest shade of brown-beige to
-the shift colours. This then sorts out the shades of brown-beige and substitutes aquamarine shades. We need to skip over arrows which
-are grey shades. Then the arrows are painted over with the appropriate background colour of the image using an image editor. The arrow
-is replaced by the tree from 07pirate_label.py.  The reason that we are using ubuntu is that the images are png, and it is easier to
-shift the colours in PIL rather than gif.
+Say we look at the combobox, it is best not to alter this too much - since we need to incorporate a drop down list - so let's use the
+images from ubuntu. Remember ubuntu uses png, which are easier to manipulate than gif within PIL. We can see that ubuntu uses theme
+create but has no need for layout. All the ubuntu images have a brown-beige look which we can change to aquamarine based colours using
+07list_colours.py and 07shift_colours.py, this then matches our label widget. If we list the colours sorted by the sum of the colour
+components, we can detect the different shades, then we apply the darkest shade of brown-beige to the shift colours as our main source
+colour. The shift script sorts out the shades of brown-beige and substitutes shades of aquamarine. It is best to skip over arrows which
+are grey. Afterwards the arrows are removed by painting over using the appropriate image background colour using an image editor. The
+arrow is replaced by an anchor. If we have a more demanding colour substitution then it would be appropriate to select according to 
+contrast (darkness) using the hsv or yiq colour schemes.
+
+If we look at the scrollbars next, they have more components which will change with orientation, so with changes of state there are
+quite a few images used. 07pirate_scrollbar.py is the relevant script. I like the images from ubuntu so we can change their colours to
+aquamarine and subsititute the coconut tree from pirate_label for the arrows (steppers). The thumb image is a coconut, so there is no
+need for grip. The trough has been copied from elegance, with a colour change, this shows how the trough can be created from an image.
+Ubuntu used the trough from the parent theme and changed its colour with a configure command - obviously both approaches are equally
+valid, but the image can give more flexibility. Since there are changes to the arrangement compared to the parent theme we will need a
+layout, which will need to be copied and changed as appropriate for the other orientation. It is important that the thumb component has
+the element expand set to True or 1, otherwise the thumb cannot be moved using the mouse - this in turn means that the thumb will no
+longer remain circular but becomes oval. Just as it was necessary to set the border limits in pirate_label so thumb needs to have its
+border set (try experimenting with a border of 1).
