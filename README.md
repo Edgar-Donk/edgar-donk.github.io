@@ -5,11 +5,12 @@
 As you are no doubt aware tkinter introduced a theme (or tile) based module. Searching the web I was struck by how little the
 new capabilities were demonstrated, questions and answers concentrated mostly on how to colour widgets and suchlike.
 
-In order to use the scripts developed here, a modern version of Python and Tkinter (>= v 8.5) will be necessary. I find it
-helpful to download the pdf version of “Tkinter 8.5 reference: a GUI for Python” 
-http://infohost.nmt.edu/tcc/help/pubs/tkinter/tkinter.pdf, then run it on my pdf reader. At some stage we will be encoding and
+In order to use the scripts developed here, a modern version of Python and Tkinter (>= v 8.5) will be necessary, it is advisable to use
+version 8.6 or greater to use png files. I find it helpful to download the pdf version of “Tkinter 8.5 reference: a GUI for Python” 
+http://infohost.nmt.edu/tcc/help/pubs/tkinter/tkinter.pdf, then run it on a pdf reader. At some stage we will be encoding and
 decoding small images using the base64 module. To see what has already been achieved it will be helpful to view and install the
-external module ttkthemes (pip install ttkthemes). Since we will be checking images, a graphics editor will be needed.
+external module ttkthemes (pip install ttkthemes) found at https://github.com/RedFantom/ttkthemes. Since we will be checking images, a
+graphics editor will also be needed.
 
 ## What to expect
 
@@ -18,7 +19,8 @@ its styling changes on your own ideas and scripts.
 
 An even more lightning tour through the themes from tkinter.ttk and ttkthemes.
 
-Create a few specials to show what can be achieved, after that you are only limited by your imagination.
+Create a few specials to show what can be achieved then create a standalone version, after that you are only limited by your
+imagination.
 
 ## 01. Basics
 
@@ -32,10 +34,13 @@ import the ttk module in an active Python session then there will be no warning 
 To help distinguish which examples refer to any particular paragraph, the file names will be prefixed by the paragraph number.
 
 All the widgets previously found in tkinter remain, ttk has 17 widgets and 1 Style module. 2 of the widgets in ttk, Combobox and 
-Treeview are new. The widgets Canvas, Listbox, Message, OptionMenu, Spinbox and Text only exist in tkinter. All
-other widgets are duplicated, with the proviso that their property options do not correspond, so if we take the Button widget in
-tkinter, there are 24 more property options than in ttk which has a single <style> option. When we talk about style we are
-generally only applying it to a single widget, if we create a similar style in several ttk widgets we could save it as a theme.
+Treeview are new. The widgets Canvas, Listbox, Message, OptionMenu, Spinbox and Text only exist in tkinter. All other widgets are
+duplicated, with the proviso that their property options do not correspond, so if we take the Button widget, in tkinter there are 24
+more property options than in ttk which has a single <style> option replacing those former options, the remaining 10 property options
+are common to both Button widgets. When we talk about style we are generally only applying it to a single widget, whereas if we create a
+similar looking style in several ttk widgets we could save it as a theme. The example 01Label_config.py shows the differences in
+property configurations found in the tkinter and ttk Label.
+  
 Ttk has already created 4 standard themes common to all operating systems. Windows and the MacOS have their own customised
 themes, therefore wherever possible my examples will use one of the 4 common themes alt, clam, classic or default. In any 
 interaction with a ttk widget we will be using the Style() module imported from ttk. There is a summary of all the Style() commands
@@ -50,32 +55,38 @@ outside - border, focus, spacing and label. Look at
 ![button:components](/images/01button.png) 
 
 
-this is an example of how a button may be constructed. We shall see that when a widget is modified or called by various themes
-the names may change. While we are thinking of components look at the vertical scrollbar 
+this is a typical example of how a button may be constructed. We shall see that when a widget is modified or called by various themes
+the component and element names may change. While we are thinking of components look at the vertical scrollbar 
 
 ![scrollbar:components](/images/01scrollbar.png) ,
 
-we have up and down arrow as well as a thumb component all contained in a trough. We have a method within the Style module
-whereby we can easily find out the component names and their relative positions, so there is no real reason to worry or fret.
+we have an up and down arrow as well as a thumb component all contained in a trough. We have a method within the Style module whereby we
+can easily find out the component names and their relative positions, so there is no real reason to worry or fret about trying to
+remember everything in detail.
 
 Let us compare two diferent types of button widgets, using the script /examples/01two_buttons.py found in the examples
-directory. When you run this script you will see 3 buttons. The top one is standard tkinter, the lower two are ttk. All three
-are grey but the tkinter buttons are paler. Move the cursor over all three buttons. The two ttk buttons lighten but the tkinter
-button does not react. Click on all three buttons, all three appear to be depressed, but the two ttk buttons show which one of
-the two buttons was depressed last. We have just seen how the ttk button's state interacts with style. If we had left out the
-line
+directory. When you run this script you will see 3 buttons, the top button is the standard tkinter, the lower two are both ttk. All
+three buttons are grey but the tkinter button is paler. Move the cursor over all three buttons. The two ttk buttons lighten but the
+tkinter button does not react. Click on all three buttons, all three appear to be depressed, but the two ttk buttons show which one of
+the two buttons was depressed last. Buttons, in common with several other widgets, have what we call states, so for example when a
+cursor passes over the widget its state changes to active, so we have just seen how the ttk button's state interacts with its
+appearance. The actual appearance is set up by the individual style or theme.
+
+If we had left out the line
 
 s.theme_use('default')
 
-and we were running either a Windows or Mac system then we would have seen blue ttk buttons. By using a theme all ttk widgets
-react without any special input by default. This is in contrast to the original tkinter widgets which have to be individually
-programmed. The example 01Label_config.py shows the differences in property configurations between tkinter Label and ttk Label.
+and we were running either a Windows or Mac system then we would have seen blue ttk buttons because both operating systems have their
+own system themes. 
+
+By using a theme all ttk widgets react by default without any special input. This is in contrast to the original tkinter widgets which
+have to be individually programmed.
 
 ## 02 Simple Style Changes
 
 Using named elements we can change the colours, width, font and relief of our widget. Instead of using property options on each
 widget, we use the Style module together with relevant component and element names. The first task is to determine the relevant
-elements of our widget.
+component and element names of our widget.
 
 The dependancies of the queries to find out the elements and their properties are as follows:-
 ````
@@ -88,45 +99,47 @@ The dependancies of the queries to find out the elements and their properties ar
 Each dependancy relies on the information gained from the previous enquiry. Once the queries are set up with an interactive
 session running with Style() you may be able to short circuit one or more steps.
 
-If we use the button widget as a first example run the following queries interactively in Python. 
+Use the button widget as our first example and run the following queries interactively in Python. 
 Find the class name:-
 ```
 import ttk
 >>> s = ttk.Style() # Style is used here to call the classic theme
 >>> s.theme_use('classic')
->>> b = ttk.Button(None, text='Yo') # step 1 widget name
->>> bClass = b.winfo_class()
->>> bClass # step 2 class name
+>>> b = ttk.Button(None, text='Yo') # step 1 using the widget name of Button
+>>> bClass = b.winfo_class() # step 2 find the class name using the Button handle b
+>>> bClass  
 'TButton'
 ```
-The class name is 'TButton'. Now let's find the component name:-
-````
+The class name is 'TButton'. Now let's find the component name(s):-
+```
 >>> layout = s.layout('TButton')  
->>> layout # step 3 find component names as used by the classic theme
+>>> layout # step 3 find the Button component names as used by the classic theme
 [('Button.highlight', {'children': [('Button.border', {'border':
 '1', 'children': [('Button.padding', {'children': [('Button.label',
 {'sticky': 'nswe'})], 'sticky': 'nswe'})], 'sticky': 'nswe'})],
 'sticky': 'nswe'})]
-````
-We have found 4 component names - highlight, border, padding and label (they were all preceded with 'Button.'). Be careful to
-use the correct component name with right theme. That's just completed the third step. As a help in determining the component
-names for every widget check out the table /tables/02Components.md. See how the names change not only with the widgets, but 
-can sometimes change with the theme. 
+```
+It creates quite an output, but don't be put off. We have found 4 component names - highlight, border, padding and label (they were all
+preceded with 'Button.'). Be careful to use the correct component name with right theme. That's just completed the third step. As a help
+in determining the component names for every widget check out the table /tables/02Components.md. See how the names change not only with
+the widgets, but can sometimes change with the theme. 
 
 Now onto the element names:-
-````
-d = s.element_options('Button.highlight')
+```
+d = s.element_options('Button.highlight') # step 4 find the element names
 >>> d
-('-highlightcolor', '-highlightthickness') # step 4 element names
+('-highlightcolor', '-highlightthickness')
 >>>s.lookup('Button.highlight', 'highlightthickness')
 1 # step 5 the highlight is 1 pixel thick
 >>> s.lookup('Button.highlight', 'highlightcolor')
-'#d9d9d9' # step 5 has a default or normal colour #d9d9d9 which is grey
-````
+'#d9d9d9' # step 5 highlight has a default or normal colour #d9d9d9 which is grey
+```
 Button is a fairly straightforward widget, but some such as Progressbar, Scale and Scrollbar have an orientation, whereas 
 LabelFrame, Notebook and Treeview have a main and auxiliary class name. Lastly PanedWindow has both orientation and an auxiliary
-part. Let's see the differences, with a widget with an orientation property such as Scale:-
-````
+part. 
+
+Let's see what changes, when we have a widget with an orientation such as Scale:-
+```
 >>>b = ttk.Scale(None)
 >>>b.winfo_class()
 'TScale'    # class name
@@ -135,7 +148,10 @@ part. Let's see the differences, with a widget with an orientation property such
 [('Vertical.Scale.trough',
   {'children': [('Vertical.Scale.slider', {'side': 'top', 'sticky': ''})],
    'sticky': 'nswe'})]
->>>layout = s.layout('Horizontal.TScale') # now try the Horizontal orientation
+```   
+Now try the Horizontal orientation.
+```
+>>>layout = s.layout('Horizontal.TScale') # 
 >>>layout
 [('Horizontal.Scale.trough',
   {'children': [('Horizontal.Scale.slider', {'side': 'left', 'sticky': ''})],
@@ -146,9 +162,11 @@ part. Let's see the differences, with a widget with an orientation property such
 >>>s.lookup('Horizontal.Scale.slider', 'troughcolor')
 '#c3c3c3'
 ````
-That wasn't too bad, let's try a widget with an auxiliary class such as LabelFrame:-
+That wasn't too bad, we had to know that the widget had orientation, which had to be written with a capital first letter. 
+
+Let's try a widget with an auxiliary class such as LabelFrame:-
 ````
->>>b=ttk.LabelFrame(None)
+>>>b=ttk.LabelFrame(None) # no properties are being set
 >>>b.winfo_class()
 'TLabelframe' # you noticed it's a small f didn't you, TLabelframe
 >>>s.layout('TLabelframe')
