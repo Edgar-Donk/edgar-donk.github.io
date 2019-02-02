@@ -223,8 +223,10 @@ The style property of Button agrees with the style name for the relevant Style c
 built on a previously named style, so we could create red.green.TButton using a red background, say. If we need to configure
 another element just list the extra element.
 ````
-s.configure('mix.TButton', foreground='green',background='red')
-b = ttk.Button(self, text='Friday', style='mix.TButton') # now change both style and configure from mix.TButton to red.green.TButton
+s.configure('green.TButton', foreground='green')
+s.configure('red.green.TButton', background='red')
+b = ttk.Button(self, text='Friday', style='red.green.TButton') 
+# now change both style and configure from red.green.TButton to mix.TButton
 ````
 We can modify /examples/01two_buttons.py to incorporate the colour changes, we should see something like 
 /examples/02two_coloured_buttons.py. Did you notice that the background colour on the second ttk button changed as the mouse
@@ -238,8 +240,8 @@ a blue border the result should look like 02scrollbar.py. When querying the elem
 and thumb have background and borderwidth elements so the appearance is matched. I have created a second scrollbar where the
 borderwidth is not changed, look at the arrows. In reality there was not a great deal of difference to the button example, just
 that we had to remember to add the orientation to the configuration name. If you try one of the other themes alt, clam or
-default we have the additional option of arrowcolor, try out this element with pink say. Classic has no arrowcolor but if you
-forget to take this element, then there is no reaction, not even a warning.
+default we have the additional option of arrowcolor, try out this element with pink say. Classic has no arrowcolor element but if you
+forget to take away this element, then there is no reaction, not even a warning.
 
 The last type of widget are those with auxiliary parts. Taking LabelFrame as an example, we would normally wish to modify the
 label part rather than the Frame. We can fill the frame with a tkinter coloured frame to show off the widget. A second
@@ -253,27 +255,27 @@ view the colour changes we use 2 treeview widgets, the first has not been custom
 
 Generally try to keep it simple, try looking for an element that looks as though it should work, test it and see. Load a common
 theme such as clam, remember that if working in a windows or mac environment it will not work as straightforwardly if the theme
-not is not changed. Look at 02Entry.py, if we use the clam theme it should create an entry with a blue background, however if
+is not changed. Look at 02Entry.py, if we use the clam theme it should create an entry with a blue background, however if
 the clam theme is not used and you are running with windows or mac OS, then the entry widget has to change by adding an
 element_create and adding the newly created element to layout. To find the correct element option, either check out "Changing
 Widget Colors" or use query layout and element_options, then we see that Entry.field has ('bordercolor', 'lightcolor',
-'darkcolor', 'fieldbackground') whereas Entry.textarea has ('font', 'width'). If you had used the element name background the
-widget would not have reacted.
+'darkcolor', 'fieldbackground') whereas Entry.textarea has ('font', 'width'). If you had used the element name background as we did for
+button the entry widget would not have reacted.
 
-We are now in a position to change the element colour and size of any widget, but whenever the state changes our widget will
-revert to a style inherited from the parent theme, so the interaction of states and style will be our next topic.
+We are now in a position to change the element colour and size of any widget, but whenever the state changes, such as pressing the
+widget, it will revert to a style inherited from the parent theme, so the interaction of states and style will be our next topic.
 
 ## 03 Linking Style with State
 
 Every widget exists with a state that for some widgets can be directly changed by the user's actions, such as moving the
 mouse over the widget, or by selecting or pressing the widget. Whenever the state changes the widget changes in colour, relief and/or
 size thus providing the user feedback. Other states which are not being changed dynamically are changed by the program. States are
-a fundamental part of styles and themes. Check out the table /tables/03states.md. All states also have an opposite condition whereby the
-name is prefixed by an exclamation mark, so the opposite of disabled is !disabled and not one of the other states, such as active.
+a fundamental part of styles and themes. Check out the table /tables/03states.md. All states also have an opposite condition in which
+the name is prefixed by an exclamation mark, so the opposite of disabled is !disabled and not one of the other states, such as active.
 
 Some widgets, such as Frame would hardly ever need a state other than the normal state, others such as Button only really are 
-useful if they display different states. When programming with states be aware that a widget with no named state is in the "normal"
-state even though normal is not directly referenced, it is implicitly the state we have used when making simple changes to the
+useful if they use different states. When programming with states be aware that a widget with no named state is in the "normal"
+state even though normal cannot be directly referenced, it is implicitly the state we have used when making simple changes to the
 widget with Style.configure. When we survey states some are never used, or as the captain of the Pinafore might say - hardly
 ever used.
 
@@ -288,7 +290,7 @@ from tkinter.ttk import Style, Button
 [('!disabled', 'pressed', 'sunken')]
 ```
 In this case the theme uses a compound state, in that the pressed state only applies when the button is not disabled, and the
-property is 'sunken'. These mapped states vary with both widget and theme. Within a theme we can have a common mapping.
+relief element is 'sunken'. These mapped states vary with both widget and theme. Within a theme we can have a common mapping.
 ```
 >>>s.theme_use('default')
 >>>s.map('TButton', 'background')
@@ -298,17 +300,17 @@ Weird - we know that the background changed in our button examples, so how to fi
 mapping working here.
 ```
 >>>s.theme_use('default')
->>>s.map('.', 'background')
+>>>s.map('.', 'background') # '.' is the shorthand for common
 [('disabled', '#d9d9d9'), ('active', '#ececec')]
 ```
-Ahha - now we can see that all widgets with a background element will react in a similar way, so if you haven't done it see what
+Ahha - now we can see that all widgets with a "background" element will react in a similar way, so if you haven't done it see what
 happens when you pass the cursor over our scrollbar example. By the by if we test for relief, which we tested on button, with a
 common mapping we get an empty result, so "." is a specific instance and not some form of wildcard.
 ```
 >>>s.map('.', 'relief')
 []
 ```
-Since the common and button mapping may have more than one states what happens if we query it without any elements:-
+Since the common and button mapping may have more than one state what happens if we query it without any elements:-
 ```
 >>>s.map('.')
 {'background': [('disabled', '#d9d9d9'), ('active', '#ececec')],
@@ -322,24 +324,25 @@ Note how the element name has been added with the extra curly brackets and full 
 Some of the behaviours and properties of ttk widgets are now a little more explainable when we use the common mapping system to
 enforce uniformity in a theme. If we are working with a widget such as label with no dynamic states, it makes no sense to send 
 warning messages if a widget does not have that particular element or state. The other minor problem is that only widgets with
-the exact element name will react in a similar manner, so button has 'background', whereas entry has 'fieldbackground'.
+the exact element name will react in a similar manner, so button has 'background', whereas entry has 'fieldbackground' and must be
+programmed separately.
 
 One way to change the properties of a widget is to expand upon our simple method, so the normal state is set by configure(), we
 can then set the other states using map(). This means that any single element could have several properties corresponding to 
-more than one states. Related states should be listed with tuples. We can see this in the example above, we have an element
+more than one states. Related states should be listed with tuples. We can see this in the example for common above, we have an element
 called background with a list of two tuples, the first tuple is for the disabled state ('disabled', '#d9d9d9') and the second 
 tuple ('active', '#ececec') applies to the active state.
 
 In the example 03map_button.py we have configure which sets up the general widget appearance then uses map to set the active
-state by changing the background colour. Both configure and map utilise the same reference set in the style property. For a bit
+state by changing the background colour. Both configure and map utilise the same reference used by the style property. For a bit
 of fun we have a random selection from 6 colours, so we can set the active colour we first find the RGB colour using
 winfo_rgb(color) - color is the variable - then we change each of the RGB components and finally convert back to the hash value.
-Simple colour manipulations are possible in the RGB scheme. A further frill is that we use a white foreground for dark
+Simple colour manipulations are straightforward in the RGB scheme. A further frill is that we use a white foreground for a dark
 background and a black foreground for a yellow background.
 
 When using Style.configure and Style.map you should notice that these are separate clauses within the program, if we use
-theme_settings configure and map can be run together into a single clause. Review 03combobox.py and note how configure and
-map are now quoted followed by a full colon. (If you are running under windows or mac if the theme_use command is commented out
+theme_settings configure and map can then be run together into a single clause. Review 03combobox.py and note how configure and
+map are now quoted followed by a full colon. (If you are running under windows or mac when the "theme_use" command is commented out
 the combobox will be white, not green). Since we are running the program as a theme, combobox will react to our settings without
 the need for Combobox to have a property style setting. Now is a good time as ever to review the punctuation, in particular all
 the brackets being used. Theme_settings is a function so it has opening and closing round brackets, all those curly brackets
@@ -350,36 +353,37 @@ single element then we have a list of tuples - square brackets. But you probably
 again and compare how the programming differs when using style.configure or style.map, where they behave as normal functions
 with explicit properties. 
 
-When using a standalone theme, coming up soon, the method of theme_settings is the same as for theme_create.
+When using a standalone theme, coming up soon, the method of theme_settings is the same as that used in theme_create. Theme_settings 
+changes the style of the parent theme for a widget or two, all the other widgets still appear as normal - so theme_use refers to the
+parent theme, whilst theme_create supplants the parent theme and theme_use would refer to the newly created theme name.
 
 As we can see keeping to the style system we can easily have two or more widgets with differing properties - this is useful when
-comparing state changes during the testing phase and helping in choosing the most appropriate combination.
+comparing appearances and state changes during the testing phase and helping in choosing the most appropriate settings.
 
 Mapping is primarily concerned with dynamic widgets and their states, but we know that there are states that need to be selected from
 the program - in this case use the following construct for ttk themes, (see 03states_themes.py):-
 ```
-chk.state(['selected'])  # check the checkbox chk
-chk.state(['!selected']) # clear the checkbox chk
+checkbox.state(['selected'])  # ticks the checkbox
+checkbox.state(['!selected']) # clear the checkbox
 ```
 whereas in tkinter we would use the following construct
 ```
-lbox['state']='normal'
-lbox['state']='disabled'
+listbox['state']='normal' 
+listbox['state']='disabled'
 ```
 
-The order of mapping states for the element is important. If the active element is placed at the head then when the button or
+The order of mapping states for the element is important. If the active tuple is placed before the pressed tuple then when the button or
 scrollbar is pressed the colour remains as the active colour without changing for other states. As ever - test first.
 
-It is useful to be able to see the individual states together with their appearance when changing their states.
-03states_themes.py gives you the abilty to do just that, there is no problem when changing themes, however when changing states we 
-need to ensure that the previous state is cancelled by applying the opposite state (you remember the state prefixed with an exclamion
-mark), we also have to ensure that we are dealing with a string rather than a tuple, further we must ensure that the tuple is not empty.
-In our example we are changing the state of a button, if needed you can change the widget or add another as required. Anticipating what
-should occur later we have enabled either the use of standard themes or additional themes from ttkthemes. 
+It is useful to be able to see the individual widgets when changing their states. 03states_themes.py gives you the abilty to do just
+that, there is no problem changing themes, however when changing states we need to cancel the previous state by applying the opposite
+state (you remember the state prefixed with an exclamion mark), we also have to ensure that we are dealing with a string rather than a
+tuple, further we must ensure that the tuple is not empty. In our example we are changing the state of a button, you can modify this
+or add another widget as required. Anticipating what is coming later I have enabled standard themes or additional themes from ttkthemes. 
 
-It should be noted that not all states are only used singly, they may be used in combination, particularly in dynamic situations. The 
-common themes do not use the same states for particular widgets, if we are building custom widgets keep this in mind, as ever test using
-different themes. Check out the table 03mapped_states.md to see what states are used with the common themes.
+It should be noted that states are not only used singly, they may be used in combination, particularly in dynamic situations. The 
+common themes do not use the same states for any particular widget, if we are building custom widgets keep this in mind, as ever test
+using different themes. Check out the table 03mapped_states.md to see what states the common themes use with which widget.
 
 ## 04 Image - First Steps
 
