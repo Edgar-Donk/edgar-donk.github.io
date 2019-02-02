@@ -46,10 +46,11 @@ themes, therefore wherever possible my examples will use one of the 4 common the
 interaction with a ttk widget we will be using the Style() module imported from ttk. There is a summary of all the Style() commands
 in the table 01style_commands.md, we will be going through these commands one by one.
   
-Widgets have one or more components that can be referenced directly using the Style module, assisted by the widget style property
-option. Just to clarify - every ttk widget has a 'style' property which is used when we wish to modify a widget's style (colour, size,
-relief and font). If we take a look at the button widget we have a rectangular shape divided into 4 components, starting from the
-outside - border, focus, spacing and label. Look at
+We can think of a widget in terms of a collection of components, which in turn are made up of elements. Widgets have one or more
+components that can be referenced directly using the Style module, assisted by the widget "style" property option. Just to clarify -
+every ttk widget has a "style" property which is used when we wish to modify a widget's appearance (colour, size, relief and font). If
+we take a look at the button widget we have a rectangular shape divided into 4 components, starting from the outside - border, focus,
+spacing and label. Look at
 ```
 ```
 ![button:components](/images/01button.png) 
@@ -64,8 +65,8 @@ we have an up and down arrow as well as a thumb component all contained in a tro
 can easily find out the component names and their relative positions, so there is no real reason to worry or fret about trying to
 remember everything in detail.
 
-Let us compare two diferent types of button widgets, using the script /examples/01two_buttons.py found in the examples
-directory. When you run this script you will see 3 buttons, the top button is the standard tkinter, the lower two are both ttk. All
+Let us compare two diferent types of button widgets, using the script /examples/01two_buttons.py - found in the examples
+directory. Running this script you will see 3 buttons, the top button is the standard tkinter, the lower two are both ttk buttons. All
 three buttons are grey but the tkinter button is paler. Move the cursor over all three buttons. The two ttk buttons lighten but the
 tkinter button does not react. Click on all three buttons, all three appear to be depressed, but the two ttk buttons show which one of
 the two buttons was depressed last. Buttons, in common with several other widgets, have what we call states, so for example when a
@@ -138,7 +139,7 @@ Button is a fairly straightforward widget, but some such as Progressbar, Scale a
 LabelFrame, Notebook and Treeview have a main and auxiliary class name. Lastly PanedWindow has both orientation and an auxiliary
 part. 
 
-Let's see what changes, when we have a widget with an orientation such as Scale:-
+When we have a widget with an orientation, such as Scale, let's see what changes:-
 ```
 >>>b = ttk.Scale(None)
 >>>b.winfo_class()
@@ -147,7 +148,7 @@ Let's see what changes, when we have a widget with an orientation such as Scale:
 >>>layout
 [('Vertical.Scale.trough',
   {'children': [('Vertical.Scale.slider', {'side': 'top', 'sticky': ''})],
-   'sticky': 'nswe'})]
+   'sticky': 'nswe'})] # we found 2 components, trough and slider
 ```   
 Now try the Horizontal orientation.
 ```
@@ -162,7 +163,7 @@ Now try the Horizontal orientation.
 >>>s.lookup('Horizontal.Scale.slider', 'troughcolor')
 '#c3c3c3'
 ````
-That wasn't too bad, we had to know that the widget had orientation, which had to be written with a capital first letter. 
+That wasn't too bad, we had to know that the widget had orientation, where the first letter had to be capitalised. 
 
 Let's try a widget with an auxiliary class such as LabelFrame:-
 ````
@@ -206,15 +207,14 @@ name. Remember that those widgets that have orientation need to be prefixed by e
 After all that we can find the class and element names for all widgets for our chosen theme. We will use Style.configure().
 As a first example let's change the button widget, we want to change the text properties, foreground, background and font.
 Foreground and background are both colours which can be expressed as names or a six figure hexadecimal hash. Colour names in
-tkinter are based on those used by TCL/TK colors — symbolic color names recognized by Tk 
-https://tcl.tk/man/tcl8.6/TkCmd/colors.htm, note TCL are using RGB values that must first be converted to hash values to be
-valid in tkinter. Haven't we got the element names for button already? No, well we'll have to use the right component name in
-our query (and it wasn't highlight). Use your interactive session, and if you were on the right track you should get an answer
-together with 11 other elements. Now you are no longer limited to just foreground, background and font. 
+tkinter are based on those used by TCL/TK colors — symbolic color names recognized by Tk https://tcl.tk/man/tcl8.6/TkCmd/colors.htm,
+note TCL is using RGB values that must first be converted to hash values to be valid in tkinter. Haven't we got all the element names
+for button already? No, then well we'll have to use the right component name in our query (and it wasn't highlight). Using your
+interactive session, and if you were on the right track you should get the answer together with 11 other elements. Now you are no longer
+limited to just foreground, background and font. 
 
-When using configure we reference the change to make the style change using the format *newStyleName.oldStyleName*, where
-oldStyleName corresponds to our class name, in our case TButton. Normally we choose a descriptive name for the newStyleName, so
-for the button widget we can write :-
+When using configure we require a reference to the style change using the format *newStyleName.oldStyleName*, where oldStyleName
+corresponds to our class name, in this case TButton. Normally we choose a descriptive name for the newStyleName, so for the button widget we can write :-
 ````
 s.configure('green.TButton', foreground='green')
 b = ttk.Button(self, text='Friday', style='green.TButton')
@@ -224,11 +224,11 @@ built on a previously named style, so we could create red.green.TButton using a 
 another element just list the extra element.
 ````
 s.configure('mix.TButton', foreground='green',background='red')
-b = ttk.Button(self, text='Friday', style='mix.TButton')
+b = ttk.Button(self, text='Friday', style='mix.TButton') # now change both style and configure from mix.TButton to red.green.TButton
 ````
 We can modify /examples/01two_buttons.py to incorporate the colour changes, we should see something like 
 /examples/02two_coloured_buttons.py. Did you notice that the background colour on the second ttk button changed as the mouse
-moved over it and when the button was pressed. The widget inherits all expressly styled properties not overwritten by our style
+moved over it also when the button was pressed. The widget inherits all expressly styled properties not overwritten by our style
 changes, in our case shades of grey from the parent theme. 
 
 That was easy wasn't it, feel like a challenge? Let's try modifying a horizontal scrollbar, use the layout and element_options
