@@ -900,6 +900,9 @@ image (needed for shading) include in your calculations. The text area has been 
 without a white surround, instead make the surround transparent. Note we are using png images as later on it will help in subsequent
 widgets.
 
+The labelframe was created, and the label was also invoked to ensure that there was no unexpected interaction between the two widgets.
+The labelframe required padding to ensure that any widget placed inside the frame did not overwrite the frame.
+
 The next widget we may consider is the Separator. At first glance it may seem to be a simple widget to alter, but if we try to do so
 we will find that the separator has an orientation, but its only component consists of Separator.separator with no orientation. There
 is no easy way to make the vertical separator react correctly as there is no vertical component. I have created 2 separator images in
@@ -916,8 +919,8 @@ vertical separator has widg1.place(x=75, y=50, height=150, width=5) which gives 
 
 Let us try the entry widget. The thinking here is that we have a fairly simple widget, so an image of an old yellowed document may be
 appropriate. The image has irregular edges, so instead of a smooth expansion I have purposefully chosen border values that create more
-jagged borders. If required we could impose an old font such as the equivalent of "Old English" in Windows. As with pirate label there 
-was no need to create a layout, element create is all we need.
+jagged borders. If required we could impose an old font such as the equivalent of "Palace Script MT" in Windows. As with pirate label
+there was no need to create a layout, element create is all we need.
 
 Say we look at the combobox, it is best not to alter this too much - since we need to incorporate a drop down list - so let's use the
 images from ubuntu. Remember ubuntu uses png, which are easier to manipulate than gif within PIL. We can see that ubuntu uses theme
@@ -927,7 +930,9 @@ components, we can detect the different shades, then we apply the darkest shade 
 colour. The shift script sorts out the shades of brown-beige and substitutes shades of aquamarine. It is best to skip over arrows which
 are grey. Afterwards the arrows are removed by painting over using the appropriate image background colour using an image editor. The
 arrow is replaced by an anchor. If we have a more demanding colour substitution then it would be appropriate to select according to 
-contrast (darkness) using the hsv or yiq colour schemes.
+contrast (darkness) using yiq colour scheme. Quite apart from yiq being easy to convert from rgb, the y channel gives an easy method to
+determine how dark or light a colour may be, compare the values obtained for red, green and blue where in hsv and hls luminosity and
+saturation are identical, whereas in yiq we have 76.25, 149.68 and 29.07 respectively (black is 0).
 
 If we look at the scrollbars next, they have more components which will change with orientation, so with changes of state there are
 quite a few images used. 07pirate_scrollbar.py is the relevant script. I like the images from ubuntu so we can change their colours to
@@ -939,3 +944,15 @@ layout, which will need to be copied and changed as appropriate for the other or
 the element expand set to True or 1, otherwise the thumb cannot be moved using the mouse - this in turn means that the thumb will no
 longer remain circular but becomes oval. Just as it was necessary to set the border limits in pirate_label so thumb needs to have its
 border set (try experimenting with a border of 1).
+
+Both radio- and check buttons are created in a similar fashion, in that multiple images were created for the various states. All images
+need to be the same size.
+
+The widgets notebook and treeview both use sails in their tabs, the adjustment of the border and padding was a little tricky, but
+followed along the lines already developed for label. Treeview had used a bordercolor with an alias name, so do not forget to set it
+up in the piratz_theme.py.
+
+The button widget is based on the rear view of a sailing ship. This gives us an opportunity to create rather different states from the
+normal, where we can use the lights and raise the flag. The vertical border was limited to a few pixels so that the name stays intact. 
+An outside dashed line was wanted, which required both configure and layout. These do not work if run as separate clauses, it is best to
+run them under a single call to the button class TButton. This differs from the tcl scripts where they are run separately.
