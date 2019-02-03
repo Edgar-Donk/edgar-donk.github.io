@@ -955,4 +955,23 @@ up in the piratz_theme.py.
 The button widget is based on the rear view of a sailing ship. This gives us an opportunity to create rather different states from the
 normal, where we can use the lights and raise the flag. The vertical border was limited to a few pixels so that the name stays intact. 
 An outside dashed line was wanted, which required both configure and layout. These do not work if run as separate clauses, it is best to
-run them under a single call to the button class TButton. This differs from the tcl scripts where they are run separately.
+run them under a single call to the button class TButton. This differs from the tcl scripts where configure and layout are run
+separately.
+
+The last two are on the face of it not particularly exciting. Check out how a progressbar and scale work in an ordinary theme, or even a 
+ttktheme, not exactly gripping stuff is it? However with a bit of thought we can "improve" these somewhat. In progressbar the graphics
+come from the game funny boat, I'm no artist, so the horizontal progressbar is a pirate ship sailing left to right, all we need is to
+detect the value then use this to trigger another state just as the value reaches 100. I am using the after universal widget function
+that fires after a time delay calling a customised function this checks on the widget value if it reaches 100 it changes the state and
+the direction flag. When the value reaches 0 it changes back to the original state and the direction flag. The states in element_create
+and the customised function need compound states that have the negative second state as well as the called state. The vertical
+progressbar is slightly more complicated as we have a flapping seagull, therefore we require 3 states, and the negative states have to
+include both the other two states apart from the selected state. Run both progressbars in "indeterminate" mode and make the length the
+same as your trough image. In the scale widget we have a similar situation but we can use the command property to trigger our external
+function, which simplifies this function, we need only concentrate on obtaining the scale value then trigger the state changes at pre-
+determined amounts. The horizontal scale not only has several states for the slider but the trough as well. Ensure that the trough
+images match the slider images by using the same states. Alright we need customised functions but I think it a small price to pay -
+or else you need to build customised widgets and that is another ballgame entirely.
+
+Once the widgets have been all tested we can build up piratz_theme.py, there may also be a common colour and font required.
+match the 
