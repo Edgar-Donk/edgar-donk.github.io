@@ -403,22 +403,37 @@ print(tkinter.TkVersion)
 First off we shall load just an image onto a button and see what happens when we pass the cursor over it, and press the button.
 Load up 04button_image.py not forgetting to place the images butImage.png and butImageTrans.png in your images file (if you are
 running tkinter 8.5 uncomment the lines as indicated, also comment out the lines indicated, this will load Image and Imagetk from PIL
-then use Image.open and Imagetk.PhotoImage finally comment out the lines where PhotoImage is being used by itself). PhotoImage is
-imported from tkinter we then load the image into PhotoImage creating a reference which will be used within the widget's property option
-"image". When working with images in a class there is always the problem that the image will not show unless special precautions
-are taken. When the image is a local variable, reload the image directly after referencing it with the widget, alternatively we
-can ensure that the image variable is prefixed by self. 
+then use Image.open and Imagetk.PhotoImage finally comment out the lines where PhotoImage is being used by itself). 
+```
+# with tkinter 8.6
+ ...
+        self.buttonPhoto = PhotoImage(file='../images/butImage.png') 
+        buttonPhotoTrans = PhotoImage(file='../images/butImageTrans.png')
+ ...
+# with tkinter 8.5
+from PIL import Image, ImageTk
+ ...
+        im1 = Image.open('../images/butImage.png') 
+        im2 = Image.open('../images/butImageTrans.png') 
+        self.buttonPhoto = ImageTk.PhotoImage(im1)  
+        buttonPhotoTrans = ImageTk.PhotoImage(im2)
+ ... 
+``` 
+PhotoImage is imported from tkinter and loads the image into PhotoImage, where a reference is required which will be used within the
+widget's property option "image". When working with images in a class there is always the problem that the image will not show unless
+specialprecautions are taken. When the image is a local variable, reload the image directly after referencing it with the widget,
+alternatively ensure that the image variable is prefixed by self, (compare how the two images self.buttonPhoto and buttonPhotoTrans are
+treated). 
 
 Using 04button_image.py you should see three buttons, the top one with just an image, the second uses the same image with the
 centre made transparent - you may think it looks quite promising, until we see the third button and its text. As it stands it is
 obvious that the image option is not always useful, since it does not change dynamically with the widget. Where a widget can work with
 a single sized widget, as in a pictogram, then this option should be considered. We can load the pictogram image and text
-simultaneously by using the compound property option. 
+simultaneously by using the "compound" property option. 
 
 If multiple pictograms are available we can change these according to state. Check out the example 04button_pictograms.py, this
 has three pictograms linked to 3 states which must have the active state listed last, just as we needed to do in the mapping 
-situation. When using the image property always ensure that there are an odd number of states, therefore the first state remains
-anonymous, corresponding to the normal state.
+situation. When using the image property always ensure that the first state remains anonymous, corresponding to the normal state.
 
 Be careful when referencing the image in the image property:-
 ```
@@ -428,18 +443,18 @@ We can use "ref1" as our image reference or im1 (unquoted).
 
 ## 05 Image - Create Widgets with Rounded Corners and Shadow Effects
 
-The 4 themes common to tkinter can be found where your python program is installed under the directory tcl/tk8.6/ttk. Apart from
-default which is listed as defaults.tcl, all the other themes are listed with their own names suffixed with ".tcl". There are
+The 4 themes common to tkinter can be found where your python program is installed under the directory python36/tcl/tk8.6/ttk. They are
+found there listed with their own names suffixed with ".tcl", apart from default which is listed as defaults.tcl. There are
 obvious differences between the scripting language tcl and tkinter but we can recognise some commands such as map and configure,
 we can also spot the element and state names. A new part of the mix is when we look at the OS specific themes such as aqua or
-vista which have variables that are system dependant. Even so we should be able to recognise how the answers to some of our scripts
-were formed. It would seem that the common themes have little to do with images and thus able to give the widest possible
-support to any style alterations we wish to make. By contrast it will be found that if one of the OS dependant themes was to be
-used as a parent then changes required may not be quite so straightforward.
+vista which have variables that are system dependant. Even so we should be able to recognise how some of our scripts will respond. It
+would seem that the common themes allow us to modify all the components and elements are able to give the widest possible support to any
+style alterations we wish to make. By contrast it will be found that if one of the OS dependant themes would require not so
+straightforward an approach. On the other hand the OS specific themes look uptodate and ready to use as is. 
 
 So far we have seen that the ttk themes achieve uniformity across all widgets, by using common changes on dynamic states, also 
-within a widget having more than one element with the same name. A third aid to uniformity is by using using descriptive colour aliases
-rather than the colour names or hash values.
+by using the same element name within a widget or from widget to widget. A third aid to uniformity is by using using descriptive colour
+aliases rather than the colour names or hash values.
 
 As I said at the beginning there are remarkably few instances of the more interesting style changes found when trawling the
 internet. Up until this point most of the examples could have been made referring "Tkinter 8.5 reference: a GUI for Python". The
@@ -463,10 +478,10 @@ Let's remind ourselves about the layout and elements for frame:-
 In our example script, Bryan created an extra state and changed the border, using the command
 ```
 style.element_create("RoundedFrame", "image", "frameBorder", # he was working on the RoundedFrame, so he added an image 
-    ("focus", "frameFocusBorder"), border=16, sticky="nsew") # added the state focus  set to an image and changed the border
+    ("focus", "frameFocusBorder"), border=16, sticky="nsew") # added the state focus  set to an image and changed the border to 16
 ```
 The border size, 16, is important, it is the allowance needed to create the rounded corners and shadows, without this the 
-resulting image created would look jagged. The single figure 16 is the equivalent of having (16,16,16,16), a border of 16 along all
+resulting widget would look jagged. The single figure 16 is the equivalent of having (16,16,16,16), a border of 16 along all
 sides. The lower frame has obviously grown in comparison to the upper frame and looks pretty smart, both frames have the same style
 'RoundedFrame'. Now is a good time to have a look at the underlying image. To do this we will need to decode the coded image. Since the
 script is quite old it can only be a gif image. (Use all the lines of the coded image - the dotted line below is just a shortcut for
@@ -486,16 +501,18 @@ as squares and move your cursor to the centre of the corner, we then can see why
 reduce this figure to 8 say we will see about 13 indentations on the long side. A border of 12 will still show indentations, 
 although not as pronounced, by 16 the indentations have disappeared altogether. It would seem that when a widget image needs to extend
 only the inner part of the image between the border extremities is utilised for the extension, in this case the middle 32 pixels of each
-side are used during an image extension.
+side are used during an image extension. Think about what you have just seen, it's pretty awesome isn't it? That small image was 
+automagically enlarged to the required size with the barest of input, apart from telling the widget to change itself by creating an
+element and placing our image at the border.
 
 What happens when we adapt the above method for a labelframe? What about the top part of the frame where the text is written
 between a visible frame? Will we need a special method to create the gap? Ah well, fools rush in where angels fear to tread. Run
 05rounded_labelframe.py. The labelframe reacts well, we see the label sitting in the frame break, and the colour changes as a
 result of the program logic, try reversing the selection order and choosing one of the widgets with orientation. The
 style.element_create and style.layout remain the same as for the frame example. Since we no longer depend upon an event linked
-to clicking the lambda functions are not needed, but we do change the state of the labelframes triggered by command options of the
-widgets. You did notice the the frame has a different colour - first obtain the decoded image, make the changes to the colour then 
-encode once again. 
+to the mouse being clicked the lambda functions are no longer needed, but we do change the state of the labelframes triggered by command
+options of the widgets. You did notice the the frame has a different colour - first obtain the decoded image, make the changes to the
+colour then encode back once again. 
 ```
 import base64
 with open('borderGrey1.gif', 'rb') as f:
@@ -504,10 +521,10 @@ with open('borderGrey1.gif', 'rb') as f:
 ```
 I altered the colour of the grey image. The output from the print command is saved as our coded image.
 
-The next example 05search_entry.py will create a special frame, resembling the mac search element. Once again the image is
-loaded as encoded data, this time the programmer uses the gif property to make multiple images. Look at the PhotoImage lines of
-code where the format is used. The programmer is altering the entry widget, using the PhotoImage alias names "search1" rather
-than the s1 variable. 
+The next example, found by trawling the internet, 05search_entry.py will create a special frame, resembling the mac search element. Once
+again the image is loaded as encoded data, this time the programmer uses the gif property to make multiple images. Look at the
+PhotoImage lines of code at the format property. The programmer is altering the entry widget, using the PhotoImage alias names "search1"
+rather than the s1 variable. 
 ```
 s1 = PhotoImage("search1", data=data, format="gif -index 0")
 .......
@@ -531,15 +548,16 @@ Compare its layout to that of a normal entry widget.
    'sticky': 'nswe'})]
 ```   
 The other item to note is how he deals with the border width. Originally it was 1 all round, now it is ```border=[22, 7, 14]```.
-This follows the same convention as used for padding, top and bottom sides are 14. Check out table 05padding_border_layout.md. Since we
-are using the normal interactive states of the entry widget, no additional programming is required as was necessary for the label
-example. Using our newly acquired decoding skills we can see how the border layout numbers are derived. 22 pixels clears the tail of the
-magnifiying glass, 7 pixels clears the corner and the top clearance, whilst 14 pixels clears the right hand end. As it stands 
-this widget could be lengthened horizontally, but there is no way we can extend it vertically without a strange looking
-magnifiying glass formed as a result. When substituting an image for a border ensure there is a section that can be repeated on the
-sides that is repeated both left and right, also top and bottom.
+This follows the same convention as used for padding found in our Tkinter reference for 8.5, the left side is 22 and the right side 7
+meanwhile top and bottom sides are 14. Check out table 05padding_border_layout.md. Since we are using the normal interactive states of
+the entry widget, no additional programming is required as was necessary for the label example. Using our newly acquired image decoding
+skills we can see how the border layout numbers are derived. 22 pixels clears the tail of the magnifiying glass, 7 pixels clears the
+corner and the top clearance, whilst 14 pixels clears the right hand end. As it stands this widget could be lengthened horizontally, but
+there is no way we can extend it vertically without a strange looking magnifiying glass formed as a result. When substituting an image
+for a border ensure there is a section that can be repeated on complementary sides, that is repeated both left and right, also top and
+bottom.
 
-We should now be able to understand how to manage themes. When we use a simple style change affected widgets must have that 
+We should now be able to understand how to manage themes. When we use a simple style change the affected widgets must have that 
 style property cross referenced. When a theme change is made affected widgets require no reference, therefore the reference used in the
 style changes, such as "search1" in 05search_entry.py, would not be appropriate. Instead we should be thinking of class names, once a
 style has been tested and is ready to be part of the customised theme we would use just "TButton" rather than "new.TButton" say,
@@ -548,13 +566,14 @@ then all buttons would be altered by the style change within that themed script.
 Now would be a good a time as any to inspect what ttkthemes has to offer. Apart from the interface to python most is written in 
 TCL scripting language. We can take stock of the themes on offer, most work with gif images, that are used as substitutes for
 the border part of the relevant widget. Almost all ttkthemes use one of the 4 common themes as a parent, clam is the most popular,
-although if you were to use a ttktheme it would be difficult to tell which theme is the parent. It is interesting to note that Aquativo
-uses coded images, whereas the black theme has no images. Three themes use png images, but these are only usable with tkinter 8.6 and above. Finally most images are about 30 by 30 pixels, with corners of one or three pixels radius. 
+although if you were to use a ttktheme it would be hard to tell which theme is the parent without inspecting the code. It is interesting
+to note that Aquativo uses coded images, whereas the black theme has no images. Three themes use png images, but these are only usable
+with tkinter 8.6 and above. Finally most images are quite small, about 30 by 30 pixels, with corners of one or three pixels radius. 
 
 If you want to modify the gif images in an image editor there should be no great problem, provided you do not try converting to another
 format and back again. Use the image editor for small simple changes. When checking out or modifying an image pixel by pixel using PIL
-(Pillow) remember that gif only has 256 colours - so the rgb and hsv values you see in your image editor are for your convenience - it
-would probably be better to use png from the outset.
+(Pillow) remember that gif only has 256 colours, requiring special programming, it would probably be better to use png from the outset.
+The rgb and hsv values for gif images you see in your image editor are for your convenience.
 
 If you were to install ttkthemes it is easy to switch between the normal themes and ttkthemes. Running the standard ttk Style module
 excludes ttkthemes, however if you load up ttkthemes with the following script:- 
@@ -599,7 +618,7 @@ can change the theme, we also display the layout of the widget. It is a simple e
 in ttkthemes a widget is affected both by the image and general colours. In this regard tkinter's Text is a useful tool in that the name
 and its colour representation can be made in one line. In 06combobox_text_themes.py we have a dictionary of element_options containing
 a list of elements with their options, colour, size and font, these are then listed in style configure these can then be added to the
-Text widget so that we display each element its option and if a colour shows the hash value and a rectangle of colour. Almost all the 
+Text widget so that we display each element its option and a colour shows the hash value and a rectangle of colour. Almost all the 
 elements react as expected except for the font for combobox, which is unusual in that it will not react with configure and the style
 property, nor will it change with the font property - as the Entry widget does. A special class is therefore required to allow us to
 change the font of a specified combobox, which is written to allow other properties to be included. A simpler method is to use
@@ -679,7 +698,7 @@ We can test the python version of the plastik theme by running the script 06tree
 Idle, under the main function we call install from plastik_theme, you will notice that it has plastik as a variable, so plastik is a
 subdirectory where the plastik images have been copied to. We can now change the plastik directory and subdirectory, these can be
 renamed after your theme name, say orange, then wherever we find plastik referenced in plastik_theme.py we should change it to our
-orange theme name.
+orange theme name, orange_theme.py.
 ```
 style.theme_create("orange", "default", settings={
 .....
@@ -696,7 +715,7 @@ between tcl and python, use the files plastik.tcl and plastik.py to help spot th
 languages.
 
 Let's see if we can pin the above on an example or two. First let us change the combobox on both our test themes to that used by
-radiance. On my computer, Windows 64 bit python 3.6, the combobox from elegance aka green looks like
+radiance using green.tcl. On my computer, Windows 64 bit python 3.6, the combobox from elegance aka green looks like
 ``` 
 ```
 ![combobox:elegance](/images/elegance_cb.png) 
@@ -760,8 +779,8 @@ unlike radiance.tcl where we find
 ```
 ttk::style theme create radiance -parent clam -settings {
 ```
-since elegance aka green was probably created in Linux the normal theme would have been default. Using this parent theme the combobox is 
-not altered enough - let's try the clam theme instead - ahh far better.
+since elegance aka green was probably created in Linux the normal theme would have been default. Using default as the parent theme the
+combobox is not altered enough - let's try the clam theme instead - ahh far better.
 
 ![combobox:green_post](/images/green_cb_post.png)
 
@@ -787,13 +806,13 @@ from the tcl in radiance.tcl. It's probably best to run a python test file such 
 image files to a suitable images directory, adjusting the names as necessary. When running theme_create you can experiment having the
 parent directory as default instead of clam - the results should be similar to those given in the green.tcl test. The resulting python
 script within theme_create can be used to overwrite the combobox part of orange.py. We can test whether orange.py is correct using
-06combo_orange.py, run under os rather than using python's idle.
+06combo_orange.py, run under our OS directly rather than using python's Idle.
 
 When working with radiance note how often the widgets have their images added by using "element create" - there are relatively few
 widgets that require a layout and mapping. This bodes well for any future designs we may have since this is a relatively simple
 construct. 
 
-Onto our next exercise - let us create a button with the focus state's dashed line surrounds the button. In radiance we see that the
+Onto our next exercise - let us create a button where the focus state's dashed line surrounds the button. In radiance we see that the
 button part of the script looks like:-
 ````
         ## Buttons.
@@ -827,10 +846,10 @@ button widget.
         }
 ```        
 Testing this we see no effect which might not be surprising when we see that at this stage the button widget has no element named
-padding. We can test this finding out the components and their elements from an active session. We can change the button layout of the
-green theme and test again. It works! Let's try it out on the orange theme. Checking out the button we see we have a configure and a 
+padding. We can test this finding out the component and their element names from an active session. We can change the button layout of
+the green theme and test again. It works! Let's try it out on the orange theme. Checking out the button we see we have a configure and a 
 layout that already has padding, so hopefully it works with only minimal changes. First we add padding to configure. This does not work
-when testing, so we swop button and padding.
+when testing, so we swop the button and padding positions.
 ```
         "TButton": {
             "configure": {"width": 10, "anchor": "center", "padding": [10, 0]},
@@ -848,16 +867,16 @@ when testing, so we swop button and padding.
 This works. The conclusion is that one may have to test the configure and layout options with a small script such as
 06orange_widget_test.py adapted to suit your needs.
 
+When dealing with states it helps to keep in mind what will be required in the program in relation to that widget. It certainly helps
+to view how various themes tackled that problem. Some widgets can operate with a bare minimum of states, others may require quite a few,
+but don't forget that some themes use the common settings to help display states without the need for additional images.
+
 ## 07 Blue Sky Thinking
 
 We may decide to adapt one of the existing ttktheme themes, using constructs copied from other themes as demonstrated previously - that
 is not what I mean by "Blue Sky Thinking", I mean something a little more unconventional.
 
-When dealing with states it helps to keep in mind what will be required in the program in relation to that widget. It certainly helps
-to view how various themes tackled that problem. Some widgets can operate with a bare minimum of states, others may require quite a few,
-but don't forget that some themes use the common settings to help display states without the need for additional images.
-
-The first example is probably best run as a standalone style for frame. The idea is copied from a blog that demonstrated how to use 
+The first example is probably best run as a standalone style for frame. The idea is copied from a blog that demonstrated how to use the
 tkinter canvas to contain the background image and some other widgets together with a matplotlib interface. This works but the geometry
 management is limited to the canvas system. If we use frame as our parent widget all the normal geometry managers - grid, pack and
 place - can be used. The only minor problem is that it works best with a full view of the background image. Use the example
@@ -865,31 +884,35 @@ place - can be used. The only minor problem is that it works best with a full vi
 jpg as the image type so that it can be downloaded from many digital cameras and is usually half the size of a png or gif of equivalent
 size.
     
-The next example can be used as a template for subsequent more complex widgets. In my quest for blue sky thinking for a theme I'm using
-piratz, that certainly is different, but should not be taken too seriously, on the other hand it was fun to dream up the widgets and
-their necessary images. The first example 07pirate_label.py can be used as a template for our subsequent pirate examples, it can
-be used to build up a standalone python script. We need to create our image, this tries to invoke a Caribbean island, the palm tree
-poses a challenge, particularly if the label grows in height. We choose border sizes that give the desired effect, then we test using 
-the theme construct rather than styling an individual widget with configure, layout and map. With this widget both theme_create and 
-theme settings work equally well. To increase the height of the widget we can create two lines of text - certainly easier than adding
-a configure clause. Try changing the border size to [20, 6, 4, 4], it looks reasonable if we have sticky "ew" and only one line of code.
-Having created the image it is relatively easy to make it grey in our image editor and save the image for the disabled state. The
-padding [19,3,3,3] is required to position the text. If we look at an enlarged image which shows the grid we can estimate the border
-sizes, after this is made to work the padding can be sorted out. If there is no surrounding area around the image (needed for shading)
-it simplifies calculations. The text area has been made transparent, in fact the appearance may look better without a white surround,
-instead make the surround transparent. We are using png images as it will help in subsequent widgets.
+The next example can be used as a template for subsequent more complex widgets. In my quest for blue sky thinking I'm using piratz as a
+theme, that certainly is different, but should not be taken too seriously, on the other hand it was fun to dream up the widgets and
+their necessary images then see how to display them. The first example 07pirate_label.py can be used as a template for our subsequent
+pirate examples, it can also be used to build up a standalone python script. We need to create our image, this invokes a Caribbean
+island, the palm tree poses a challenge, particularly if the label grows in height. We choose border sizes that give the desired effect,
+then we test using the theme construct rather than styling as an individual widget with configure, layout and map. With this widget both
+theme_create and theme settings work equally well. To increase the height of the widget we can create two lines of text - certainly
+easier than adding a configure clause. Try changing the border size to [20, 6, 4, 4], it looks reasonable if we have sticky "ew" and
+only one line of code, however let's keep it suitable for more than one line of text and change back to the original border size 
+[19, 9, 7, 7] and sticky "news". Having created the image it is relatively easy to make it grey in our image editor and save the image
+for the disabled state. The padding [19,3,3,3] is required to position the text. If we look at an enlarged image which shows the pixels
+we can estimate the border sizes, after this is made to work the padding can be sorted out. If there is a surrounding area around the
+image (needed for shading) include in your calculations. The text area has been made transparent, in fact the appearance may look better
+without a white surround, instead make the surround transparent. Note we are using png images as later on it will help in subsequent
+widgets.
 
 The next widget we may consider is the Separator. At first glance it may seem to be a simple widget to alter, but if we try to do so
 we will find that the separator has an orientation, but its only component consists of Separator.separator with no orientation. There
-is no easy way to make the vertical separator react correctly as there is no vertical component. I have left 2 separator images in the
-images directory which can be tested in an edited copy of 07pirate_label.py - the relevant part of theme_create is:-
+is no easy way to make the vertical separator react correctly as there is no vertical component. I have created 2 separator images in
+the images directory which can be tested in an edited copy of 07pirate_label.py, 07pirate_separator.py - the relevant part of
+theme_create is:-
 ```
     'Separator.separator': {"element create":
           ('image', "separator",
-           {'border':[3], 'sticky': 'nsew'})}
+           {'border':[2], 'sticky': 'nsew'})}
 ```           
-The horizontal separator works as expected, but the vertical separator is just too wide. As with the scrollbar example use the place
-manager to display the widget.
+The horizontal separator works as expected, but the vertical separator image is forced to react as the horizontal image. As with the
+scrollbar example use the place manager to display the widget and make the horizontal separator widg.place(x=5, y=5, width=150) then
+vertical separator has widg1.place(x=75, y=50, height=150, width=5) which gives the best looking widget, but not perfect. 
 
 Let us try the entry widget. The thinking here is that we have a fairly simple widget, so an image of an old yellowed document may be
 appropriate. The image has irregular edges, so instead of a smooth expansion I have purposefully chosen border values that create more
